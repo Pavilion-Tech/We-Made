@@ -9,6 +9,7 @@ import '../../../menu_screens/address/address_screen.dart';
 import '../../../menu_screens/chat/chat_history_screen.dart';
 import '../../../menu_screens/edit_profile_screen.dart';
 import '../../../menu_screens/fav_screen.dart';
+import '../../../menu_screens/menu_cubit/menu_cubit.dart';
 import '../../../menu_screens/notification.dart';
 import '../../../menu_screens/order/order_history_screen.dart';
 import '../../item_shared/filter.dart';
@@ -21,60 +22,60 @@ class AccountSettings extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: ()=>navigateAndFinish(context, SplashScreen()),
-          child: Text(
-          tr('sign_in_now'),
-            style: TextStyle(
-                color: Colors.black, fontSize: 32, fontWeight: FontWeight.w700),
+        Text(
+        tr('account_settings'),
+          style: TextStyle(
+              color: Colors.black, fontSize: 32, fontWeight: FontWeight.w700),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: itemBuilder(
+              image: Images.person,
+              title: tr('profile_info'),
+              onTap:  (){
+                navigateTo(context, EditProfileScreen());
+              }
           ),
         ),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: itemBuilder(
-                  image: Images.person,
-                  title: tr('profile_info'),
-                  onTap:  (){
-                    navigateTo(context, EditProfileScreen());
-                  }
-              ),
-            ),
-            itemBuilder(
-                image: Images.orderHistory,
-                title: tr('order_history'),
-                onTap:  ()=>navigateTo(context, OrderHistoryScreen())
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: itemBuilder(
-                  image: Images.address,
-                  title: tr('addresses'),
-                  onTap:  ()=>navigateTo(context, AddressScreen())
-              ),
-            ),
-            itemBuilder(
-                image: Images.notification,
-                title: tr('notifications'),
-                onTap:  ()=>navigateTo(context, NotificationScreen())
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: itemBuilder(
-                  image: Images.fav,
-                  title: tr('favorites'),
-                  onTap:  ()=>navigateTo(context, FavScreen())
-              ),
-            ),
-            itemBuilder(
-                image: Images.send,
-                title: tr('chats'),
-                onTap:  ()=>navigateTo(context, ChatHistoryScreen())
-            ),
-            const SizedBox(height: 40,)
-          ],
+        itemBuilder(
+            image: Images.orderHistory,
+            title: tr('order_history'),
+            onTap:  (){
+              MenuCubit.get(context).getAllOrder();
+              navigateTo(context, OrderHistoryScreen());
+            }
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: itemBuilder(
+              image: Images.address,
+              title: tr('addresses'),
+              onTap:  (){
+                MenuCubit.get(context).getAddresses();
+                navigateTo(context, AddressScreen());
+              }),
+        ),
+        itemBuilder(
+            image: Images.notification,
+            title: tr('notifications'),
+            onTap:  ()=>navigateTo(context, NotificationScreen())
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: itemBuilder(
+              image: Images.fav,
+              title: tr('favorites'),
+              onTap:  ()=>navigateTo(context, FavScreen())
+          ),
+        ),
+        itemBuilder(
+            image: Images.send,
+            title: tr('chats'),
+            onTap:  () {
+              MenuCubit.get(context).chatHistory();
+              navigateTo(context, ChatHistoryScreen());
+            }),
+        const SizedBox(height: 40,),
       ],
     );
   }

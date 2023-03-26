@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../shared/styles/colors.dart';
 
 class TrackWidget extends StatelessWidget {
-  const TrackWidget({Key? key}) : super(key: key);
+  TrackWidget(this.status);
+
+  int status;
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +33,18 @@ class TrackWidget extends StatelessWidget {
                       child: Icon(Icons.check,color: Colors.white,),
                     ),
                     CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.grey,
+                      radius: status == 2 ||status == 3 || status == 4 ? 20:16,
+                      backgroundColor:status == 2 ||status == 3 || status == 4 ?defaultColor : Colors.grey,
                       child: Icon(Icons.check,color: Colors.white,),
                     ),
                     CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.grey,
+                      radius: status == 3 || status == 4 ? 20:16,
+                      backgroundColor:status == 3 || status == 4 ?defaultColor : Colors.grey,
                       child: Icon(Icons.check,color: Colors.white,),
                     ),
                     CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.grey,
+                      radius:  status == 4 ? 20:16,
+                      backgroundColor: status == 4 ?defaultColor : Colors.grey,
                       child: Icon(Icons.check,color: Colors.white,),
                     )
                   ],
@@ -56,19 +59,19 @@ class TrackWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'New Order',
+                  tr('new_order'),
                   style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  'Processing',
+                tr('processing'),
                   style: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  'Shipping',
+                  tr('shipping'),
                   style: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  'Done',
+                  tr('done2'),
                   style: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w600),
                 ),
               ],

@@ -18,7 +18,7 @@ String? userId;
 bool? isFace;
 
 String? token;
-
+String? userType;
 String? saveUser;
 
 String? savePassword;
@@ -37,6 +37,9 @@ String? type;
 String? version;
 
 const String googleAPIKey = 'AIzaSyB0-rcmuUOQddg47whAPKCYOzUSszxSNHY';
+
+String? uuid;
+
 
 const List<String> listImages = [
   Images.story,

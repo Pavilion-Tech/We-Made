@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
@@ -10,6 +12,8 @@ import '../../../menu_screens/menu_cubit/menu_cubit.dart';
 import '../../../menu_screens/menu_cubit/menu_states.dart';
 
 class VoiceDialog extends StatefulWidget {
+
+  String? id;
 
   @override
   State<VoiceDialog> createState() => _VoiceDialogState();
@@ -49,7 +53,7 @@ class _VoiceDialogState extends State<VoiceDialog> {
   Widget build(BuildContext context) {
     return  BlocConsumer<MenuCubit, MenuStates>(
       listener: (context, state2) {
-        //  if(state2 is SendMessageWithFileLoadingState)Navigator.pop(context);
+        if(state2 is AskRequestSuccessState)Navigator.pop(context);
       },
       builder: (context, state2) {
         return AlertDialog(
@@ -69,7 +73,7 @@ class _VoiceDialogState extends State<VoiceDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 20,),
-                Image.asset(Images.checkoutAlert,width: 50,),
+                Image.asset(Images.confirmDialog,width: 50,),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -95,9 +99,11 @@ class _VoiceDialogState extends State<VoiceDialog> {
                       child:DefaultButton(
                           text: tr('continue'),
                           onTap: ()async{
-                            final path =
-                            await recorder.stopRecorder();
-
+                            final path = await recorder.stopRecorder();
+                            MenuCubit.get(context).askForRequest(
+                                id: '64089c324fad50721669dadf',
+                                file: File(path!)
+                            );
                           }
                       ),
                     ),
@@ -108,7 +114,8 @@ class _VoiceDialogState extends State<VoiceDialog> {
                             final path = await recorder.stopRecorder();
                             recorder.deleteRecord(fileName:path!);
                             await start();
-                          },                            child: Container(
+                          },
+                          child: Container(
                           height: 51,
                           width:double.infinity,
                           decoration: BoxDecoration(

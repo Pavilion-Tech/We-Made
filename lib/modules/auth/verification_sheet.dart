@@ -2,9 +2,14 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/modules/auth/auth_cubit/auth_states.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/constants.dart';
 import '../../shared/images/images.dart';
 import '../../widgets/default_button.dart';
 import '../../widgets/otp_widget.dart';
+import 'auth_cubit/auth_cubit.dart';
 import 'confirm_dialog.dart';
 
 class VerificationSheet extends StatefulWidget {
@@ -46,8 +51,43 @@ class _VerificationSheetState extends State<VerificationSheet> {
     );
   }
 
+  bool checkCode() {
+    String codeFromOtp = c1.text +
+        c2.text +
+        c3.text +
+        c4.text;
+    print(codeFromOtp);
+    return int.parse(myLocale == 'en'
+        ? codeFromOtp
+        : String.fromCharCodes(codeFromOtp.runes.toList().reversed)) ==
+        code;
+  }
+
+  bool checkOTP() {
+    if (c1.text.isEmpty ||
+        c2.text.isEmpty ||
+        c3.text.isEmpty ||
+        c4.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void submit(BuildContext context) {
+    if (checkOTP()) {
+      if (checkCode()) {
+        AuthCubit.get(context).verify();
+      } else {
+        showToast(msg: tr('code_invalid'), toastState: true);
+      }
+    } else {
+      showToast(msg: tr('code_empty'), toastState: true);
+    }
+  }
   @override
   void initState() {
+    showToast(msg: 'Code is $code');
     startTimer();
     super.initState();
   }
@@ -59,6 +99,18 @@ class _VerificationSheetState extends State<VerificationSheet> {
   }
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<AuthCubit, AuthStates>(
+  listener: (context, state) {
+    if(state is VerifySuccessState){
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context)=>ConfirmDialog()
+      );
+    }
+  },
+  builder: (context, state) {
     return Padding(
       padding:EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SizedBox(
@@ -82,6 +134,12 @@ class _VerificationSheetState extends State<VerificationSheet> {
                       children: [
                         OTPWidget(
                           controller: c1,
+                          autoFocus: myLocale == 'en'?true:false,
+                          onFinished: () {
+                            if (checkOTP() && myLocale != 'en') {
+                              submit(context);
+                            }
+                          },
                         ),
                         OTPWidget(
                           controller: c2,
@@ -91,21 +149,23 @@ class _VerificationSheetState extends State<VerificationSheet> {
                         ),
                         OTPWidget(
                           controller: c4,
+                          autoFocus: myLocale == 'ar'?true:false,
+                          onFinished: () {
+                            if (checkOTP() && myLocale != 'ar') {
+                              submit(context);
+                            }
+                          },
                         ),
                       ],
                     ),
                   ),
+                  state is! VerifyLoadingState ?
                   DefaultButton(
                       text: tr('verify'),
                       onTap: (){
-                        Navigator.pop(context);
-                        showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context)=>ConfirmDialog()
-                        );
+                        submit(context);
                       }
-                  ),
+                  ):const Center(child: CircularProgressIndicator(),),
                   if (!timerFinished)
                     Text(
                       '00:$_start',
@@ -113,6 +173,7 @@ class _VerificationSheetState extends State<VerificationSheet> {
                   if (timerFinished)
                     InkWell(
                       onTap: () {
+                        AuthCubit.get(context).login();
                         timer;
                         _start = 60;
                         timerFinished = false;
@@ -129,5 +190,7 @@ class _VerificationSheetState extends State<VerificationSheet> {
         ),
       ),
     );
+  },
+);
   }
 }

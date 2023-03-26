@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/images/images.dart';
 import 'account_settings.dart';
 import 'our_app.dart';
@@ -31,6 +32,7 @@ class MenuDrawer extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
+                          if(token !=null)
                           AccountSettings(),
                           OurApp(),
                         ],

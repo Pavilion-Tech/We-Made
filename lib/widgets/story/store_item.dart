@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:wee_made/widgets/stories/story/story_screen.dart';
+import 'package:wee_made/widgets/story/story_screen.dart';
+import '../../models/user/home_model.dart';
 import '../../shared/components/components.dart';
-import '../../shared/images/images.dart';
+import '../image_net.dart';
 
 class StoryItem extends StatelessWidget {
-  StoryItem({required this.color,required this.image,this.isProvider = false});
+  StoryItem({required this.color,required this.stories,this.isProvider = false});
 
-  //Stories stories;
+  Stories stories;
   bool isProvider;
   Color color;
-  String image;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>navigateTo(context, StoryScreen(isProvider: isProvider,)),
+      onTap: ()=>navigateTo(context, StoryScreen(stories,isProvider: isProvider,)),
       child: Column(
         children: [
           Container(
@@ -43,11 +44,11 @@ class StoryItem extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadiusDirectional.circular(30),
               ),
-              child:Image.asset(image),
+              child:ImageNet(image:stories.providerStoryThumbnail??''),
             ),
           ),
           Text(
-              'Store Family',
+            stories.storeName??'',
             style: TextStyle(color: color,fontWeight: FontWeight.w700,fontSize: 10),
           )
         ],

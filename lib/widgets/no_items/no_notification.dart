@@ -13,7 +13,7 @@ class NoNotification extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(Images.notification2,width: size!.width*.5,),
+          Image.asset(Images.notification2,width: size!.width*.7,),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30.0,horizontal: 20),
             child: Text(

@@ -1,13 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import '../../../shared/components/components.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/images/images.dart';
 import '../../../shared/styles/colors.dart';
-import '../../../widgets/stories/list_stories.dart';
+import '../../../widgets/story/list_stories.dart';
 import '../widgets/category/category_widget.dart';
-import '../widgets/home/search_widget.dart';
 import '../widgets/item_shared/filter.dart';
+import '../widgets/menu/chat/voice_dialog.dart';
 import '../widgets/product/product_grid.dart';
 
 class StoreScreen extends StatefulWidget {
@@ -72,54 +74,72 @@ class _StoreScreenState extends State<StoreScreen> {
                                     child: Icon(Icons.phone,color: Colors.white,size: 25,),
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    tr('special_request'),
-                                    style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w600),
+                                  InkWell(
+                                      onTap: () async {
+                                        var status = await Permission.microphone.request();
+                                        if (status != PermissionStatus.granted) {
+                                          showToast(msg: 'Microphone permission not granted');
+                                          await openAppSettings();
+                                        } else {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => VoiceDialog()
+                                          );
+                                        }
+                                      },
+                                    child: Text(
+                                      tr('special_request'),
+                                      style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                                child:Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                        cursorColor: Colors.black,
-                                        style: TextStyle(color: Colors.black),
-                                        decoration: InputDecoration(
-                                          border:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
-                                          enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
-                                          focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
-                                          hintText: tr('search_by_product'),
-                                          hintStyle: TextStyle(color: defaultColor,fontSize: 15),
-                                          prefixIcon: Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child:  Image.asset(Images.search,width: 1,height: 1,),
-                                          ),
-                                          isDense: true,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    InkWell(
-                                      onTap: (){
-                                        showDialog(
-                                            context: context,
-                                            builder: (context)=>FilterWidget()
-                                        );
-                                      },
-                                      child: Image.asset(
-                                        Images.filter,
-                                        width: 30,
-                                        color: defaultColor,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                              const SizedBox(height: 20,),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(vertical: 20.0),
+                              //   child:Row(
+                              //     children: [
+                              //       Expanded(
+                              //         child: TextFormField(
+                              //           cursorColor: Colors.black,
+                              //           style: TextStyle(color: Colors.black),
+                              //           decoration: InputDecoration(
+                              //             border:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
+                              //             enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
+                              //             focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
+                              //             hintText: tr('search_by_product'),
+                              //             hintStyle: TextStyle(color: defaultColor,fontSize: 15),
+                              //             prefixIcon: Padding(
+                              //               padding: const EdgeInsets.all(12.0),
+                              //               child:  Image.asset(Images.search,width: 1,height: 1,),
+                              //             ),
+                              //             isDense: true,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       const SizedBox(
+                              //         width: 20,
+                              //       ),
+                              //       InkWell(
+                              //         onTap: (){
+                              //           showDialog(
+                              //               context: context,
+                              //               builder: (context)=>FilterWidget()
+                              //           );
+                              //         },
+                              //         child: Image.asset(
+                              //           Images.filter,
+                              //           width: 30,
+                              //           color: defaultColor,
+                              //         ),
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+                              CategoryWidget(
+                                  UserCubit.get(context).homeModel!.data!.categories!,
+                                  padding: 0
                               ),
-                              CategoryWidget(padding: 0),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                                 child: Center(
@@ -129,7 +149,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                   ),
                                 ),
                               ),
-                              ProductGrid(padding: 0),
+                             // ProductGrid(padding: 0),
                             ],
                           ),
                         ),

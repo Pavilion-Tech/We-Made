@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import '../../../../../shared/styles/colors.dart';
 
 class PaymentMethod extends StatefulWidget {
-  const PaymentMethod({Key? key}) : super(key: key);
+  PaymentMethod({Key? key}) : super(key: key);
+
+  int currentIndex = 0;
+
 
   @override
   State<PaymentMethod> createState() => _PaymentMethodState();
@@ -12,7 +15,6 @@ class PaymentMethod extends StatefulWidget {
 
 class _PaymentMethodState extends State<PaymentMethod> {
 
-  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,7 +49,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return InkWell(
       onTap: (){
         setState(() {
-          currentIndex = index;
+          widget.currentIndex = index;
         });
       },
       child: Row(
@@ -58,7 +60,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
             child: CircleAvatar(
               radius: 9,
               backgroundColor: Colors.white,
-              child:currentIndex==index? CircleAvatar(
+              child:widget.currentIndex==index? CircleAvatar(
                 radius: 7,
                 backgroundColor: defaultColor,
               ):null,

@@ -7,9 +7,11 @@ import '../shared/styles/colors.dart';
 class OTPWidget extends StatelessWidget {
   OTPWidget({
     required this.controller,
-    this.onFinished
+    this.onFinished,
+    this.autoFocus = false
 });
 
+  bool autoFocus;
   VoidCallback? onFinished;
   TextEditingController controller;
 
@@ -31,6 +33,7 @@ class OTPWidget extends StatelessWidget {
           TextFormField(
             textAlign: TextAlign.center,
             controller: controller,
+            autofocus: autoFocus,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
                 border: InputBorder.none,

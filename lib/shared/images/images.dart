@@ -72,6 +72,7 @@ class Images{
   static const String manageProducts = 'assets/images/manage_products.png';
   static const String calender = 'assets/images/calender.png';
   static const String edit2 = 'assets/images/edit2.png';
+  static const String holder = 'assets/images/holder.webp';
 
 
 

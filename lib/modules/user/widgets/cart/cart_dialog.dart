@@ -34,7 +34,8 @@ class CartDialog extends StatelessWidget {
                   text: 'Checkout',
                   onTap: () {
                     Navigator.pop(context);
-                    navigateTo(context, CheckoutScreen());
+                    UserCubit.get(context).changeIndex(1, context);
+                    navigateTo(context, UserLayout());
                   }),
             ),
             InkWell(

@@ -4,10 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
+import 'package:wee_made/modules/auth/auth_cubit/auth_cubit.dart';
 import 'package:wee_made/shared/bloc_observer.dart';
 import 'package:wee_made/shared/components/constants.dart';
 import 'package:wee_made/shared/network/local/cache_helper.dart';
 import 'package:wee_made/shared/network/remote/dio.dart';
+import 'package:wee_made/shared/styles/colors.dart';
+import 'package:wee_made/shared/uuid/uuid.dart';
 import 'package:wee_made/splash_screen.dart';
 
 import 'layouts/user_layout/user_cubit/user_cubit.dart';
@@ -21,8 +24,14 @@ void main() async {
   DioHelper.init1();
   intro = CacheHelper.getData(key: 'intro');
   joinUs = CacheHelper.getData(key: 'joinUs');
+  token = CacheHelper.getData(key: 'token');
+  userId = CacheHelper.getData(key: 'userId');
+  userType = CacheHelper.getData(key: 'userType');
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   version = packageInfo.version;
+  uuid = await Uuid.getUuid();
+ // print(userId);
+  print(token);
   BlocOverrides.runZoned(
         () {
       runApp(
@@ -47,8 +56,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create:  (context) => UserCubit(),),
-        BlocProvider(create:  (context) => MenuCubit(),),
+        BlocProvider(create:  (context) => AuthCubit(),),
+        BlocProvider(create:  (context) => UserCubit()..getHome()..getCart(),),
+        BlocProvider(create:  (context) => MenuCubit()..init()),
         BlocProvider(create:  (context) => PMenuCubit(),),
         BlocProvider(create:  (context) => ProviderCubit(),)
       ],
@@ -58,6 +68,9 @@ class MyApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         theme: ThemeData(
+          progressIndicatorTheme: ProgressIndicatorThemeData(
+            color: defaultColor
+          ),
           primarySwatch: Colors.blue,
           fontFamily: 'Cairo',
         ),

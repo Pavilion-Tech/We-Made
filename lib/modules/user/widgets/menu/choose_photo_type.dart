@@ -23,7 +23,6 @@ class _ChooseProfilePhotoTypeState extends State<ChooseProfilePhotoType> {
   void chooseImage(ImageSource source, BuildContext context) async {
     var cubit = MenuCubit.get(context);
     cubit.profileImage = await cubit.pick(source);
-    cubit.profileImage = await checkImageSize(cubit.profileImage);
     cubit.justEmit();
   }
 
@@ -31,9 +30,7 @@ class _ChooseProfilePhotoTypeState extends State<ChooseProfilePhotoType> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MenuCubit, MenuStates>(
-      listener: (context, state) {
-      //  if(state is SendMessageSuccessState)Navigator.pop(context);
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = MenuCubit.get(context);
         return Padding(

@@ -8,7 +8,7 @@ class DioHelper {
   static void init1() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://wafr-api.invoacdmy.com/',
+        baseUrl: 'https://we-made-api.invoacdmy.com/',
         receiveTimeout: 3000000,
         connectTimeout: 3000000,
         receiveDataWhenStatusError: true,
@@ -49,6 +49,7 @@ class DioHelper {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization':token ,
+      'Accept-Language':lang ,
 
     };
 
@@ -70,6 +71,7 @@ class DioHelper {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization':token ,
+      'Accept-Language':lang ,
 
     };
 
@@ -87,7 +89,7 @@ class DioHelper {
   }) async {
     dio.options.headers =
     {
-      'lang' : lang,
+      'Accept-Language':lang ,
       'Authorization':token ,
       'Content-Type': 'application/json'
     };
@@ -106,7 +108,7 @@ class DioHelper {
   }) async {
     dio.options.headers =
     {
-      'lang' : lang,
+      'Accept-Language':lang ,
       'Authorization':token ,
       'Content-Type': 'application/json'
     };
@@ -124,7 +126,7 @@ class DioHelper {
   }) async {
     dio.options.headers =
     {
-      'lang' : lang,
+      'Accept-Language':lang ,
       'Authorization':token ,
       'Content-Type': 'application/json'
     };

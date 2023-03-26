@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:wee_made/models/chathis_model.dart';
 
 import '../../../../../shared/components/components.dart';
 import '../../../../../shared/styles/colors.dart';
 import '../../../menu_screens/chat/chat_screen.dart';
 
 class ChatHistoryItem extends StatelessWidget {
-  const ChatHistoryItem({Key? key}) : super(key: key);
-
+  ChatHistoryItem(this.data);
+  ChatHisData data;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>navigateTo(context, ChatScreen()),
+      onTap: (){
+        navigateTo(context, ChatScreen());
+      },
       child: Row(
         children: [
           Container(
@@ -21,7 +24,7 @@ class ChatHistoryItem extends StatelessWidget {
               color: Colors.grey.shade400
             ),
             child: Text(
-              'A',
+              '${data.providerName!.characters.first}',
               style: TextStyle(color: Colors.black,fontSize: 50,height: 1.5),
             ),
           ),
@@ -31,7 +34,7 @@ class ChatHistoryItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ahmed Essam',
+                  data.providerName??'',
                   style: TextStyle(color: Colors.black,fontSize: 18,fontWeight:FontWeight.w600),
                 ),
                 Text(

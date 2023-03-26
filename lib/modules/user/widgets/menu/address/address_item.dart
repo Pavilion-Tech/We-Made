@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wee_made/models/user/address_model.dart';
 
 import '../../../../../shared/components/components.dart';
 import '../../../../../shared/images/images.dart';
@@ -8,8 +10,8 @@ import '../../../menu_screens/menu_cubit/menu_cubit.dart';
 import '../delete_dialog.dart';
 
 class AddressItem extends StatelessWidget {
-  const AddressItem({Key? key}) : super(key: key);
-
+  AddressItem(this.address);
+  AddressData address;
   @override
   Widget build(BuildContext context) {
     var cubit = MenuCubit.get(context);
@@ -32,7 +34,7 @@ class AddressItem extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        'Home',
+                        address.title??'',
                         style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
@@ -41,6 +43,7 @@ class AddressItem extends StatelessWidget {
                           showDialog(
                               context: context,
                               builder: (context)=>DeleteDialog((){
+                                cubit.deleteAddresses(id: address.id??'');
                                 Navigator.pop(context);
                               })
                           );
@@ -54,22 +57,20 @@ class AddressItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          '26985 Brighton Lane, Lake Forest, CA 92630.26985 Brighton Lane, Lake Forest, CA 92630.',
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 13),
+                          address.address??'',
+                          maxLines: 2,
+                          style: TextStyle(fontSize: 13,height: 1.2),
                         ),
                       ),
                       InkWell(
                           onTap:()async{
-                            if (cubit.position != null) {
-                              navigateTo(context, AddAddressScreen());
-                            } else {
-                              await cubit.getCurrentLocation();
-                              if (cubit.position != null) {
-                                navigateTo(context, AddAddressScreen());
-                              }
-                            }
-                            },
+                            navigateTo(context, AddAddressScreen(
+                              addressData: address,
+                              latLng: LatLng(
+                              double.parse(address.latitude??''),
+                              double.parse(address.longitude??''),
+                            ),));
+                          },
                           child: Image.asset(Images.edit,width: 18,color: Colors.black,))
                     ],
                   ),

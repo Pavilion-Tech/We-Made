@@ -1,16 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
+import '../../../models/user/home_model.dart';
 import '../../../shared/components/components.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/images/images.dart';
 import '../../../shared/styles/colors.dart';
 import '../../../widgets/default_button.dart';
+import '../../../widgets/image_net.dart';
 import '../store/store_screen.dart';
 import '../widgets/cart/cart_dialog.dart';
 
 class ProductScreen extends StatefulWidget {
-  ProductScreen(this.image);
-  String image;
+  ProductScreen(this.products);
+  Products products;
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -34,10 +40,14 @@ class _ProductScreenState extends State<ProductScreen> {
   ];
 
   int currentIndex = 0;
+  int quantity = 1;
   Color color = Colors.red;
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<UserCubit, UserStates>(
+  listener: (context, state) {},
+  builder: (context, state) {
     return Scaffold(
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
@@ -57,7 +67,7 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           Column(
             children: [
-              defaultAppBar(isProduct: true,title: 'Product Name',context:context,backColor:Colors.white),
+              defaultAppBar(isProduct: true,title: widget.products.title??'',context:context,backColor:Colors.white),
               Align(
                 alignment: AlignmentDirectional.centerEnd,
                 child: Padding(
@@ -74,12 +84,14 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: Image.asset(widget.image,height: 230,width: 250,color: color,)),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: list.map((e) => chooseColor(e,listColors[e])).toList(),
+                      Center(child: ImageNet(image:widget.products.images![currentIndex],height: 230,width: 250,)),
+                      SizedBox(
+                        height: 20,
+                        child: ListView.separated(
+                            itemBuilder: (c,i)=>chooseColor(i,widget.products.images![i]),
+                            separatorBuilder: (c,i)=>const SizedBox(width: 15,),
+                            itemCount: widget.products.images!.length,
+                          scrollDirection: Axis.horizontal,
                         ),
                       ),
                       Padding(
@@ -87,12 +99,17 @@ class _ProductScreenState extends State<ProductScreen> {
                         child: Row(
                           children: [
                             Text(
-                              '15 AED',
+                              '${widget.products.priceAfterDicount} AED',
                               style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.w700),
                             ),
                             const Spacer(),
                             InkWell(
-                                onTap: (){},
+                                onTap: (){
+                                  if(quantity>1)
+                                  setState(() {
+                                    quantity--;
+                                  });
+                                },
                                 child: Text(
                                   '-',
                                   style: TextStyle(color: defaultColor,fontSize: 25),
@@ -108,13 +125,18 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ),
                                 alignment: AlignmentDirectional.center,
                                 child: Text(
-                                  '1',
+                                  '$quantity',
                                   style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 20,height: 1.7),
                                 ),
                               ),
                             ),
                             InkWell(
-                                onTap: (){},
+                                onTap: (){
+                                  if(widget.products.quantity != quantity)
+                                  setState(() {
+                                    quantity++;
+                                  });
+                                },
                                 child: Text(
                                   '+',
                                   style: TextStyle(color: defaultColor,fontSize: 25),
@@ -126,21 +148,27 @@ class _ProductScreenState extends State<ProductScreen> {
                       Row(
                         children: [
                           Text(
-                            '4.5',
+                            '${widget.products.totalRate}',
                             maxLines: 1,
                             style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 25),
                           ),
                           const SizedBox(width: 5,),
                           Image.asset(Images.star,width: 21,),
                           const Spacer(),
+                          UserCubit.get(context).currentCartID != widget.products.id?
                           DefaultButton(
                               text: tr('add_to_cart'),
                               width: size!.width*.4,
                               height: 43,
                               onTap: (){
-                                showDialog(context: context, builder: (context)=>CartDialog());
+                                UserCubit.get(context).currentCartID = widget.products.id??'';
+                                UserCubit.get(context).addToCart(
+                                    quantity: quantity,
+                                    productId: widget.products.id??'',
+                                    context: context
+                                );
                               }
-                          )
+                          ):CupertinoActivityIndicator()
                         ],
                       ),
                       Padding(
@@ -157,7 +185,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   borderRadius: BorderRadiusDirectional.circular(10)
                                 ),
                                 child: Text(
-                                    'Store Name',
+                                    widget.products.providerId!.storeName??'',
                                   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black),
                                 ),
                               ),
@@ -188,7 +216,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Text(
-                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been',
+                            widget.products.description??'',
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -202,35 +230,24 @@ class _ProductScreenState extends State<ProductScreen> {
         ],
       ),
     );
+  },
+);
   }
 
-  Widget chooseColor(int index,Color color){
+  Widget chooseColor(int index,String image){
     return InkWell(
       onTap: (){
         setState(() {
           currentIndex = index;
-          this.color = color;
         });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child:currentIndex == index
-            ?CircleAvatar(
-          radius: 15,
+        child:CircleAvatar(
+          radius: currentIndex == index?15:10,
           backgroundColor: color,
-          child: CircleAvatar(
-            radius: 14,
-            backgroundColor: Colors.white,
-            child: CircleAvatar(
-              radius: 11,
-              backgroundColor: color,
-            ),
-          ),
+          child: ImageNet(image: image,),
         )
-            : CircleAvatar(
-          radius: 10,
-          backgroundColor: color,
-        ),
       ),
     );
   }

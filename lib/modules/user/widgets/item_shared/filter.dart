@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/shared/images/images.dart';
 import 'package:wee_made/shared/styles/colors.dart';
 import 'package:wee_made/widgets/default_button.dart';
@@ -26,6 +27,21 @@ class FilterWidget extends StatefulWidget {
 
 class _FilterWidgetState extends State<FilterWidget> {
 
+  int productAndStore = 0;
+  int price = -1;
+  int rate = -1;
+  int location = 0;
+
+  @override
+  void initState() {
+    var cubit = UserCubit.get(context);
+    productAndStore = cubit.searchType == 'product'?0:1;
+    price = cubit.price;
+    rate = cubit.rate;
+    // TODO: implement initState
+    super.initState();
+  }
+
   List<FilterModel> model = [
     FilterModel(
       title: 'by_price',
@@ -47,12 +63,10 @@ class _FilterWidgetState extends State<FilterWidget> {
     ),
   ];
 
-  int productAndStore = 0;
-  int price = 0;
-  int rate = 0;
-  int location = 0;
+
   @override
   Widget build(BuildContext context) {
+    var cubit = UserCubit.get(context);
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusDirectional.circular(20)
@@ -87,8 +101,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                   itemBuilder(
                     model: model[0],
                     title: 'high_to_low',
-                    index: 0,
-                    isSelected: price == 0
+                    index: -1,
+                    isSelected: price == -1
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0,bottom: 40),
@@ -113,8 +127,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                   itemBuilder(
                       model: model[1],
                       title: 'high_to_low',
-                      index: 0,
-                      isSelected: rate == 0
+                      index: -1,
+                      isSelected: rate ==-1
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0,bottom: 40),
@@ -154,7 +168,13 @@ class _FilterWidgetState extends State<FilterWidget> {
                   DefaultButton(
                       text: tr('done'),
                       width: 150,
-                      onTap: (){}
+                      onTap: (){
+                        cubit.searchType = productAndStore == 0 ?'product':'provider';
+                        cubit.rate = rate;
+                        cubit.price = price;
+                        cubit.getSearch();
+                        Navigator.pop(context);
+                      }
                   )
                 ],
               ),

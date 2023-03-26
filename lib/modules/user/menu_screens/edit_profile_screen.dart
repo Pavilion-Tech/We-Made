@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
@@ -12,12 +13,22 @@ import '../../../widgets/default_form.dart';
 import '../widgets/menu/choose_photo_type.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  EditProfileScreen({Key? key}) : super(key: key);
+
+  TextEditingController nameC = TextEditingController();
+  TextEditingController phoneC = TextEditingController();
+  TextEditingController emailC = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MenuCubit, MenuStates>(
-  listener: (context, state) {},
+  listener: (context, state) {
+    if(state is UpdateProfileSuccessState){
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+  },
   builder: (context, state) {
     var cubit = MenuCubit.get(context);
     return Scaffold(
@@ -31,64 +42,90 @@ class EditProfileScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              height: 180,width: 180,
-                              decoration:const BoxDecoration(shape: BoxShape.circle,color: Colors.white,),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child:cubit.profileImage!=null
-                                  ?Image.file(File(cubit.profileImage!.path),fit: BoxFit.cover,)
-                                  : Image.asset(Images.story,fit: BoxFit.cover,),
-                            ),
-                            Positioned(
-                              bottom: 15,
-                              right: 10,
-                              child: InkWell(
-                                onTap: (){
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context)=>ChooseProfilePhotoType()
-                                  );
-                                },
-                                child: CircleAvatar(
-                                  radius: 12,
-                                  backgroundColor: Colors.black54,
-                                  child: Image.asset(Images.edit,width: 11,height: 11,),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                height: 180,width: 180,
+                                decoration:const BoxDecoration(shape: BoxShape.circle,color: Colors.white,),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child:cubit.profileImage!=null
+                                    ?Image.file(File(cubit.profileImage!.path),fit: BoxFit.cover,)
+                                    : Image.asset(Images.story,fit: BoxFit.cover,),
+                              ),
+                              Positioned(
+                                bottom: 15,
+                                right: 10,
+                                child: InkWell(
+                                  onTap: (){
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context)=>ChooseProfilePhotoType()
+                                    );
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 12,
+                                    backgroundColor: Colors.black54,
+                                    child: Image.asset(Images.edit,width: 11,height: 11,),
+                                  ),
                                 ),
                               ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: DefaultForm(
+                              hint: tr('name'),
+                              controller: nameC,
+                              validator: (val){
+                                if(val.isEmpty)return tr('name_empty');
+                              },
+                              prefix: Image.asset(Images.person,width: 9,),
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: DefaultForm(
-                            hint: tr('name'),
-                            prefix: Image.asset(Images.person,width: 9,),
                           ),
-                        ),
-                        DefaultForm(
-                          hint: tr('phone'),
-                          type: TextInputType.phone,
-                          prefix: Image.asset(Images.flag,width: 9,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: DefaultForm(
-                            hint: tr('email'),
-                            type: TextInputType.emailAddress,
-                            prefix: Image.asset(Images.email,width: 9,),
+                          DefaultForm(
+                            hint: tr('phone'),
+                            controller: phoneC,
+                            textLength: 10,
+                            digitsOnly: true,
+                            validator: (val){
+                              if(val.isEmpty)return tr('phone_empty');
+                            },
+                            type: TextInputType.phone,
+                            prefix: Image.asset(Images.flag,width: 9,),
                           ),
-                        ),
-                        DefaultButton(
-                            text: tr('save'),
-                            onTap: (){
-                              Navigator.pop(context);
-                            }
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: DefaultForm(
+                              hint: tr('email'),
+                              controller: emailC,
+                              validator: (val){
+                                if(val.isEmpty)return tr('email_empty');
+                                if(!val.contains('.'))return tr('email_invalid');
+                                if(!val.contains('@'))return tr('email_invalid');
+                              },
+                              type: TextInputType.emailAddress,
+                              prefix: Image.asset(Images.email,width: 9,),
+                            ),
+                          ),
+                          state is! UpdateProfileLoadingState ?
+                          DefaultButton(
+                              text: tr('save'),
+                              onTap: (){
+                                if(formKey.currentState!.validate()){
+                                  MenuCubit.get(context).updateUser(
+                                      phone: phoneC.text,
+                                      name: nameC.text,
+                                      email: emailC.text
+                                  );
+                                }
+                              }
+                          ):const Center(child: CupertinoActivityIndicator(),)
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -81,7 +81,21 @@
   "change_language_sure":"Are you sure you want to change language ?",
   "subject":"Subject",
   "your_message":"Your message to us",
-  "send_message":"Send Message"
-
+  "send_message":"Send Message",
+  "name_empty":"Name Must Not Be Empty",
+  "phone_empty":"Phone Must Not Be Empty",
+  "email_empty":"Email Must Not Be Empty",
+  "password_empty":"Password Must Not Be Empty",
+  "c_password_empty":"Confirm Password Must Not Be Empty",
+  "password_Invalid":"Confirm Password Invalid",
+  "email_invalid":"Email Address Invalid",
+  "wrong":"Something Went Wrong",
+  "code_invalid":"Code Invalid",
+  "code_empty":"Code Empty",
+  "new_order": "New Order",
+  "processing": "Processing",
+  "shipping": "Shipping",
+  "done2": "Done",
+  "account_settings": "Account Settings"
 }
 

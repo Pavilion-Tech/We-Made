@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/layouts/provider_layout/provider_layout.dart';
+import 'package:wee_made/shared/components/constants.dart';
 import '../../layouts/user_layout/user_layout.dart';
 import '../../shared/components/components.dart';
 import '../../shared/images/images.dart';
@@ -17,7 +18,11 @@ class ConfirmDialog extends StatelessWidget {
       ),
       child: InkWell(
         onTap: (){
-          navigateAndFinish(context, UserLayout());
+          if(userType == 'user'){
+            navigateAndFinish(context, UserLayout());
+          }else{
+            navigateAndFinish(context, ProviderLayout());
+          }
         },
         child: Container(
           height: 330,
@@ -38,7 +43,11 @@ class ConfirmDialog extends StatelessWidget {
                     DefaultButton(
                         text: tr('done'),
                         onTap: (){
-                          navigateAndFinish(context, ProviderLayout());
+                          if(userType == 'user'){
+                            navigateAndFinish(context, UserLayout());
+                          }else{
+                            navigateAndFinish(context, ProviderLayout());
+                          }
                         }
                     )
                   ],

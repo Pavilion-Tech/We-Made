@@ -3,7 +3,7 @@ import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.d
 import 'package:wee_made/shared/components/constants.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
-import '../../../../widgets/stories/list_stories.dart';
+import '../../../../widgets/story/list_stories.dart';
 import '../../home/add_highlight_screen.dart';
 
 class PHomeAppBar extends StatelessWidget {

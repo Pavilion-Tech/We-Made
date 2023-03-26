@@ -9,6 +9,7 @@ import '../../../../../shared/styles/colors.dart';
 import '../../../../../splash_screen.dart';
 import '../../../../../widgets/default_button.dart';
 import '../../../menu_screens/aboutus.dart';
+import '../../../menu_screens/menu_cubit/menu_cubit.dart';
 import '../../../menu_screens/terms.dart';
 import '../../../menu_screens/contactus_screen.dart';
 import '../../menu/delete_dialog.dart';
@@ -77,27 +78,36 @@ class OurApp extends StatelessWidget {
             const SizedBox(height: 20,),
             Center(
               child: DefaultButton(
-                  text: tr('logout'),
+                  text:token!=null? tr('logout'):tr('sign_n'),
                   width: size!.width*.5,
                   onTap: (){
-                    navigateAndFinish(context, LoginScreen());
+                    if(token!=null){
+                      MenuCubit.get(context).logout(context);
+                    }else{
+                      navigateTo(context, LoginScreen(haveArrow: true,));
+                    }
                   }
               ),
             ),
-            TextButton(
-                onPressed: (){
-                  showDialog(
-                      context: context,
-                      builder: (context)=>DeleteDialog((){
-                        navigateAndFinish(context, LoginScreen());
-                      })
-                  );
-                },
-                child: Text(
-                  tr('delete_account'),
-                  style: TextStyle(color: defaultColor,fontSize: 17,fontWeight: FontWeight.w500),
-                )
-            ),
+            if(token!=null)
+              Center(
+                child: TextButton(
+                    onPressed: (){
+                      showDialog(
+                          context: context,
+                          builder: (context)=>DeleteDialog((){
+                            MenuCubit.get(context).logout(context,type: 2);
+                          })
+                      );
+                    },
+                    child: Text(
+                      tr('delete_account'),
+                      style: TextStyle(
+                          color: defaultColorFour,fontWeight: FontWeight.w500,fontSize: 17
+                      ),
+                    )
+                ),
+              ),
           ],
         )
       ],

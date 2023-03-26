@@ -6,7 +6,7 @@
   "sign_up":"اشتراك",
   "have_account":"هل لديك حساب؟",
   "name":"الاسم",
-  "phone":"مثال : ٠٥ ١٢٣٤ ٥٦٧٨",
+  "phone":"مثال : 05 1234 5678",
   "c_password":"تاكيد كلمة السر",
   "or":"او",
   "continue_with":"تواصل مع",
@@ -81,6 +81,22 @@
   "change_language_sure":"هل أنت متأكد أنك تريد تغيير اللغة؟",
   "subject":"موضوع",
   "your_message":"رسالتك إلينا",
-  "send_message":"أرسل رسالة"
+  "send_message":"أرسل رسالة",
+  "name_empty":"الاسم لا يجب ان يكون فارغا",
+  "phone_empty":"الجوال لا يجب ان يكون فارغا",
+  "email_empty":"البريد الالكتروني لا يجب ان يكون فارغا",
+  "password_empty":"كلمة السر لا يجب ان يكون فارغا",
+  "c_password_empty":"تاكيد كلمة السر لا يجب ان يكون فارغا",
+  "password_Invalid":"تاكيد كلمة السر لست صحيحع",
+  "email_invalid":"عنوان البريد الالكتروني  لست صحيحع",
+  "wrong":"هناك خطا ما",
+  "code_invalid":"الكود خطا",
+  "code_empty":"الكود فازغ",
+  "new_order": "طلب جديد",
+  "processing": "معالجه",
+  "shipping": "شحن",
+  "done2": "تم",
+  "account_settings": "إعدادت الحساب"
+
 }
 

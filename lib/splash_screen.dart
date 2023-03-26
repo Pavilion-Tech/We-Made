@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wee_made/layouts/provider_layout/provider_layout.dart';
 import 'package:wee_made/layouts/user_layout/user_layout.dart';
 import 'package:wee_made/shared/components/components.dart';
 import 'package:wee_made/shared/components/constants.dart';
@@ -31,15 +32,14 @@ class _SplashScreenState extends State<SplashScreen> {
     _controller.addListener(() {
       setState(() {
         if (!_controller.value.isPlaying) {
-          // if(joinUs!=null){
-          //   if(joinUs == 'user'){
-          //     navigateAndFinish(context, LoginScreen());
-          //   }else{
-          //     navigateAndFinish(context, PLoginScreen());
-          //   }
-          // }
           if (intro != null) {
-            navigateAndFinish(context, UserLayout());
+            if(token!=null){
+              if(userType == 'user'){
+                navigateAndFinish(context, UserLayout());
+              }else{
+              navigateAndFinish(context, ProviderLayout());
+              }
+            }
           } else {
             navigateAndFinish(context, IntroScreen());
           }

@@ -4,7 +4,9 @@ import 'package:wee_made/shared/images/images.dart';
 import 'package:wee_made/widgets/default_button.dart';
 
 class NoProduct extends StatelessWidget {
-  const NoProduct({Key? key}) : super(key: key);
+  NoProduct({this.isProduct = true});
+
+  bool isProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +19,14 @@ class NoProduct extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30.0,horizontal: 20),
             child: Text(
-              'No products here',
+              isProduct?'No products here':'No Orders Yet',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600,fontSize: 21),
             ),
           ),
-          DefaultButton(text: 'Back', onTap: (){})
+          DefaultButton(text: 'Back', onTap: (){
+            Navigator.pop(context);
+          })
         ],
       ),
     );

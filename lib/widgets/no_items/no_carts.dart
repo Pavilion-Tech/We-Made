@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/shared/components/constants.dart';
 import 'package:wee_made/shared/images/images.dart';
 import 'package:wee_made/widgets/default_button.dart';
@@ -22,7 +23,9 @@ class NoCart extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w600,fontSize: 21),
             ),
           ),
-          DefaultButton(text: 'Back', onTap: (){})
+          DefaultButton(text: 'Back', onTap: (){
+            UserCubit.get(context).changeIndex(0, context);
+          })
         ],
       ),
     );

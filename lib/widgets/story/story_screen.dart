@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:wee_made/widgets/stories/story/story_widget.dart';
+import 'package:wee_made/widgets/story/story_widget.dart';
+
+import '../../models/user/home_model.dart';
 
 class StoryScreen extends StatelessWidget {
-  StoryScreen({this.isProvider = false});
+  StoryScreen(this.stories,{this.isProvider = false});
 
- //Stories stories;
+  Stories stories;
   bool isProvider;
+
 
 
   @override
@@ -13,8 +16,7 @@ class StoryScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: StoryWidget(
-       // stories: stories,
-        isProvider: isProvider,
+        stories: stories,
       ),
     );
   }

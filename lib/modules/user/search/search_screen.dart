@@ -1,8 +1,14 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
+import 'package:wee_made/widgets/no_items/no_product.dart';
 import '../../../shared/components/components.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/images/images.dart';
+import '../widgets/home/search/provider_search.dart';
 import '../widgets/item_shared/filter.dart';
 import '../widgets/product/product_grid.dart';
 
@@ -11,6 +17,10 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<UserCubit, UserStates>(
+  listener: (context, state) {},
+  builder: (context, state) {
+    var cubit = UserCubit.get(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -26,6 +36,15 @@ class SearchScreen extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         cursorColor: Colors.white,
+                        onChanged: (val){
+                          if(val.isNotEmpty){
+                            cubit.getSearch();
+                          }else{
+                            cubit.searchModel = null;
+                            cubit.providerItemModel = null;
+                            cubit.emitState();
+                          }
+                        },
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           border:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color: Colors.white)),
@@ -45,7 +64,8 @@ class SearchScreen extends StatelessWidget {
                       width: 20,
                     ),
                     InkWell(
-                      onTap: (){
+                      onTap: ()async{
+                        await cubit.getCurrentLocation();
                         showDialog(
                             context: context,
                             builder: (context)=>FilterWidget()
@@ -61,12 +81,38 @@ class SearchScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: size!.height*.05,),
-              Expanded(child: ProductGrid())
+              ConditionalBuilder(
+                  condition: cubit.searchModel!=null,
+                  fallback: (context)=>const SizedBox(),
+                  builder: (context)=> ConditionalBuilder(
+                    condition: state is! GetSearchLoadingState,
+                    fallback: (context)=>const Center(child: CircularProgressIndicator(),),
+                    builder: (context)=> ConditionalBuilder(
+                      condition: cubit.searchModel!.data!.isNotEmpty,
+                        fallback: (context)=>NoProduct(),
+                        builder: (context)=> Expanded(child: ProductGrid(products: cubit.searchModel!.data!,))
+                    ),
+                  )
+              ),
+              ConditionalBuilder(
+                  condition: cubit.providerItemModel!=null,
+                  fallback: (context)=>const SizedBox(),
+                  builder: (context)=> ConditionalBuilder(
+                    condition: state is! GetSearchLoadingState,
+                    fallback: (context)=>const Center(child: CircularProgressIndicator(),),
+                    builder: (context)=> ConditionalBuilder(
+                        condition: cubit.providerItemModel!.data!.isNotEmpty,
+                        fallback: (context)=>NoProduct(),
+                        builder: (context)=> Expanded(child: ProviderSearch(cubit.providerItemModel!.data!,))
+                    ),
+                  )
+              ),
             ],
           )
-
         ],
       ),
     );
+  },
+);
   }
 }

@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
+import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_states.dart';
 import 'package:wee_made/widgets/default_button.dart';
 
 import '../../../shared/components/components.dart';
@@ -18,6 +21,10 @@ class ContactUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<MenuCubit, MenuStates>(
+  listener: (context, state) {},
+  builder: (context, state) {
+    var cubit = MenuCubit.get(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -32,28 +39,46 @@ class ContactUsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        Row(
+                        if(cubit.settingsModel!=null)
+                          Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             itemBuilder(
                                 image: images[0],
-                                onTap:(){}
+                                onTap:(){
+                                  final Uri params = Uri(
+                                    scheme: 'mailto',
+                                    path: cubit.settingsModel?.data?.projectEmailAddress??'',
+                                  );
+                                  final url = params.toString();
+                                  openUrl(url);
+                                }
                             ),
                             itemBuilder(
                                 image: images[1],
-                                onTap:(){}
+                                onTap:(){
+                                  String phone = cubit.settingsModel?.data?.projectWhatsAppNumber ?? '';
+                                  String waUrl = 'https://wa.me/$phone';
+                                  openUrl(waUrl);
+                                }
                             ),
                             itemBuilder(
                                 image: images[2],
-                                onTap:(){}
+                                onTap:(){
+                                  openUrl(cubit.settingsModel?.data?.projectFacebookLink??'');
+                                }
                             ),
                             itemBuilder(
                                 image: images[3],
-                                onTap:(){}
+                                onTap:(){
+                                  openUrl(cubit.settingsModel?.data?.projectTwitterLink??'');
+                                }
                             ),
                             itemBuilder(
                                 image: images[4],
-                                onTap:(){}
+                                onTap:(){
+                                  openUrl(cubit.settingsModel?.data?.projectInstagramLink??'');
+                                }
                             ),
                           ],
                         ),
@@ -108,6 +133,8 @@ class ContactUsScreen extends StatelessWidget {
         ],
       ),
     );
+  },
+);
   }
 
   Widget itemBuilder({

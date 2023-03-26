@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/images/images.dart';
+import '../image_net.dart';
 import 'models/user_model.dart';
 
 class UserInfo extends StatelessWidget {
@@ -18,7 +18,7 @@ class UserInfo extends StatelessWidget {
           height: 40,width: 40,
           decoration:const BoxDecoration(shape: BoxShape.circle),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Image.asset(Images.story),
+          child: ImageNet(image:user.profileImageUrl,),
         ),
         const SizedBox(width: 10.0),
         Expanded(

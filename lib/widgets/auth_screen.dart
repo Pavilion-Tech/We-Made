@@ -10,12 +10,14 @@ class AuthScreen extends StatelessWidget {
     required this.widget,
     required this.lastText,
     required this.lastTap,
+    this.haveArrow = false
 });
 
   String title;
   String lastText;
   VoidCallback lastTap;
   Widget widget;
+  bool haveArrow;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,14 @@ class AuthScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: Column(
                     children: [
+                      if(haveArrow)
+                      Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: IconButton(
+                            onPressed: ()=>Navigator.pop(context),
+                            icon: Icon(Icons.arrow_back_ios_outlined)
+                        ),
+                      ),
                       Image.asset(Images.splash,height: 150,),
                       Text(
                         title,

@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:wee_made/shared/components/constants.dart';
 
+import '../../../../../models/user/cart_model.dart';
 import '../../../../../shared/images/images.dart';
 import '../../../../../shared/styles/colors.dart';
+import '../../../../../widgets/image_net.dart';
 
 
 class CheckoutListProducts extends StatelessWidget {
-  CheckoutListProducts({Key? key}) : super(key: key);
-
+  CheckoutListProducts({this.carts});
+  List<Cart>? carts;
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
       height: 460,
       child: ListView.separated(
-          itemBuilder: (c,i)=>CheckoutItem(listImages[i]),
+          itemBuilder: (c,i)=>CheckoutItem(carts![i]),
           padding:const EdgeInsets.all(20),
           separatorBuilder: (c,i)=>const SizedBox(height: 20,),
-          itemCount: listImages.length
+          itemCount: carts!.length
       ),
     );
   }
@@ -24,8 +26,8 @@ class CheckoutListProducts extends StatelessWidget {
 
 
 class CheckoutItem extends StatelessWidget {
-  CheckoutItem(this.image);
-  String image;
+  CheckoutItem(this.cart);
+  Cart cart;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -38,7 +40,7 @@ class CheckoutItem extends StatelessWidget {
               color: defaultColor.withOpacity(.3)
           ),
           alignment: AlignmentDirectional.center,
-          child: Image.asset(image),
+          child: ImageNet(image: cart.productImage??''),
         ),
         Expanded(
           child: Padding(
@@ -47,23 +49,23 @@ class CheckoutItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Product Name Name',
+                  cart.providerName??'',
                   maxLines: 1,
                   style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  '15 AED',
+                  '${cart.productPrice} AED',
                   style: TextStyle(color: defaultColor,fontSize: 25,fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  'X2',
+                  'X${cart.quantity}',
                   maxLines: 1,
                   style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
                 ),
                 Row(
                   children: [
                     Text(
-                      '4.5',
+                      '${cart.productRate}',
                       maxLines: 1,
                       style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
                     ),

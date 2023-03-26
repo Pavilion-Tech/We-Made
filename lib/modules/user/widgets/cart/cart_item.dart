@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
+import 'package:wee_made/widgets/image_net.dart';
 
+import '../../../../models/user/cart_model.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
 import '../../../../shared/styles/colors.dart';
@@ -7,8 +12,9 @@ import '../../../../splash_screen.dart';
 import '../menu/delete_dialog.dart';
 
 class CartItem extends StatelessWidget {
-  CartItem(this.image);
-  String image;
+  CartItem(this.cart,this.state);
+  Cart cart;
+  UserStates state;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -21,7 +27,7 @@ class CartItem extends StatelessWidget {
             color: defaultColor.withOpacity(.3)
           ),
           alignment: AlignmentDirectional.center,
-          child: Image.asset(image),
+          child: ImageNet(image: cart.productImage??'',),
         ),
         Expanded(
           child: Padding(
@@ -30,7 +36,7 @@ class CartItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Product Name Name',
+                  cart.providerName??'',
                   maxLines: 1,
                   style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700),
                 ),
@@ -38,42 +44,55 @@ class CartItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '15 AED',
+                      '${cart.productPrice??''} AED',
                       style: TextStyle(color: defaultColor,fontSize: 25,fontWeight: FontWeight.w700),
                     ),
                     const Spacer(),
+                    state is! DeleteCartLoadingState
+                        &&UserCubit.get(context).cartId != cart.id?
                     InkWell(
                       onTap: (){
                         showDialog(
                             context: context,
                             builder: (context)=>DeleteDialog((){
+                              UserCubit.get(context).cartId = cart.id??'';
+                              UserCubit.get(context).deleteCart(cartId: cart.id??'');
                               Navigator.pop(context);
                             })
                         );
                       },
-                        child: Image.asset(Images.delete,width: 21,))
+                        child: Image.asset(Images.delete,width: 21,)
+                    ):CupertinoActivityIndicator()
                   ],
                 ),
                 Text(
-                  'X2',
+                  'X${cart.quantity??''}',
                   maxLines: 1,
                   style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
                 ),
                 Row(
                   children: [
                     Text(
-                      '4.5',
+                      '${cart.productRate??''}',
                       maxLines: 1,
                       style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
                     ),
                     Icon(Icons.star,color: defaultColor,)
                   ],
                 ),
+                state is! UpdateCartLoadingState
+                    &&UserCubit.get(context).cartId != cart.id?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          UserCubit.get(context).cartId = cart.id??'';
+                          UserCubit.get(context).updateCart(
+                              quantity: cart.quantity!-1,
+                              cartId: cart.id??''
+                          );
+                        },
                         child: Text(
                             '-',
                           style: TextStyle(color: defaultColor,fontSize: 25),
@@ -89,20 +108,26 @@ class CartItem extends StatelessWidget {
                         ),
                         alignment: AlignmentDirectional.center,
                         child: Text(
-                          '1',
+                          '${cart.quantity}',
                           style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 20,height: 1.7),
                         ),
                       ),
                     ),
                     InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          UserCubit.get(context).cartId = cart.id??'';
+                          UserCubit.get(context).updateCart(
+                              quantity: cart.quantity!+1,
+                              cartId: cart.id??''
+                          );
+                        },
                         child: Text(
                             '+',
                           style: TextStyle(color: defaultColor,fontSize: 25),
                         )
                     )
                   ],
-                ),
+                ):LinearProgressIndicator(),
               ],
             ),
           ),

@@ -3,7 +3,7 @@ import 'package:wee_made/shared/components/constants.dart';
 
 import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
-import '../../../../widgets/stories/list_stories.dart';
+import '../../../../widgets/story/list_stories.dart';
 import '../../menu_screens/chat/chat_history_screen.dart';
 import '../../menu_screens/notification.dart';
 

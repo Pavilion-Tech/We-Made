@@ -42,7 +42,7 @@ class _POrderDetailsScreenState extends State<POrderDetailsScreen> {
                     ),
                   ),
                   if(showTrack)
-                  TrackWidget(),
+                  //TrackWidget(),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
@@ -74,7 +74,7 @@ class _POrderDetailsScreenState extends State<POrderDetailsScreen> {
                     ),
                   ),
                   CheckoutListProducts(),
-                  Invoice(),
+                  //Invoice(),
                   const SizedBox(height: 100,),
                 ],
               ),

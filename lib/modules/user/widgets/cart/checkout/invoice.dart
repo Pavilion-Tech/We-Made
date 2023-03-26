@@ -1,9 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:wee_made/models/user/cart_model.dart';
 
 import '../../../../../shared/styles/colors.dart';
 class Invoice extends StatelessWidget {
-  const Invoice({Key? key}) : super(key: key);
+  Invoice({
+    required this.totalPrice,
+    required this.tax,
+    required this.subTotal,
+});
+
+
+  String subTotal;
+  String tax;
+  String totalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +29,7 @@ class Invoice extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '10 AED',
+                '$subTotal AED',
                 style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),
               ),
             ],
@@ -33,7 +43,7 @@ class Invoice extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '10 AED',
+                '$tax AED',
                 style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),
               ),
             ],
@@ -81,7 +91,7 @@ class Invoice extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '40 AED',
+                '$totalPrice AED',
                 style: TextStyle(fontSize: 19,fontWeight: FontWeight.w600,color: defaultColor),
               ),
             ],

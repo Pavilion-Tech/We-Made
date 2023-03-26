@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/components/components.dart';
-import '../../../../shared/images/images.dart';
-import '../../../../shared/styles/colors.dart';
-import '../../search/search_screen.dart';
+import '../../../../../shared/components/components.dart';
+import '../../../../../shared/images/images.dart';
+import '../../../../../shared/styles/colors.dart';
+import '../../../search/search_screen.dart';
 
 class SearchWidget extends StatelessWidget {
     SearchWidget({
