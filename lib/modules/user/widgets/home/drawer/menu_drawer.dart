@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
 
 import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/images/images.dart';
+import '../../../../../widgets/image_net.dart';
 import 'account_settings.dart';
 import 'our_app.dart';
 
@@ -20,13 +22,14 @@ class MenuDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  if(token !=null)
+                    Container(
                     width: 98,height: 98,
                     decoration:const BoxDecoration(
                       shape: BoxShape.circle,
                     ),
                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Image.asset(Images.story,fit: BoxFit.cover,),
+                    child:ImageNet(image:MenuCubit.get(context).userModel?.data?.personalPhoto??'',),
                   ),
                   Expanded(
                     child: SingleChildScrollView(

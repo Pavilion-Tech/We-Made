@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/layouts/user_layout/user_layout.dart';
@@ -26,13 +27,13 @@ class CheckoutDialog extends StatelessWidget {
             Image.asset(Images.confirmDialog,width: 82,height: 82,),
             const SizedBox(height: 25,),
             Text(
-              'Order Added Successfully',
+            tr('order_added'),
               style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.w700),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 25.0),
               child: DefaultButton(
-                  text: 'Order History',
+                  text: tr('order_history'),
                   onTap: () {
                     MenuCubit.get(context).getAllOrder();
                     Navigator.pop(context);
@@ -57,7 +58,7 @@ class CheckoutDialog extends StatelessWidget {
                 ),
                 alignment: AlignmentDirectional.center,
                 child: Text(
-                  'Continue shopping',
+                  tr('continue_shopping'),
                   style:TextStyle(color:defaultColor,fontSize: 17,fontWeight: FontWeight.w700),
                 ),
               ),

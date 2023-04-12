@@ -1,10 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/shared/components/constants.dart';
 import 'package:wee_made/shared/images/images.dart';
 import 'package:wee_made/widgets/default_button.dart';
 
 class NoNotification extends StatelessWidget {
-  const NoNotification({Key? key}) : super(key: key);
+  NoNotification({this.isMenu = false,this.isProvider = false});
+  bool isMenu;
+  bool isProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +20,16 @@ class NoNotification extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30.0,horizontal: 20),
             child: Text(
-              'No notifications yet, we suggest you start ordering',
+              tr('no_notifications'),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600,fontSize: 21),
             ),
           ),
-          DefaultButton(text: 'Start shopping', onTap: (){})
+          if(!isProvider)
+          DefaultButton(text: tr('start_shopping'), onTap: (){
+            Navigator.pop(context);
+            if(isMenu) Navigator.pop(context);
+          })
         ],
       ),
     );

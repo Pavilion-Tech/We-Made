@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,7 +14,9 @@ import '../../../menu/pmenu_cubit/pmenu_states.dart';
 
 class PChoosePhotoType extends StatefulWidget {
 
+  PChoosePhotoType(this.id);
 
+  String id;
 
   @override
   State<PChoosePhotoType> createState() => _PChoosePhotoTypeState();
@@ -32,7 +35,7 @@ class _PChoosePhotoTypeState extends State<PChoosePhotoType> {
   Widget build(BuildContext context) {
     return BlocConsumer<PMenuCubit, PMenuStates>(
       listener: (context, state) {
-      //  if(state is SendMessageSuccessState)Navigator.pop(context);
+        if(state is SendMessageSuccessState)Navigator.pop(context);
       },
       builder: (context, state) {
         var cubit = PMenuCubit.get(context);
@@ -78,11 +81,16 @@ class _PChoosePhotoTypeState extends State<PChoosePhotoType> {
               if(cubit.chatImage!=null)
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child:DefaultButton(
-                      text: 'Send',
+                  child: state is! SendMessageWithFileLoadingState ? DefaultButton(
+                      text: tr('send'),
                       onTap: (){
+                        cubit.sendMessageWithFile(
+                            id: widget.id,
+                            type: 2,
+                            file: File(cubit.chatImage!.path)
+                        );
                       }
-                  ),
+                  ):const CupertinoActivityIndicator(),
                 ),
             ],
           ),

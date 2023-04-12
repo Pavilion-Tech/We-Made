@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
+import 'package:wee_made/modules/auth/login_screen.dart';
 import 'package:wee_made/shared/components/constants.dart';
+import 'package:wee_made/widgets/story/models/user_model.dart';
 
 import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
 import '../../../../widgets/story/list_stories.dart';
 import '../../menu_screens/chat/chat_history_screen.dart';
+import '../../menu_screens/menu_cubit/menu_cubit.dart';
 import '../../menu_screens/notification.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -33,13 +37,23 @@ class HomeAppBar extends StatelessWidget {
               actions: [
                 IconButton(
                     onPressed: (){
-                      navigateTo(context, ChatHistoryScreen());
+                      if(token!=null){
+                        MenuCubit.get(context).chatHistory();
+                        navigateTo(context, ChatHistoryScreen());
+                      }else{
+                        navigateTo(context,LoginScreen(haveArrow: true,));
+                      }
                     },
                     icon: Image.asset(Images.send,width: 20,)
                 ),
                 IconButton(
                     onPressed: (){
-                     navigateTo(context, NotificationScreen());
+                      if(token!=null){
+                        MenuCubit.get(context).getAllNotification();
+                        navigateTo(context, NotificationScreen());
+                      }else{
+                        navigateTo(context,LoginScreen(haveArrow: true,));
+                      }
                     },
                     icon: Image.asset(Images.notification,width: 20,)
                 ),
@@ -47,7 +61,7 @@ class HomeAppBar extends StatelessWidget {
 
             ),
             //const SizedBox(height: ,),
-            ListStories()
+            ListStories(stories: UserCubit.get(context).homeModel!.data!.stories,)
           ],
         )
       ],

@@ -78,7 +78,7 @@ class OurApp extends StatelessWidget {
             const SizedBox(height: 20,),
             Center(
               child: DefaultButton(
-                  text:token!=null? tr('logout'):tr('sign_n'),
+                  text:token!=null? tr('logout'):tr('sign_in'),
                   width: size!.width*.5,
                   onTap: (){
                     if(token!=null){

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../models/chathis_model.dart';
 import '../../../../../shared/components/components.dart';
 import '../../../../../shared/styles/colors.dart';
 import '../../../menu/pchat/pchat_screen.dart';
+import '../../../menu/pmenu_cubit/pmenu_cubit.dart';
 
 class PChatHistoryItem extends StatelessWidget {
-  const PChatHistoryItem({Key? key}) : super(key: key);
-
+  PChatHistoryItem(this.data);
+  ChatHisData data;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>navigateTo(context, PChatScreen()),
+      onTap: (){
+        PMenuCubit.get(context).singleChat(data.id??'');
+        navigateTo(context, PChatScreen(data.id??''));
+      },
       child: Row(
         children: [
           Container(
@@ -21,7 +26,7 @@ class PChatHistoryItem extends StatelessWidget {
               color: Colors.grey.shade400
             ),
             child: Text(
-              'A',
+              '${data.providerName!.characters.first}',
               style: TextStyle(color: Colors.black,fontSize: 50,height: 1.5),
             ),
           ),
@@ -31,15 +36,19 @@ class PChatHistoryItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ahmed Essam',
+                  data.userName??'',
                   style: TextStyle(color: Colors.black,fontSize: 18,fontWeight:FontWeight.w600),
                 ),
                 Text(
-                  'Ahmed Essam:',
+                  data.lastMessage!.sender != 'user'?'You:':'${data.userName??''}:',
                   style: TextStyle(color:defaultColor,fontSize: 8,fontWeight:FontWeight.w500),
                 ),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus tristique lacus ut consectetur.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus tristique lacus ut consectetur.',
+                  data.lastMessage!.messageType == 1
+                      ?data.lastMessage!.message??''
+                      :data.lastMessage!.messageType == 2
+                      ? 'Sent Image'
+                      : 'Sent Voice',
                   maxLines: 3,
                   style: TextStyle(fontSize: 9),
                 ),

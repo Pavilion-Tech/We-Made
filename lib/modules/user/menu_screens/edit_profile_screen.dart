@@ -10,6 +10,7 @@ import '../../../shared/components/components.dart';
 import '../../../shared/images/images.dart';
 import '../../../widgets/default_button.dart';
 import '../../../widgets/default_form.dart';
+import '../../../widgets/image_net.dart';
 import '../widgets/menu/choose_photo_type.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -22,6 +23,11 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(MenuCubit.get(context).userModel!=null){
+      nameC.text = MenuCubit.get(context).userModel!.data!.name??'';
+      phoneC.text = MenuCubit.get(context).userModel!.data!.phoneNumber??'';
+      emailC.text = MenuCubit.get(context).userModel!.data!.email??'';
+    }
     return BlocConsumer<MenuCubit, MenuStates>(
   listener: (context, state) {
     if(state is UpdateProfileSuccessState){
@@ -37,7 +43,7 @@ class EditProfileScreen extends StatelessWidget {
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
           Column(
             children: [
-              defaultAppBar(context: context,title: tr('profile_info')),
+              defaultAppBar(context: context,title: tr('profile_info'),isMenu: true),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -54,7 +60,7 @@ class EditProfileScreen extends StatelessWidget {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 child:cubit.profileImage!=null
                                     ?Image.file(File(cubit.profileImage!.path),fit: BoxFit.cover,)
-                                    : Image.asset(Images.story,fit: BoxFit.cover,),
+                                    : ImageNet(image:cubit.userModel?.data?.personalPhoto??'',),
                               ),
                               Positioned(
                                 bottom: 15,

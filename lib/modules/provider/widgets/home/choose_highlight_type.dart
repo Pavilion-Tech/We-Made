@@ -79,7 +79,7 @@ class _ChooseHighlightPhotoState extends State<ChooseHighlightPhoto> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child:DefaultButton(
-                      text: 'Send',
+                      text: tr('send'),
                       onTap: ()=>Navigator.pop(context)
                   ),
                 ),

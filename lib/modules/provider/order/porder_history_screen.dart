@@ -1,39 +1,85 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
 import 'package:wee_made/modules/provider/order/porder_details_screen.dart';
 import 'package:wee_made/shared/components/components.dart';
 import 'package:wee_made/shared/images/images.dart';
 import 'package:wee_made/shared/styles/colors.dart';
+
+import '../../../layouts/provider_layout/provider_cubit/provider_states.dart';
+import '../../../models/user/order_his_model.dart';
+import '../../../widgets/no_items/no_product.dart';
+import '../../user/widgets/shimmer/shimmer_shared.dart';
 
 class POrderHistoryScreen extends StatelessWidget {
   const POrderHistoryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ProviderCubit.get(context).getAllOrder();
+    return BlocConsumer<ProviderCubit, ProviderStates>(
+  listener: (context, state) {},
+  builder: (context, state) {
+    var cubit = ProviderCubit.get(context);
     return Stack(
       children: [
         Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
         Column(
           children: [
             pDefaultAppBar(
-                context: context,title: 'Order History',haveArrow: false,
+                context: context,title:tr('order_history'),haveArrow: false,
                 action: Image.asset(Images.manageProducts,width: 20,)
             ),
-            Expanded(
-              child: ListView.separated(
-                  itemBuilder: (c,i)=>itemBuilder(context),
-                  padding:const EdgeInsetsDirectional.all(20),
-                  separatorBuilder: (c,i)=>const SizedBox(height: 20,),
-                  itemCount:3
+            ConditionalBuilder(
+              condition: cubit.orderHisModel!=null,
+              fallback: (context)=>const ShimmerShared(),
+              builder: (context)=> ConditionalBuilder(
+                  condition: cubit.orderHisModel!.data!.data!.isNotEmpty,
+                  fallback: (context)=>Expanded(child: NoProduct(isProduct: false)),
+                  builder: (context){
+                    Future.delayed(Duration.zero,(){
+                      cubit.paginationOrder();
+                    });
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ListView.separated(
+                                itemBuilder: (c,i)=>itemBuilder(context,cubit.orderHisModel!.data!.data![i]),
+                                padding:const EdgeInsetsDirectional.all(20),
+                                controller: cubit.orderScrollController,
+                                physics:BouncingScrollPhysics(),
+                                separatorBuilder: (c,i)=>const SizedBox(height: 20,),
+                                itemCount:cubit.orderHisModel!.data!.data!.length
+                            ),
+                          ),
+                          if(state is AllOrderLoadingState)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30.0),
+                              child: CupertinoActivityIndicator(),
+                            ),
+                        ],
+                      ),
+                    );
+                  }
               ),
             )
           ],
+
         )
       ],
     );
+  },
+);
   }
-  Widget itemBuilder(context){
+  Widget itemBuilder(BuildContext context,OrderData data){
     return InkWell(
       onTap: (){
+        ProviderCubit.get(context).singleOrderModel = null;
+        ProviderCubit.get(context).getSingleOrder(data.id??'');
         navigateTo(context, POrderDetailsScreen());
       },
       child: Container(
@@ -51,12 +97,12 @@ class POrderHistoryScreen extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '#256368',
+                  '#${data.itemNumber}',
                   style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w500),
                 ),
                 const Spacer(),
                 Text(
-                  'Done',
+                  tr(data.status==1 ?'new_order' :data.status==2?'processing':data.status==3?'shipping':'done2'),
                   style: TextStyle(color:defaultColor,fontWeight: FontWeight.w500),
                 ),
               ],
@@ -64,7 +110,7 @@ class POrderHistoryScreen extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Date 20 jun 2019',
+                  data.createdAt??'',
                   style: TextStyle(fontSize: 13),
                 ),
                 const Spacer(),

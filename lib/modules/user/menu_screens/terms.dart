@@ -23,7 +23,7 @@ class TermsScreen extends StatelessWidget {
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
           Column(
             children: [
-              defaultAppBar(context: context,title: tr('terms')),
+              defaultAppBar(context: context,title: tr('terms'),isMenu: true),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(

@@ -11,6 +11,7 @@ import '../../../shared/images/images.dart';
 import '../../../widgets/default_button.dart';
 import '../../../widgets/no_items/no_carts.dart';
 import '../widgets/cart/cart_item.dart';
+import '../widgets/shimmer/cart_shimmer.dart';
 import 'checkout_screen.dart';
 
 class CartScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class CartScreen extends StatelessWidget {
             ),
             ConditionalBuilder(
               condition: cubit.cartModel!=null,
-              fallback:(context)=>const SizedBox(),
+              fallback:(context)=>const CartShimmer(),
               builder:(context)=> ConditionalBuilder(
                 condition: cubit.cartModel!.data!.cart!.isNotEmpty,
                 fallback: (context)=>Expanded(child: NoCart()),

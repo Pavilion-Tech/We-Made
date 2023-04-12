@@ -9,6 +9,7 @@ import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
 import '../../../../widgets/default_button.dart';
 import '../../widgets/menu/address/address_item.dart';
+import '../../widgets/shimmer/shimmer_shared.dart';
 import 'add_address/add_address_screen.dart';
 
 class AddressScreen extends StatelessWidget {
@@ -30,16 +31,16 @@ class AddressScreen extends StatelessWidget {
               ),
               Column(
                 children: [
-                  defaultAppBar(context: context, title: tr('addresses')),
+                  defaultAppBar(context: context, title: tr('addresses'),isMenu: true),
                   ConditionalBuilder(
                     condition: cubit.addressModel!=null,
-                    fallback: (context)=>const SizedBox(),
+                    fallback: (context)=>const ShimmerShared(),
                     builder: (context)=> ConditionalBuilder(
                       condition: cubit.addressModel!.data!.isNotEmpty,
                       fallback: (context)=>Expanded(child: NoLocations()),
                       builder: (context)=> Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Column(
                             children: [
                               Expanded(
@@ -52,12 +53,15 @@ class AddressScreen extends StatelessWidget {
                                     itemCount: cubit.addressModel!.data!.length
                                 ),
                               ),
-                              DefaultButton(
-                                  text: tr('add_address'),
-                                  onTap: () async {
-                                    await cubit.getCurrentLocation();
-                                    navigateTo(context, AddAddressScreen());
-                                  })
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 30.0),
+                                child: DefaultButton(
+                                    text: tr('add_address'),
+                                    onTap: () async {
+                                      await cubit.getCurrentLocation();
+                                      navigateTo(context, AddAddressScreen());
+                                    }),
+                              )
                             ],
                           ),
                         ),

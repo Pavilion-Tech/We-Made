@@ -77,7 +77,7 @@ class _VerificationSheetState extends State<VerificationSheet> {
   void submit(BuildContext context) {
     if (checkOTP()) {
       if (checkCode()) {
-        AuthCubit.get(context).verify();
+        AuthCubit.get(context).verify(context);
       } else {
         showToast(msg: tr('code_invalid'), toastState: true);
       }

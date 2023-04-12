@@ -1,40 +1,34 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
-import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
-import 'package:wee_made/shared/components/constants.dart';
 import 'package:wee_made/widgets/story/store_item.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
+import '../../models/user/home_model.dart';
+
 class ListStories extends StatelessWidget {
-  ListStories({this.padding=20,this.color = Colors.white,this.isProvider = false});
+  ListStories({this.padding=20,this.color = Colors.white,this.isProvider = false,this.stories});
 
   double padding;
   Color color;
   bool isProvider;
+  List<Stories>? stories;
 
   @override
   Widget build(BuildContext context) {
-    return  BlocConsumer<UserCubit, UserStates>(
-  listener: (context, state) {},
-  builder: (context, state) {
-    var cubit = UserCubit.get(context);
-    return ConditionalBuilder(
-      condition: cubit.homeModel!.data!.stories!.isNotEmpty,
-      fallback: (context)=>Text('No Stories Yet',style: TextStyle(color: Colors.white),),
+    return  ConditionalBuilder(
+      condition: stories!=null,
+      fallback: (context)=>Text(tr('no_stories'),style: TextStyle(color: Colors.white),),
       builder: (context)=> SizedBox(
         height: 100,
         child: ListView.separated(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: padding),
-            itemBuilder: (c,i)=>StoryItem(stories:cubit.homeModel!.data!.stories![i],color:color,isProvider:isProvider),
+            itemBuilder: (c,i)=>StoryItem(stories:stories![i],color:color,isProvider:isProvider),
             separatorBuilder: (c,i)=>const SizedBox(width: 10,),
-            itemCount: cubit.homeModel!.data!.stories!.length
+            itemCount: stories!.length
         ),
       ),
     );
-  },
-);
   }
 }

@@ -79,7 +79,7 @@ class _PChooseProfilePhotoTypeState extends State<PChooseProfilePhotoType> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child:DefaultButton(
-                      text: 'Send',
+                      text: tr('send'),
                       onTap: ()=>Navigator.pop(context)
                   ),
                 ),

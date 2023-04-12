@@ -1,8 +1,11 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
+import 'package:wee_made/modules/user/widgets/product/product_grid.dart';
+import 'package:wee_made/widgets/no_items/no_product.dart';
 import 'package:wee_made/widgets/story/user_info.dart';
 import '../../../shared/components/components.dart';
 import '../../models/user/home_model.dart';
@@ -97,7 +100,7 @@ class _StoryWidgetState extends State<StoryWidget>
                       onTap: (){
                        // WafrCubit.get(context).getStore(story.id??'');
                        // WafrCubit.get(context).getStoryProducts(story.id??'');
-                        navigateTo(context, StoreScreen());
+                       // navigateTo(context, StoreScreen());
                       },
                       child: UserInfo(user: User(
                           name: story.storeName??'',
@@ -231,7 +234,7 @@ class _SeeMoreState extends State<SeeMore> {
             onTap: (){
               setState(() {
                 isOpen = !isOpen;
-                //if(isOpen)cubit.getStoryProducts(widget.id);
+                if(isOpen)cubit.getProductProvider(widget.id,'');
               });
             },
             child: Row(
@@ -243,22 +246,26 @@ class _SeeMoreState extends State<SeeMore> {
                   ),
                 ),
                 const Spacer(),
-                // state is! GetProviderProductsLoadingState ?Icon(
-                //   isOpen?Icons.arrow_drop_down:Icons.arrow_drop_up,
-                //   color: Colors.white,):const CircularProgressIndicator()
+                state is! ProviderProductsLoadingState ?Icon(
+                  isOpen?Icons.arrow_drop_down:Icons.arrow_drop_up,
+                  color: Colors.white,):const CircularProgressIndicator()
               ],
             ),
           ),
           if(isOpen)
             const SizedBox(height: 20,),
-          //if(isOpen&&state is! GetProviderProductsLoadingState)
-          // Expanded(
-          //     child: ListView.separated(
-          //         itemBuilder: (c,i)=>ProductWidget(product: cubit.providerProductModel!.data!.data![i],isStory: true),
-          //         separatorBuilder: (c,i)=>const SizedBox(height: 20,),
-          //         itemCount: cubit.providerProductModel!.data!.data!.length
-          //     )
-          // ),
+          if(isOpen&&state is! ProviderProductsLoadingState)
+          ConditionalBuilder(
+            condition: cubit.providerProductsModel!=null,
+            fallback: (context)=>const SizedBox(),
+            builder: (context)=> ConditionalBuilder(
+              condition: cubit.providerProductsModel!.data!.data!.isNotEmpty,
+              fallback: (context)=>NoProduct(),
+              builder: (context)=> Expanded(
+                  child: ProductGrid(products:cubit.providerProductsModel!.data!.data!)
+              ),
+            ),
+          ),
         ],
       ),
     );

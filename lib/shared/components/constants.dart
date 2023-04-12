@@ -36,7 +36,7 @@ int? deviceType;
 String? type;
 String? version;
 
-const String googleAPIKey = 'AIzaSyB0-rcmuUOQddg47whAPKCYOzUSszxSNHY';
+const String googleAPIKey = 'AIzaSyD-SaT0zTmJ6ct-2fzhpvErR5h6b8lpu9E';
 
 String? uuid;
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
+import 'package:wee_made/modules/auth/login_screen.dart';
 import '../../../models/user/home_model.dart';
 import '../../../shared/components/components.dart';
 import '../../../shared/components/constants.dart';
@@ -23,31 +24,16 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  List<int> list = [
-    0,1,2,3,4,5,6,7,8,9
-  ];
-  List<Color> listColors = [
-    Colors.red,
-    Colors.black,
-    Colors.indigo,
-    Colors.green,
-    Colors.red,
-    Colors.blue,
-    Colors.teal,
-    Colors.purple,
-    Colors.pink,
-    Colors.amber,
-  ];
 
   int currentIndex = 0;
   int quantity = 1;
-  Color color = Colors.red;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserStates>(
   listener: (context, state) {},
   builder: (context, state) {
+    var cubit = UserCubit.get(context);
     return Scaffold(
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
@@ -73,8 +59,18 @@ class _ProductScreenState extends State<ProductScreen> {
                 child: Padding(
                   padding:const EdgeInsetsDirectional.only(end:5),
                   child: IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.favorite,color: Colors.white,)
+                      onPressed: (){
+                        if(token!=null){
+                          cubit.changeFav(widget.products.id??'');
+                        }else{
+                          navigateTo(context, LoginScreen(haveArrow: true,));
+                        }
+                      },
+                      icon: Icon(Icons.favorite,
+                        color: cubit.favorites[widget.products.id]!=null
+                            ?cubit.favorites[widget.products.id]! ?Colors.red :Colors.white
+                            :Colors.white,
+                      )
                   ),
                 ),
               ),
@@ -84,7 +80,8 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: ImageNet(image:widget.products.images![currentIndex],height: 230,width: 250,)),
+                      Center(child: ImageNet(image:widget.products.images!.isNotEmpty?widget.products.images![currentIndex]:'',height: 230,width: 250,)),
+                      const SizedBox(height: 30,),
                       SizedBox(
                         height: 20,
                         child: ListView.separated(
@@ -153,7 +150,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 25),
                           ),
                           const SizedBox(width: 5,),
-                          Image.asset(Images.star,width: 21,),
+                          Image.asset(Images.star,width: 21,color: defaultColor,),
                           const Spacer(),
                           UserCubit.get(context).currentCartID != widget.products.id?
                           DefaultButton(
@@ -193,7 +190,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             const SizedBox(width: 30,),
                             TextButton(
                                 onPressed: (){
-                                  navigateTo(context, StoreScreen());
+                                  navigateTo(context, StoreScreen(widget.products.providerId!));
                                 },
                                 child: Row(
                                   children: [
@@ -245,7 +242,7 @@ class _ProductScreenState extends State<ProductScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child:CircleAvatar(
           radius: currentIndex == index?15:10,
-          backgroundColor: color,
+          backgroundColor: Colors.red,
           child: ImageNet(image: image,),
         )
       ),

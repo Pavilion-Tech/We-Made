@@ -39,6 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
               }else{
               navigateAndFinish(context, ProviderLayout());
               }
+            }else{
+              navigateAndFinish(context, UserLayout());
             }
           } else {
             navigateAndFinish(context, IntroScreen());

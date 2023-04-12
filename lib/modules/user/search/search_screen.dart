@@ -8,6 +8,7 @@ import 'package:wee_made/widgets/no_items/no_product.dart';
 import '../../../shared/components/components.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/images/images.dart';
+import '../../../shared/styles/colors.dart';
 import '../widgets/home/search/provider_search.dart';
 import '../widgets/item_shared/filter.dart';
 import '../widgets/product/product_grid.dart';
@@ -25,7 +26,7 @@ class SearchScreen extends StatelessWidget {
       body: Stack(
         children: [
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
-          Image.asset(Images.searchCurve,width: double.infinity,fit: BoxFit.cover,),
+          Image.asset(Images.curveHome,width: double.infinity,fit: BoxFit.cover,),
           Column(
             children: [
               defaultAppBar(context: context,backColor: Colors.white,isProduct: true),
@@ -46,12 +47,20 @@ class SearchScreen extends StatelessWidget {
                           }
                         },
                         style: TextStyle(color: Colors.white),
+                        controller: cubit.searchC,
                         decoration: InputDecoration(
                           border:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color: Colors.white)),
                           enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color: Colors.white)),
                           focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color: Colors.white)),
                           hintText: tr('search_by_product'),
                           hintStyle: TextStyle(color: Colors.white,fontSize: 15),
+                          suffix: IconButton(
+                            onPressed: (){
+                              cubit.searchC.text = '';
+                              cubit.emitState();
+                            },
+                            icon: Icon(Icons.highlight_remove,color: Colors.white,),
+                          ),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child:  Image.asset(Images.search,width: 1,height: 1,),

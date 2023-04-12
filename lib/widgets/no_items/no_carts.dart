@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/shared/components/constants.dart';
@@ -18,12 +19,12 @@ class NoCart extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30.0,horizontal: 20),
             child: Text(
-              'No products in your cart',
+              tr('no_product_cart'),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600,fontSize: 21),
             ),
           ),
-          DefaultButton(text: 'Back', onTap: (){
+          DefaultButton(text:tr('back'), onTap: (){
             UserCubit.get(context).changeIndex(0, context);
           })
         ],

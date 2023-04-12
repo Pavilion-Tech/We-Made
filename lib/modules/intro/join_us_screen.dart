@@ -6,7 +6,6 @@ import 'package:wee_made/modules/user/auth/sign_up_screen.dart';
 import '../../shared/components/components.dart';
 import '../../shared/components/constants.dart';
 import '../../shared/images/images.dart';
-import '../../shared/network/local/cache_helper.dart';
 import '../../shared/styles/colors.dart';
 import '../../widgets/default_button.dart';
 import '../provider/auth/psign_up_screen.dart';

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/models/user/home_model.dart';
 
 import '../../../../shared/components/components.dart';
@@ -33,7 +34,10 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>navigateTo(context, CategoryScreen()),
+      onTap: (){
+        UserCubit.get(context).getProductCategory(categoryData.id??'');
+        navigateTo(context, CategoryScreen(categoryData.title??''));
+        },
       child: Container(
         width: 110,height: 127,
         decoration: BoxDecoration(

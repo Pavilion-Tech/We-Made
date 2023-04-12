@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
@@ -9,6 +10,7 @@ import '../widgets/home/ads.dart';
 import '../widgets/home/app_bar.dart';
 import '../widgets/home/search/search_widget.dart';
 import '../widgets/product/product_grid.dart';
+import '../widgets/shimmer/home_shimmer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               Images.backGround, width: double.infinity, fit: BoxFit.cover,),
             ConditionalBuilder(
               condition: cubit.homeModel!=null,
-              fallback: (context)=>const Center(child: CircularProgressIndicator(),),
+              fallback: (context)=>HomeShimmer(),
               builder: (context)=> Column(
                 children: [
                   HomeAppBar(),
@@ -38,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 30.0),
                             child: ConditionalBuilder(
                               condition: cubit.homeModel!.data!.categories!.isNotEmpty,
-                                fallback: (context)=>Text('No Categories Yet'),
+                                fallback: (context)=>Text(tr('no_categories')),
                                 builder: (context)=> CategoryWidget(
                                     cubit.homeModel!.data!.categories!
                                 )
@@ -46,13 +48,13 @@ class HomeScreen extends StatelessWidget {
                           ),
                           ConditionalBuilder(
                             condition: cubit.homeModel!.data!.advertisements!.isNotEmpty,
-                              fallback: (context)=>Text('No Ads Yet'),
+                              fallback: (context)=>Text(tr('no_ads')),
                               builder: (context)=>ADSWidget()
                           ),
                           const SizedBox(height: 30,),
                           ConditionalBuilder(
                             condition: cubit.homeModel!.data!.products!.isNotEmpty,
-                            fallback: (context)=>Text('No Products Yet'),
+                            fallback: (context)=>Text(tr('no_product')),
                             builder: (context)=> ProductGrid(products: cubit.homeModel!.data!.products!,)
                           ),
                           const SizedBox(height: 50,),

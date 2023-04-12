@@ -7,6 +7,7 @@ import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_states.dart';
 
 import '../../modules/user/widgets/home/drawer/menu_drawer.dart';
 import '../../shared/components/components.dart';
+import '../../shared/components/constants.dart';
 import '../../shared/images/images.dart';
 import '../../shared/styles/colors.dart';
 import '../../widgets/wrong_screens/maintenance_screen.dart';
@@ -17,12 +18,16 @@ class UserLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserCubit.get(context).checkUpdate(context);
     return BlocConsumer<UserCubit, UserStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(isConnect!=null)checkNet(context);
+      },
       builder: (context, state) {
         var cubit = UserCubit.get(context);
         return BlocConsumer<MenuCubit, MenuStates>(
           listener: (context, state) {
+            if(isConnect!=null)checkNet(context);
             if (MenuCubit.get(context).settingsModel != null) {
               if (MenuCubit.get(context)
                       .settingsModel!
@@ -48,14 +53,14 @@ class UserLayout extends StatelessWidget {
                       height: 20,
                       color: defaultColor,
                     ),
-                    'activeIcon': Image.asset(Images.homeYes, width: 30),
+                    'activeIcon': Image.asset(Images.homeYes, width: 30,color: defaultColor,),
                   },
                   {
                     'icon': Image.asset(Images.cartNo,
                         width: 20, height: 20, color: defaultColor),
                     'activeIcon': Image.asset(
                       Images.cartNo,
-                      width: 30,
+                      width: 30,color: defaultColor
                     ),
                   },
                   {

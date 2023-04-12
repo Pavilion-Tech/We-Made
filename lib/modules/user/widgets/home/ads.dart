@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 
@@ -32,26 +33,12 @@ class ADSItem extends StatelessWidget {
   ADSItem(this.ad);
   Advertisements ad;
 
-  void type(BuildContext context){
-    switch(ad.type??0){
-      case 2:
-        openUrl(ad.link??'');
-        break;
-      case 3:
-        //WafrCubit.get(context).getStore(ad.id??'');
-        navigateTo(context, StoreScreen());
-        break;
-      case 4:
-        //WafrCubit.get(context).getProduct(context,ad.id);
-        break;
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        type(context);
-      },
+      onTap:ad.type==2?(){
+        openUrl(ad.link??'');
+      }:null,
       child: Container(
         height: 154,width: size!.width*.85,
         decoration: BoxDecoration(
@@ -78,6 +65,7 @@ class ADSItem extends StatelessWidget {
                     style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600,height: 1),
                   ),
                   const SizedBox(height: 10,),
+                  if(ad.type==2)
                   Container(
                     height: 28,width: 90,
                     decoration: BoxDecoration(
@@ -86,7 +74,7 @@ class ADSItem extends StatelessWidget {
                     ),
                     alignment: AlignmentDirectional.center,
                     child: Text(
-                      'Get Now',
+                      tr('get_now'),
                       style: TextStyle(color: defaultColor,fontSize: 12,fontWeight: FontWeight.w500),
                     ),
                   ),

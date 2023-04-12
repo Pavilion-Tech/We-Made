@@ -29,12 +29,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: itemBuilder(
-              title: tr('credit_card'),
+              title: tr('cash'),
               index: 0
             ),
           ),
           itemBuilder(
-            title: tr('cash'),
+            title: tr('credit_card'),
             index: 1
           )
         ],

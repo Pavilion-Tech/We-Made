@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
 import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_states.dart';
 import 'package:wee_made/widgets/no_items/no_product.dart';
-
 import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
 import '../../widgets/menu/chat/chat_history_item.dart';
+import '../../widgets/shimmer/shimmer_shared.dart';
 
 class ChatHistoryScreen extends StatelessWidget {
-  const ChatHistoryScreen({Key? key}) : super(key: key);
-
+  ChatHistoryScreen({this.isMenu = false});
+  bool isMenu;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MenuCubit, MenuStates>(
@@ -25,13 +25,13 @@ class ChatHistoryScreen extends StatelessWidget {
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
           Column(
             children: [
-              defaultAppBar(context: context,title: tr('chats')),
+              defaultAppBar(context: context,title: tr('chats'),isMenu: isMenu),
               ConditionalBuilder(
                 condition: cubit.chatHisModel!=null,
-                fallback: (context)=>const SizedBox(),
+                fallback: (context)=>const ShimmerShared(),
                 builder: (context)=> ConditionalBuilder(
                   condition: cubit.chatHisModel!.data!.isNotEmpty,
-                  fallback: (context)=>Expanded(child: NoProduct(isProduct: false)),
+                  fallback: (context)=>Expanded(child: NoProduct(isProduct: isMenu)),
                   builder: (context)=> Expanded(
                     child: ListView.separated(
                         itemBuilder: (c,i)=>ChatHistoryItem(cubit.chatHisModel!.data![i]),

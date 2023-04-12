@@ -8,6 +8,7 @@ import 'package:wee_made/modules/user/auth/sign_up_screen.dart';
 import 'package:wee_made/modules/auth/verification_sheet.dart';
 
 import '../../shared/components/components.dart';
+import '../../shared/components/constants.dart';
 import '../../shared/images/images.dart';
 import '../../shared/styles/colors.dart';
 import '../../widgets/default_button.dart';
@@ -23,6 +24,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
+        if(isConnect!=null)checkNet(context);
         if(state is LoginSuccessState){
           showModalBottomSheet(
               context: context,

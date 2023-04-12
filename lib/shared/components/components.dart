@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../layouts/user_layout/user_cubit/user_cubit.dart';
 import '../../layouts/user_layout/user_layout.dart';
+import '../../widgets/wrong_screens/no_net_screen.dart';
 import '../images/images.dart';
 import '../styles/colors.dart';
 import 'constants.dart';
@@ -71,9 +72,9 @@ Future showToast ({required String msg , bool? toastState})
 
 
 
-checkNet(context) {
+checkNet(context,{bool isUser = true}) {
   if (!isConnect!) {
-   // navigateTo(context,const NoNetScreen(),);
+    navigateTo(context,NoNetScreen(isUser: isUser),);
   }
 }
 
@@ -82,6 +83,7 @@ PreferredSizeWidget defaultAppBar({
   bool haveCart = true,
   bool haveArrow = true,
   bool isProduct = false,
+  bool isMenu = false,
   required BuildContext context,
   Color backColor = Colors.black
 }){
@@ -94,7 +96,10 @@ PreferredSizeWidget defaultAppBar({
     ):null,
     elevation: 0,
     leading:haveArrow? IconButton(
-      onPressed: ()=>Navigator.pop(context),
+      onPressed: (){
+        Navigator.pop(context);
+        if(isMenu)Navigator.pop(context);
+      },
       icon: Icon(Icons.arrow_back,color: backColor,),
     ):null,
     backgroundColor: Colors.transparent,
@@ -108,7 +113,7 @@ PreferredSizeWidget defaultAppBar({
             UserCubit.get(context).changeIndex(1, context);
             navigateAndFinish(context, UserLayout());
           },
-            child: Image.asset(Images.cartYes,width: 22,color: isProduct?Colors.white:defaultColor,)),
+          child: Image.asset(Images.cartYes,width: 22,color: isProduct?Colors.white:defaultColor,)),
       )
     ],
   );
@@ -118,6 +123,7 @@ PreferredSizeWidget pDefaultAppBar({
   String? title,
   Widget? action,
   bool haveArrow = true,
+  bool isMenu = false,
   required BuildContext context,
   Color backColor = Colors.black
 }){
@@ -130,7 +136,10 @@ PreferredSizeWidget pDefaultAppBar({
     ):null,
     elevation: 0,
     leading:haveArrow? IconButton(
-      onPressed: ()=>Navigator.pop(context),
+      onPressed: (){
+        Navigator.pop(context);
+        if(isMenu)Navigator.pop(context);
+      },
       icon: Icon(Icons.arrow_back,color: backColor,),
     ):null,
     backgroundColor: Colors.transparent,

@@ -29,6 +29,11 @@ class AllOrderSuccessState extends MenuStates {}
 class AllOrderWrongState extends MenuStates {}
 class AllOrderErrorState extends MenuStates {}
 
+class AllNotificationLoadingState extends MenuStates {}
+class AllNotificationSuccessState extends MenuStates {}
+class AllNotificationWrongState extends MenuStates {}
+class AllNotificationErrorState extends MenuStates {}
+
 class SingleOrderSuccessState extends MenuStates {}
 class SingleOrderWrongState extends MenuStates {}
 class SingleOrderErrorState extends MenuStates {}
@@ -45,3 +50,23 @@ class AskRequestErrorState extends MenuStates{}
 class StaticPageSuccessState extends MenuStates {}
 class StaticPageWrongState extends MenuStates {}
 class StaticPageErrorState extends MenuStates {}
+
+class UserSuccessState extends MenuStates {}
+class UserWrongState extends MenuStates {}
+class UserErrorState extends MenuStates {}
+
+class ChatSuccessState extends MenuStates {}
+class ChatWrongState extends MenuStates {}
+class ChatErrorState extends MenuStates {}
+
+class ContactUsLoadingState extends MenuStates{}
+class ContactUsSuccessState extends MenuStates{}
+class ContactUsWrongState extends MenuStates{}
+class ContactUsErrorState extends MenuStates{}
+
+
+class SendMessageLoadingState extends MenuStates {}
+class SendMessageWithFileLoadingState extends MenuStates {}
+class SendMessageSuccessState extends MenuStates {}
+class SendMessageWrongState extends MenuStates {}
+class SendMessageErrorState extends MenuStates {}

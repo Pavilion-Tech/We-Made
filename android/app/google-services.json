@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "311327981680",
+    "project_id": "we-made-4ff1a",
+    "storage_bucket": "we-made-4ff1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311327981680:android:f00db5bb7148d4dbb474b5",
+        "android_client_info": {
+          "package_name": "com.wee_made"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311327981680-dh3c3p9hru4ajlg7l90i5p0gus54ksea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmn0DSpjkH6dr9rCWUtu2AqecTvqEIsYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311327981680-dh3c3p9hru4ajlg7l90i5p0gus54ksea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

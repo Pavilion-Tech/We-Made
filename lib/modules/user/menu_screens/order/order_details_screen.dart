@@ -1,5 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
@@ -29,17 +30,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     var cubit = MenuCubit.get(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar:cubit.singleOrderModel!=null ?orderAppbar(
+      appBar:orderAppbar(
           context,
-          status: cubit.singleOrderModel!.data!.status!,
-          itemNumber: cubit.singleOrderModel!.data!.itemNumber!):AppBar(),
+          status: cubit.singleOrderModel?.data?.status??0,
+          itemNumber: cubit.singleOrderModel?.data?.itemNumber??0),
       body: Stack(
         children: [
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
           SafeArea(
             child: ConditionalBuilder(
               condition: cubit.singleOrderModel!=null,
-              fallback: (context)=>SizedBox(),
+              fallback: (context)=>Center(child: CupertinoActivityIndicator()),
               builder: (context)=> SingleChildScrollView(
                 child: Column(
                   children: [
@@ -75,6 +76,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         ],
                       ),
                     ),
+                    if(cubit.singleOrderModel!.data!.orderType == 2)
+                      Text(tr('special_request')),
                     if(cubit.singleOrderModel!.data!.products!.isNotEmpty)
                     OrderListProducts(cubit.singleOrderModel!.data!.products!),
                     Invoice(

@@ -1,32 +1,20 @@
 
+import 'home_model.dart';
+
 class ProviderItemModel {
   String? message;
   bool? status;
-  List<ProviderData>? data;
+  List<ProviderId>? data;
 
   ProviderItemModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     if (json['data'] != null) {
-      data = <ProviderData>[];
+      data = <ProviderId>[];
       json['data'].forEach((v) {
-        data!.add(ProviderData.fromJson(v));
+        data!.add(ProviderId.fromJson(v));
       });
     }
   }
 
-}
-
-class ProviderData {
-  String? id;
-  String? storeName;
-  String? personalPhoto;
-
-
-  ProviderData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    storeName = json['store_name'];
-    personalPhoto = json['personal_photo'];
-
-  }
 }

@@ -92,7 +92,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                       Image.asset(model[0].image,width: 24,height: 24,),
                       const SizedBox(width: 10,),
                       Text(
-                        model[0].title,
+                        tr(model[0].title),
                         style:const TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -118,7 +118,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                       Image.asset(model[1].image,width: 24,height: 24,),
                       const SizedBox(width: 10,),
                       Text(
-                        model[1].title,
+                        tr(model[1].title),
                         style:const TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -144,7 +144,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                       Image.asset(model[2].image,width: 24,height: 24,),
                       const SizedBox(width: 10,),
                       Text(
-                        model[2].title,
+                        tr(model[2].title),
                         style:const TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.w500),
                       ),
                     ],

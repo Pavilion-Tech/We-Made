@@ -43,3 +43,24 @@ class GetSearchLoadingState extends UserStates{}
 class GetSearchSuccessState extends UserStates{}
 class GetSearchWrongState extends UserStates{}
 class GetSearchErrorState extends UserStates{}
+
+class CategoryLoadingState extends UserStates{}
+class CategorySuccessState extends UserStates{}
+class CategoryWrongState extends UserStates{}
+class CategoryErrorState extends UserStates{}
+
+class AddFavLoadingState extends UserStates{}
+class GetFavLoadingState extends UserStates{}
+class GetFavSuccessState extends UserStates{}
+class GetFavWrongState extends UserStates{}
+class GetFavErrorState extends UserStates{}
+
+class ProviderProductsLoadingState extends UserStates{}
+class ProviderProductsSuccessState extends UserStates{}
+class ProviderProductsWrongState extends UserStates{}
+class ProviderProductsErrorState extends UserStates{}
+
+class CouponLoadingState extends UserStates{}
+class CouponSuccessState extends UserStates{}
+class CouponWrongState extends UserStates{}
+class CouponErrorState extends UserStates{}

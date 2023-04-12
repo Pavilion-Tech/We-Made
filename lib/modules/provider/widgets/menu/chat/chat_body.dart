@@ -1,101 +1,137 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:wee_made/widgets/record_item.dart';
 
+import '../../../../../shared/components/components.dart';
 import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/images/images.dart';
 import '../../../../../shared/styles/colors.dart';
+import '../../../../../widgets/image_net.dart';
+import '../../../../../widgets/image_screen.dart';
+import '../../../menu/pmenu_cubit/pmenu_cubit.dart';
+import '../../../menu/pmenu_cubit/pmenu_states.dart';
+enum Type{text,image,record}
 
 class PChatBody extends StatelessWidget {
   const PChatBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return UserChat();
-  }
+    return BlocConsumer<PMenuCubit, PMenuStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var messages = PMenuCubit.get(context).chatModel!.data!.messages!;
+
+        return ListView.separated(
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (c,i)=>ChatItem(
+              type: messages[i].messageType == 1 ?Type.text:messages[i].messageType == 2?Type.image:Type.record,
+              content: messages[i].message??'',
+              createdAt:  messages[i].createdAt??'',
+              isUser: messages[i].sender == 'user'?false:true,
+            ),
+            separatorBuilder: (c,i)=>const SizedBox(height: 15,),
+            itemCount: messages.length
+        );
+      },
+    );  }
 }
 
-class SenderChat extends StatelessWidget {
-  const SenderChat({Key? key}) : super(key: key);
+class ChatItem extends StatelessWidget {
+  ChatItem({
+    required this.isUser,
+    required this.type,
+    required this.content,
+    required this.createdAt,
+  });
+
+
+  bool isUser;
+  Type type;
+  String content;
+  String createdAt;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 36,width: 36,
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Image.asset(Images.story,fit: BoxFit.cover,),
-        ),
-        const SizedBox(width: 10,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Today 5:23 pm',
-              style: TextStyle(fontSize: 11),
-            ),
-            Container(
-              width: size!.width*.7,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadiusDirectional.only(
-                  topEnd: Radius.circular(20),
-                  bottomEnd: Radius.circular(20),
-                  bottomStart: Radius.circular(20),
-                )
-              ),
-              padding:const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-              child: Text(
-                'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to',
-                style: TextStyle(fontSize: 11),
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class UserChat extends StatelessWidget {
-  const UserChat({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
+    return type  != Type.record?Padding(
+      padding: EdgeInsetsDirectional.only(
+          end: isUser?0:30,start: isUser?30:0
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: isUser?CrossAxisAlignment.end:CrossAxisAlignment.start,
         children: [
           Text(
-            'Today 5:23 pm',
-            style: TextStyle(fontSize: 11),
-          ),
-          Container(
-            width: size!.width*.7,
-            decoration: BoxDecoration(
-                color: defaultColor,
-                borderRadius: BorderRadiusDirectional.only(
-                  topStart: Radius.circular(20),
-                  bottomEnd: Radius.circular(20),
-                  bottomStart: Radius.circular(20),
-                )
+            createdAt,
+            style: TextStyle(
+                color: defaultColorFour,fontSize: 11
             ),
-            padding:const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-            child: RecordItem(timeColor: Colors.white,)
-            // Text(
-            //   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to',
-            //   style: TextStyle(fontSize: 11,color: Colors.white),
-            //   textAlign: TextAlign.start,
-            // ),
+          ),
+          Builder(builder: (BuildContext context) {
+            switch(type){
+              case Type.text:
+                return
+                  Container(
+                      decoration: BoxDecoration(
+                        color: isUser?defaultColor:HexColor('#EEEEEE'),
+                        borderRadius: BorderRadiusDirectional.only(
+                          topStart:Radius.circular(isUser?20:0),
+                          topEnd: Radius.circular(isUser?0:20),
+                          bottomEnd: const Radius.circular(20),
+                          bottomStart:const  Radius.circular(20),
+                        ),
+                      ),
+                      padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 2),
+                      child:Text(
+                        content,
+                        textAlign: isUser?TextAlign.end:TextAlign.start,
+                        style: TextStyle(
+                            color: isUser?Colors.white:null,fontSize: 11
+                        ),
+                      )
+                  );
+              case Type.image:
+                return InkWell(
+                  onTap: ()=>navigateTo(context, ImageScreen(content)),
+                  child: Container(
+                      height: 129,width: size!.width*.6,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.only(
+                          topStart:Radius.circular(isUser?20:0),
+                          topEnd: Radius.circular(isUser?0:20),
+                          bottomEnd:const Radius.circular(20),
+                          bottomStart:const Radius.circular(20),
+                        ),
+                      ),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child:ImageNet(image: content,)
+                  ),
+                );
+              case Type.record:
+                return Container(
+                    decoration: BoxDecoration(
+                      color: isUser?defaultColor:HexColor('#EEEEEE'),
+                      borderRadius: BorderRadiusDirectional.only(
+                        topStart:Radius.circular(isUser?20:0),
+                        topEnd: Radius.circular(isUser?0:20),
+                        bottomEnd:const Radius.circular(20),
+                        bottomStart:const Radius.circular(20),
+                      ),
+                    ),
+                    padding:const EdgeInsets.symmetric(horizontal: 10),
+                    child:RecordItem()
+                );
+              default:
+                return const SizedBox();
+            }
+          },
+
           ),
         ],
       ),
-    );
+    ):SizedBox();
   }
 }
+
 
 

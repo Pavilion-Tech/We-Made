@@ -1,4 +1,9 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
+import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_states.dart';
+import 'package:wee_made/modules/user/widgets/shimmer/home_shimmer.dart';
 
 import '../../../shared/images/images.dart';
 import '../widgets/home/app_bar.dart';
@@ -11,30 +16,39 @@ class PHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<ProviderCubit, ProviderStates>(
+  listener: (context, state) {},
+  builder: (context, state) {
     return Stack(
       children: [
         Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
-        Column(
-          children: [
-            PHomeAppBar(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      ProviderInfo(),
-                      FilterStatistics(),
-                      Charts(),
-                      const SizedBox(height: 100,)
-                    ],
+        ConditionalBuilder(
+          condition: ProviderCubit.get(context).providerModel!=null,
+          fallback: (context)=>HomeShimmer(),
+          builder: (context)=> Column(
+            children: [
+              PHomeAppBar(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        ProviderInfo(),
+                        FilterStatistics(),
+                        Charts(),
+                        const SizedBox(height: 100,)
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ],
     );
+  },
+);
   }
 }

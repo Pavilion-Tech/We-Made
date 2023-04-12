@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
 
 import '../../../../../shared/images/images.dart';
+import '../../../shared/components/constants.dart';
+import '../../../widgets/image_net.dart';
 import '../widgets/menu/paccount_settings.dart';
 import '../widgets/menu/pour_app.dart';
 
@@ -19,14 +22,15 @@ class PMenuDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 98,height: 98,
-                    decoration:const BoxDecoration(
-                      shape: BoxShape.circle,
+                  if(token !=null)
+                    Container(
+                      width: 98,height: 98,
+                      decoration:const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child:ImageNet(image:ProviderCubit.get(context).providerModel?.data?.personalPhoto??'',),
                     ),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Image.asset(Images.story,fit: BoxFit.cover,),
-                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(

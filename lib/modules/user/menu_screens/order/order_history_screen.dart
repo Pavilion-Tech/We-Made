@@ -9,6 +9,7 @@ import 'package:wee_made/widgets/no_items/no_product.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
 import '../../../../shared/styles/colors.dart';
+import '../../widgets/shimmer/shimmer_shared.dart';
 import '../menu_cubit/menu_states.dart';
 import 'order_details_screen.dart';
 
@@ -27,13 +28,13 @@ class OrderHistoryScreen extends StatelessWidget {
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
           Column(
             children: [
-              defaultAppBar(context: context,title:tr('order_history')),
+              defaultAppBar(context: context,title:tr('order_history'),isMenu: true),
               ConditionalBuilder(
                 condition: cubit.orderHisModel!=null,
-                fallback: (context)=>const SizedBox(),
+                fallback: (context)=>const ShimmerShared(),
                 builder: (context)=> ConditionalBuilder(
                   condition: cubit.orderHisModel!.data!.data!.isNotEmpty,
-                  fallback: (context)=>NoProduct(isProduct: false),
+                  fallback: (context)=>Expanded(child: NoProduct(isProduct: false)),
                   builder: (context){
                     Future.delayed(Duration.zero,(){
                       cubit.paginationOrder();

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -16,7 +17,7 @@ class Charts extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Top Sales',
+          tr('top_sales'),
           style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w600),
         ),
         SizedBox(
@@ -32,7 +33,7 @@ class Charts extends StatelessWidget {
                     dataSource: data,
                     xValueMapper: (_SalesData sales, _) => sales.year,
                     yValueMapper: (_SalesData sales, _) => sales.sales,
-                    name: 'Sales',
+                    name: tr('sales'),
                     // Enable data label
                     dataLabelSettings: DataLabelSettings(isVisible: true)
                 )

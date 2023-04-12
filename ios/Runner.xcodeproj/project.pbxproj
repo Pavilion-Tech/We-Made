@@ -378,14 +378,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QSMUFKHC8D;
+				DEVELOPMENT_TEAM = GBYL5FB3XS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -420,8 +420,14 @@
 					"-framework",
 					"\"webview_flutter_wkwebview\"",
 					"-lc++",
+					"-framework",
+					"\"flutter_local_notifications\"",
+					"-framework",
+					"\"firebase_messaging\"",
+					"-framework",
+					"\"firebase_core\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.wemade;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wemadeuae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -545,14 +551,15 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QSMUFKHC8D;
+				DEVELOPMENT_TEAM = GBYL5FB3XS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				"LD_MAP_FILE_PATH[arch=*]" = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -587,8 +594,14 @@
 					"-framework",
 					"\"webview_flutter_wkwebview\"",
 					"-lc++",
+					"-framework",
+					"\"flutter_local_notifications\"",
+					"-framework",
+					"\"firebase_messaging\"",
+					"-framework",
+					"\"firebase_core\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.wemade;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wemadeuae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -606,14 +619,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QSMUFKHC8D;
+				DEVELOPMENT_TEAM = GBYL5FB3XS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -648,8 +661,14 @@
 					"-framework",
 					"\"webview_flutter_wkwebview\"",
 					"-lc++",
+					"-framework",
+					"\"flutter_local_notifications\"",
+					"-framework",
+					"\"firebase_messaging\"",
+					"-framework",
+					"\"firebase_core\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.wemade;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wemadeuae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

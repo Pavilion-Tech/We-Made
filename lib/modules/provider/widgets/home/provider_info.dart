@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
 import 'package:wee_made/shared/images/images.dart';
+
+import '../../../../widgets/image_net.dart';
 
 class ProviderInfo extends StatelessWidget {
   const ProviderInfo({Key? key}) : super(key: key);
@@ -12,10 +15,10 @@ class ProviderInfo extends StatelessWidget {
           height: 170,width: 170,
           decoration: BoxDecoration(shape: BoxShape.circle),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Image.asset(Images.story,fit: BoxFit.cover,),
+          child: ImageNet(image: ProviderCubit.get(context).providerModel!.data!.personalPhoto??''),
         ),
         Text(
-          'Family Name',
+          ProviderCubit.get(context).providerModel!.data!.storeName??'',
           style: TextStyle(color: Colors.black,fontSize: 34,fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 30,),

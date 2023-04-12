@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
 import 'package:wee_made/shared/components/constants.dart';
@@ -24,18 +25,18 @@ class NoLocations extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical:15.0,horizontal: 20),
                 child: Text(
-                  'No locations yet',
+                  tr('no_locations'),
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.w600,fontSize: 21),
                 ),
               ),
               Text(
-                'You can add new locations now',
+                tr('you_can_add'),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15),
               ),
               const SizedBox(height: 30,),
-              DefaultButton(text: 'Add Locations', onTap: ()async{
+              DefaultButton(text: tr('add_locations'), onTap: ()async{
                 await MenuCubit.get(context).getCurrentLocation();
                 navigateTo(context, AddAddressScreen());
               })

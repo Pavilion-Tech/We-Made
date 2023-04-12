@@ -4,7 +4,10 @@ import 'package:wee_made/shared/components/constants.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/images/images.dart';
 import '../../../../widgets/story/list_stories.dart';
+import '../../../user/menu_screens/chat/chat_history_screen.dart';
 import '../../home/add_highlight_screen.dart';
+import '../../menu/pchat/pchat_history_screen.dart';
+import '../../menu/pmenu_cubit/pmenu_cubit.dart';
 
 class PHomeAppBar extends StatelessWidget {
   const PHomeAppBar({Key? key}) : super(key: key);
@@ -32,7 +35,8 @@ class PHomeAppBar extends StatelessWidget {
               actions: [
                 IconButton(
                     onPressed: (){
-                     // navigateTo(context, ChatHistoryScreen());
+                      PMenuCubit.get(context).chatHistory();
+                      navigateTo(context, PChatHistoryScreen());
                     },
                     icon: Image.asset(Images.send,width: 20,)
                 ),
@@ -75,7 +79,14 @@ class PHomeAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(child: ListStories(color: Colors.transparent,padding: 0,isProvider: true,)),
+                Expanded(
+                    child: ListStories(
+                      color: Colors.transparent,
+                      padding: 0,
+                      isProvider: true,
+                      stories: [ProviderCubit.get(context).providerModel!.data!.stories!],
+                    )
+                ),
               ],
             )
           ],

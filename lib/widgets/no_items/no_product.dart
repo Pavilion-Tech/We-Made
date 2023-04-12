@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/shared/components/constants.dart';
 import 'package:wee_made/shared/images/images.dart';
@@ -19,12 +20,12 @@ class NoProduct extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30.0,horizontal: 20),
             child: Text(
-              isProduct?'No products here':'No Orders Yet',
+              isProduct?tr('no_product'):tr('no_order'),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600,fontSize: 21),
             ),
           ),
-          DefaultButton(text: 'Back', onTap: (){
+          DefaultButton(text: tr('back'), onTap: (){
             Navigator.pop(context);
           })
         ],

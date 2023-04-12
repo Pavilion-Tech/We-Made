@@ -14,7 +14,7 @@ class OrderListProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
-      height: 460,
+      height: products.length == 1?210:460,
       child: ListView.separated(
           itemBuilder: (c,i)=>OrderItem(products[i]),
           padding:const EdgeInsets.all(20),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/shared/images/images.dart';
+import 'package:wee_made/widgets/default_button.dart';
 import '../../../../shared/components/components.dart';
 
 class FilterStatistics extends StatefulWidget {
@@ -29,7 +30,7 @@ class _FilterStatisticsState extends State<FilterStatistics> {
     return Column(
       children: [
         Text(
-          'Filter Your Statistics',
+          tr('filter_statistics'),
           style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 22),
         ),
         Padding(
@@ -42,9 +43,11 @@ class _FilterStatisticsState extends State<FilterStatistics> {
                 firstDate: DateTime.parse("2020-11-11"),
                 lastDate: DateTime.parse("2050-11-29"),
               ).then((value) {
-                from = DateFormat(null,'en').add_yMd().format(value!)
-                        .toString();
-                setState(() {});
+                if(value!=null){
+                  from = DateFormat(null,'en').add_yMd().format(value)
+                      .toString();
+                  setState(() {});
+                }
               });
             },
             child: Row(
@@ -60,7 +63,7 @@ class _FilterStatisticsState extends State<FilterStatistics> {
                 ),
                 const SizedBox(width: 15,),
                 Text(
-                  'From',
+                  tr('from'),
                   style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 20),
                 ),
                 const Spacer(),
@@ -73,6 +76,12 @@ class _FilterStatisticsState extends State<FilterStatistics> {
             ),
           ),
         ),
+        if(from!=null)
+        DefaultButton(text: tr('remove_date'), onTap: (){
+          from = null;
+          to = null;
+          setState(() {});
+        }),
         InkWell(
           onTap: (){
             if(from!=null){
@@ -95,7 +104,7 @@ class _FilterStatisticsState extends State<FilterStatistics> {
                 // );
               });
             }else{
-              showToast(msg: 'Choose From Date First',toastState: true);
+              showToast(msg: tr('choose_date_first'),toastState: true);
             }
           },
           child: Row(
@@ -111,7 +120,7 @@ class _FilterStatisticsState extends State<FilterStatistics> {
               ),
               const SizedBox(width: 15,),
               Text(
-                'To',
+                tr('to'),
                 style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 20),
               ),
               const Spacer(),

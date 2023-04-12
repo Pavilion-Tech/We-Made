@@ -64,15 +64,20 @@ class CheckoutScreen extends StatelessWidget {
                             child:state is! CheckoutLoadingState ? DefaultButton(
                                 text: tr('pay_now'),
                                 onTap: () {
-                                  if(chooseAddress.currentLatLng!=null){
-                                    cubit.checkout(
-                                      carts: cubit.cartModel!.data!.cart!,
-                                      lat: chooseAddress.currentLatLng!.latitude,
-                                      lng: chooseAddress.currentLatLng!.longitude,
-                                    );
+                                  if(paymentMethod.currentIndex == 0){
+                                    if(chooseAddress.currentLatLng!=null){
+                                      cubit.checkout(
+                                        carts: cubit.cartModel!.data!.cart!,
+                                        lat: chooseAddress.currentLatLng!.latitude,
+                                        lng: chooseAddress.currentLatLng!.longitude,
+                                      );
+                                    }else{
+                                      showToast(msg: tr('delivery_address'));
+                                    }
                                   }else{
-                                    showToast(msg: tr('delivery_address'));
+                                    showToast(msg: tr('card_not_available'));
                                   }
+
                                 }
                             ):const Center(child: CupertinoActivityIndicator(),),
                           )

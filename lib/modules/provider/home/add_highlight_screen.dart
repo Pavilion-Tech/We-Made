@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
@@ -18,7 +20,9 @@ class AddHighlightScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProviderCubit, ProviderStates>(
-  listener: (context, state) {},
+  listener: (context, state) {
+    if(state is AddHighlightSuccessState)Navigator.pop(context);
+  },
   builder: (context, state) {
     var cubit = ProviderCubit.get(context);
     return Scaffold(
@@ -29,7 +33,7 @@ class AddHighlightScreen extends StatelessWidget {
             children: [
               pDefaultAppBar(
                 context: context,
-                title: 'Add highlight',
+                title: tr('add_highlight'),
                 action: Image.asset(Images.addNo,width: 20,color: defaultColor,)
               ),
               Expanded(
@@ -38,7 +42,7 @@ class AddHighlightScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        DefaultForm(hint: 'Highlight title'),
+                        //DefaultForm(hint: 'Highlight title'),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: InkWell(
@@ -61,7 +65,7 @@ class AddHighlightScreen extends StatelessWidget {
                                   Image.asset(Images.camera2 ,color: defaultColor,width: 20,),
                                   const SizedBox(width: 10,),
                                   Text(
-                                    'Upload Image',
+                                    tr('upload_image'),
                                     style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 11),
                                   ),
                                 ],
@@ -94,7 +98,17 @@ class AddHighlightScreen extends StatelessWidget {
                                 ]),
                           ),
                         const SizedBox(height: 20,),
-                        DefaultButton(text: 'Add highlight', onTap: ()=>Navigator.pop(context))
+                        state is! AddHighlightLoadingState ?
+                        DefaultButton(
+                            text: tr('add_highlight'),
+                            onTap: (){
+                              if(cubit.highlightImage!=null){
+                                cubit.addHighlight();
+                              }else{
+                                showToast(msg: tr('upload_image'));
+                              }
+                            }
+                        ):Center(child: CupertinoActivityIndicator(),)
                       ],
                     ),
                   ),

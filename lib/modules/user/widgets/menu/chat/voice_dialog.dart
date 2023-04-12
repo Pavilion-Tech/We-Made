@@ -100,10 +100,10 @@ class _VoiceDialogState extends State<VoiceDialog> {
                           text: tr('continue'),
                           onTap: ()async{
                             final path = await recorder.stopRecorder();
-                            MenuCubit.get(context).askForRequest(
-                                id: '64089c324fad50721669dadf',
-                                file: File(path!)
-                            );
+                            // MenuCubit.get(context).askForRequest(
+                            //     id: '64089c324fad50721669dadf',
+                            //     file: File(path!)
+                            // );
                           }
                       ),
                     ),

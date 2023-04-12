@@ -57,7 +57,9 @@ class Stories {
     id = json['id'];
     storeName = json['store_name'];
     providerStoryThumbnail = json['provider_story_thumbnail'];
-    stories = json['stories'].cast<String>();
+    if(json['stories'].isNotEmpty){
+      stories = json['stories'].cast<String>();
+    }
   }
 }
 
@@ -110,7 +112,7 @@ class Products {
   int? quantity;
   int? totalRate;
   bool? isFavorited;
-  List<Null>? reviews;
+  //List<Null>? reviews;
   List<String>? images;
 
 
@@ -141,18 +143,47 @@ class Products {
     // }
     images = json['images'].cast<String>();
   }
+
 }
 
 class ProviderId {
   String? id;
+  int? itemNumber;
   String? storeName;
-  String? address;
-  String? image;
+  String? email;
+  List<Categories>? categoryId;
+  String? firebaseToken;
+  String? whatsappNumber;
+  String? phoneNumber;
+  String? personalPhoto;
+  String? currentLanguage;
+  int? totalRate;
+  int? status;
+  String? createdAt;
+  Stories? stories;
+
+
 
   ProviderId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    itemNumber = json['item_number'];
     storeName = json['store_name'];
-    address = json['address'];
-    image = json['image'];
+    email = json['email'];
+    if (json['category_id'] != null) {
+      categoryId = <Categories>[];
+      json['category_id'].forEach((v) {
+        categoryId!.add(Categories.fromJson(v));
+      });
+    }
+    stories = json['stories'] != null ? Stories.fromJson(json['stories']) : null;
+    firebaseToken = json['firebase_token'];
+    whatsappNumber = json['whatsapp_number'];
+    phoneNumber = json['phone_number'];
+    personalPhoto = json['personal_photo'];
+    currentLanguage = json['current_language'];
+    totalRate = json['total_rate'];
+    status = json['status'];
+    createdAt = json['created_at'];
   }
+
 }

@@ -48,34 +48,6 @@ class Invoice extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10,),
-          Row(
-            children: [
-              Text(
-                tr('app_fee'),
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const Spacer(),
-              Text(
-                '10 AED',
-                style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10,),
-          Row(
-            children: [
-              Text(
-                tr('deposit'),
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const Spacer(),
-              Text(
-                '10 AED',
-                style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15.0,horizontal: 10),
             child: Container(

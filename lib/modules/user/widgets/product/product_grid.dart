@@ -11,17 +11,18 @@ import '../../../../widgets/image_net.dart';
 import '../../../provider/menu/manage_product/edit_product_screen.dart';
 import '../../../provider/menu/manage_product/pproduct_screen.dart';
 import '../../product/product_screen.dart';
-import '../cart/cart_dialog.dart';
 
 class ProductGrid extends StatelessWidget {
   ProductGrid({
     this.padding = 20,
     this.isScroll = true,
     this.isProvider = false,
-    this.products
+    this.products,
+    this.isFav = false,
   });
   double padding;
   bool isScroll;
+  bool isFav;
   bool isProvider;
   List<Products>? products;
 
@@ -38,6 +39,7 @@ class ProductGrid extends StatelessWidget {
             listImages[i],
             isProvider: isProvider,
             products: products![i],
+          isFav: isFav,
         ),
         itemCount: products!.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -51,17 +53,18 @@ class ProductGrid extends StatelessWidget {
 }
 
 class ProductItem extends StatelessWidget {
-  ProductItem(this.image,{this.height = 177,required this.isProvider,this.products});
+  ProductItem(this.image,{this.height = 177,required this.isProvider,this.products,this.isFav = false});
   String image;
   double height;
   bool isProvider;
+  bool isFav;
   Products? products;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
         if(!isProvider)navigateTo(context, ProductScreen(products!));
-        else navigateTo(context, PProductScreen(image));
+        else navigateTo(context, PProductScreen(products!));
       },
       child: Container(
         height: height,
@@ -75,7 +78,22 @@ class ProductItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ImageNet(image:products!.images![0],width: 124,height: 124,),
+            SizedBox(
+              width: double.infinity,
+              child: Stack(
+                alignment: AlignmentDirectional.topEnd,
+                children: [
+                  Center(child: ImageNet(image:products!.images!.isNotEmpty?products!.images![0]:'',width: 124,height: 124,)),
+                  if(isFav)
+                  IconButton(
+                      onPressed: (){
+                        UserCubit.get(context).changeFav(products!.id??'');
+                      },
+                      icon: Icon(Icons.favorite,color: Colors.red,)
+                  )
+                ],
+              ),
+            ),
             Text(
               products!.title??'',
               maxLines: 1,
@@ -104,7 +122,7 @@ class ProductItem extends StatelessWidget {
                 if(isProvider)
                   InkWell(
                       onTap: (){
-                        navigateTo(context, EditProductScreen());
+                        navigateTo(context, EditProductScreen(products!));
                       },
                       child: Image.asset(Images.edit2,width: 20,height: 20,)
                   ),

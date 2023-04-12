@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 
 import '../../../../../shared/components/components.dart';
 import '../../../../../shared/images/images.dart';
@@ -32,8 +33,7 @@ class AccountSettings extends StatelessWidget {
           child: itemBuilder(
               image: Images.person,
               title: tr('profile_info'),
-              onTap:  (){
-                navigateTo(context, EditProfileScreen());
+              onTap:  (){navigateTo(context, EditProfileScreen());
               }
           ),
         ),
@@ -58,14 +58,19 @@ class AccountSettings extends StatelessWidget {
         itemBuilder(
             image: Images.notification,
             title: tr('notifications'),
-            onTap:  ()=>navigateTo(context, NotificationScreen())
-        ),
+            onTap:  () {
+              MenuCubit.get(context).getAllNotification();
+              navigateTo(context, NotificationScreen(isMenu: true,));
+            }),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: itemBuilder(
               image: Images.fav,
               title: tr('favorites'),
-              onTap:  ()=>navigateTo(context, FavScreen())
+              onTap:  (){
+                UserCubit.get(context).getFav();
+                navigateTo(context, FavScreen());
+              }
           ),
         ),
         itemBuilder(
@@ -73,7 +78,7 @@ class AccountSettings extends StatelessWidget {
             title: tr('chats'),
             onTap:  () {
               MenuCubit.get(context).chatHistory();
-              navigateTo(context, ChatHistoryScreen());
+              navigateTo(context, ChatHistoryScreen(isMenu: true,));
             }),
         const SizedBox(height: 40,),
       ],

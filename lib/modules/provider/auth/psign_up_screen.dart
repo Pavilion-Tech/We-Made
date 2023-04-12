@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,19 +11,32 @@ import '../../../widgets/default_button.dart';
 import '../../../widgets/default_form.dart';
 import '../../../widgets/auth_screen.dart';
 import '../../auth/login_screen.dart';
+import '../widgets/auth/category_form.dart';
+import '../widgets/auth/dropdownfield.dart';
+import '../widgets/auth/spcial_request.dart';
 
 class PSignUpScreen extends StatelessWidget {
   PSignUpScreen({Key? key}) : super(key: key);
 
-  TextEditingController nameC = TextEditingController();
+  TextEditingController ownerNameC = TextEditingController();
+  TextEditingController storeNameC = TextEditingController();
   TextEditingController phoneC = TextEditingController();
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
   TextEditingController cPasswordC = TextEditingController();
+  TextEditingController categoryC = TextEditingController();
+  TextEditingController idC = TextEditingController();
+  TextEditingController commercialC = TextEditingController();
+  List<String> categoryValues = [];
+  SpecialRequest specialRequest = SpecialRequest();
+  late CustomDropDownField neighborhoodDropDown;
+  late CustomDropDownField cityDropDown;
   var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    AuthCubit.get(context).getCities();
+    AuthCubit.get(context).getCategory();
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
         if(state is CreateProviderSuccessState)navigateAndFinish(context, LoginScreen());
@@ -40,12 +54,19 @@ class PSignUpScreen extends StatelessWidget {
               child: Column(
                 children: [
                   DefaultForm(
-                    hint: tr('name'),
-                    controller: nameC,
+                    hint: tr('owner_name'),
+                    controller: ownerNameC,
                     validator: (val){
                       if(val.isEmpty)return tr('name_empty');
                     },
-                    prefix: Image.asset(Images.person, width: 1,),
+                  ),
+                  const SizedBox(height: 20,),
+                  DefaultForm(
+                    hint: tr('family_name'),
+                    controller: storeNameC,
+                    validator: (val){
+                      if(val.isEmpty)return tr('name_empty');
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 25.0),
@@ -70,8 +91,72 @@ class PSignUpScreen extends StatelessWidget {
                       if(!val.contains('.'))return tr('email_invalid');
                       if(!val.contains('@'))return tr('email_invalid');
                     },
-                    prefix: Image.asset(Images.email, width: 1,),
                   ),
+                  const SizedBox(height: 20,),
+                  ConditionalBuilder(
+                      condition: cubit.citiesModel!=null,
+                      fallback: (context)=>const SizedBox(height: 20,),
+                      builder: (context){
+                        cityDropDown = CustomDropDownField(
+                          value: cubit.cityValue,
+                          list: cubit.citiesModel!.data!,
+                          hint: tr('city'),
+                          isCity: true,
+                        );
+                        return cityDropDown;
+                      }
+                  ),
+                  ConditionalBuilder(
+                      condition: cubit.neighborhoodModel!=null,
+                      fallback: (context)=>const SizedBox(height: 20,),
+                      builder: (context){
+                        neighborhoodDropDown = CustomDropDownField(
+                          value: cubit.neighborhoodValue,
+                          list: cubit.neighborhoodModel!.data!,
+                          isNe: true,
+                          hint: tr('neighborhood'),
+                        );
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: neighborhoodDropDown,
+                        );
+                      }
+                  ),
+                  ConditionalBuilder(
+                    condition: cubit.categoryModel!=null,
+                    fallback: (context)=> const SizedBox(height: 20,),
+                    builder: (context)=> ChooseCategory(
+                      controller: categoryC,
+                      values: categoryValues,
+                      data:cubit.categoryModel!.data!,
+                      validator: (str){
+                        if(str.isEmpty)return tr('category_empty');
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: DefaultForm(
+                      hint: tr('commercial_registration'),
+                      type: TextInputType.number,
+                      controller: commercialC,
+                      digitsOnly: true,
+                      validator: (val){
+                        if(val.isEmpty)return tr('commercial_registration_empty');
+                      },
+                    ),
+                  ),
+                  DefaultForm(
+                    hint: tr('id_number'),
+                    type: TextInputType.number,
+                    controller: idC,
+                    digitsOnly: true,
+                    validator: (val){
+                      if(val.isEmpty)return tr('id_number_empty');
+                    },
+                  ),
+                  const SizedBox(height: 20,),
+                  specialRequest,
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 25.0),
                     child: DefaultForm(
@@ -117,13 +202,25 @@ class PSignUpScreen extends StatelessWidget {
                       text: tr('sign_up'),
                       onTap: () {
                         if(formKey.currentState!.validate()){
-                          AuthCubit.get(context).createProvider(
-                              phone: phoneC.text,
-                              storeName: nameC.text,
-                              email: emailC.text,
-                              password: passwordC.text,
-                              cPassword: cPasswordC.text
-                          );
+                          if(cubit.cityValue!=null){
+                            if(cubit.neighborhoodValue!=null){
+                              cubit.createProvider(
+                                  phone: phoneC.text,
+                                  storeName: storeNameC.text,
+                                  ownerName: ownerNameC.text,
+                                  email: emailC.text,
+                                  cityId: cubit.cityValue!,
+                                  neighborhoodId: cubit.neighborhoodValue!,
+                                  idNum: idC.text,
+                                  commercial: commercialC.text,
+                                  special: specialRequest.currentIndex,
+                                  password: passwordC.text,
+                                  categories: categoryValues
+                              );
+                            }
+                          }else{
+                            showToast(msg: 'Information Not Completed');
+                          }
                         }
                       }
                   ):const Center(child: CircularProgressIndicator(),)

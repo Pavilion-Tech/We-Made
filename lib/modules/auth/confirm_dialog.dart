@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/layouts/provider_layout/provider_layout.dart';
+import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
+import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
 import 'package:wee_made/shared/components/constants.dart';
 import '../../layouts/user_layout/user_layout.dart';
 import '../../shared/components/components.dart';

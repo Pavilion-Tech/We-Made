@@ -24,7 +24,7 @@ class AboutUsScreen extends StatelessWidget {
                 Images.backGround, width: double.infinity, fit: BoxFit.cover,),
               Column(
                 children: [
-                  defaultAppBar(context: context, title: tr('about_us')),
+                  defaultAppBar(context: context, title: tr('about_us'),isMenu: true),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(

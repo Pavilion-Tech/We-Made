@@ -1,29 +1,48 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/models/user/notification_model.dart';
+import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
+import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_states.dart';
 
 import '../../../shared/components/components.dart';
 import '../../../shared/images/images.dart';
 import '../../../shared/styles/colors.dart';
+import '../../../widgets/no_items/no_notification.dart';
+import '../widgets/shimmer/shimmer_shared.dart';
 
 class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
-
+  NotificationScreen({this.isMenu = false});
+  bool isMenu;
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<MenuCubit, MenuStates>(
+  listener: (context, state) {},
+  builder: (context, state) {
+    var cubit = MenuCubit.get(context);
     return Scaffold(
       body: Stack(
         children: [
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
           Column(
             children: [
-              defaultAppBar(context: context,title: tr('notifications')),
+              defaultAppBar(context: context,title: tr('notifications'),isMenu: isMenu),
               //NoNotification()
-              Expanded(
-                child: ListView.separated(
-                    itemBuilder: (c,i)=>itemBuilder(),
-                    padding:const EdgeInsetsDirectional.all(20),
-                    separatorBuilder: (c,i)=>const SizedBox(height: 20,),
-                    itemCount: 3
+              ConditionalBuilder(
+                condition: cubit.notificationModel!=null,
+                fallback: (context)=>const ShimmerShared(),
+                builder: (context)=> ConditionalBuilder(
+                  condition: cubit.notificationModel!.data!.data!.isNotEmpty,
+                  fallback: (context)=>NoNotification(isMenu: isMenu),
+                  builder: (context)=> Expanded(
+                    child: ListView.separated(
+                        itemBuilder: (c,i)=>itemBuilder(cubit.notificationModel!.data!.data![i]),
+                        padding:const EdgeInsetsDirectional.all(20),
+                        separatorBuilder: (c,i)=>const SizedBox(height: 20,),
+                        itemCount: cubit.notificationModel!.data!.data!.length
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -31,9 +50,11 @@ class NotificationScreen extends StatelessWidget {
         ],
       ),
     );
+  },
+);
   }
 
-  Widget itemBuilder(){
+  Widget itemBuilder(NotificationData data){
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -62,19 +83,19 @@ class NotificationScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Order',
+                        data.title??'',
                         maxLines: 1,
                         style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w500),
                       ),
                     ),
                     Text(
-                      '30 Min Ago',
+                      data.createdAt??'',
                       style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
                 Text(
-                  'Your Order Has Been Delivered',
+                  data.body??'',
                   maxLines: 5,
                 ),
               ],

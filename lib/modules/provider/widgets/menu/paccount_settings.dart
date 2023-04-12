@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../shared/components/components.dart';
@@ -7,6 +8,7 @@ import '../../../../../splash_screen.dart';
 import '../../menu/manage_product/manage_products_screen.dart';
 import '../../menu/pchat/pchat_history_screen.dart';
 import '../../menu/pedit_profile_screen.dart';
+import '../../menu/pmenu_cubit/pmenu_cubit.dart';
 
 class PAccountSettings extends StatelessWidget {
   const PAccountSettings({Key? key}) : super(key: key);
@@ -16,21 +18,13 @@ class PAccountSettings extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: ()=>navigateAndFinish(context, SplashScreen()),
-          child: Text(
-            'Sign In Now',
-            style: TextStyle(
-                color: Colors.black, fontSize: 32, fontWeight: FontWeight.w700),
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.only(top: 20.0,bottom: 40),
           child: Column(
             children: [
               itemBuilder(
                   image: Images.person,
-                  title: 'Profile info',
+                  title: tr('profile_info'),
                   onTap:  (){
                     navigateTo(context, PEditProfileScreen());
                   }
@@ -39,14 +33,20 @@ class PAccountSettings extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: itemBuilder(
                     image: Images.manageProducts,
-                    title: 'Manage Products',
-                    onTap:  ()=>navigateTo(context, ManageProductsScreen())
+                    title: tr('manage_products'),
+                    onTap:  (){
+                      PMenuCubit.get(context).getProducts();
+                      navigateTo(context, ManageProductsScreen());
+                    }
                 ),
               ),
               itemBuilder(
                   image: Images.send,
-                  title: 'Chats',
-                  onTap:  ()=>navigateTo(context, PChatHistoryScreen())
+                  title: tr('chats'),
+                  onTap:  (){
+                    PMenuCubit.get(context).chatHistory();
+                    navigateTo(context, PChatHistoryScreen(isMenu: true,));
+                  }
               ),
             ],
           ),

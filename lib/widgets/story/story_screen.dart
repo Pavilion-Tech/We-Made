@@ -17,6 +17,7 @@ class StoryScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: StoryWidget(
         stories: stories,
+        isProvider: isProvider,
       ),
     );
   }
