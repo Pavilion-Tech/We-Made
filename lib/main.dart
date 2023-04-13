@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create:  (context) => UserCubit()..checkInterNet()..getHome()..getCart(),),
         BlocProvider(create:  (context) => MenuCubit()..checkInterNet()..init()),
         BlocProvider(create:  (context) => PMenuCubit()..checkInterNet()..init(),),
-        BlocProvider(create:  (context) => ProviderCubit()..checkInterNet()..getProvider(),)
+        BlocProvider(create:  (context) => ProviderCubit()..checkInterNet()..getProvider()..getStatistics(),)
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

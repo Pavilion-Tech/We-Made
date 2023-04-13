@@ -1,4 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
@@ -36,7 +38,18 @@ class PHomeScreen extends StatelessWidget {
                       children: [
                         ProviderInfo(),
                         FilterStatistics(),
-                        Charts(),
+                        if(ProviderCubit.get(context).statisticsModel!=null)
+                        ConditionalBuilder(
+                          condition: state is! StatisticsLoadingState,
+                          fallback: (context)=>CupertinoActivityIndicator(),
+                          builder: (context)=> ConditionalBuilder(
+                            condition: ProviderCubit.get(context).statisticsModel!.data!.isNotEmpty,
+                              fallback: (context)=>Text(
+                                tr('no_statistics')
+                              ),
+                              builder: (context)=> Charts()
+                          ),
+                        ),
                         const SizedBox(height: 100,)
                       ],
                     ),

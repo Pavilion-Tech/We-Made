@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/shared/images/images.dart';
 import 'package:wee_made/widgets/default_button.dart';
+import '../../../../layouts/provider_layout/provider_cubit/provider_cubit.dart';
 import '../../../../shared/components/components.dart';
 
 class FilterStatistics extends StatefulWidget {
@@ -12,13 +13,13 @@ class FilterStatistics extends StatefulWidget {
 }
 
 class _FilterStatisticsState extends State<FilterStatistics> {
-  int? checkNum(TextEditingController controller,int index){
-    String num = controller.text.split('/')[index];
+  int? checkNum(String text,int index){
+    String num = text.split('/')[index];
     return num.length ==2 ? null: 0;
   }
 
-  String changeFormat(TextEditingController controller){
-    return'${controller.text.trim().split('/')[2]}-${checkNum(controller,0)??''}${controller.text.trim().split('/')[0]}-${checkNum(controller,1)??''}${controller.text.trim().split('/')[1]}';
+  String changeFormat(String text){
+    return'${text.trim().split('/')[2]}-${checkNum(text,0)??''}${text.trim().split('/')[0]}-${checkNum(text,1)??''}${text.trim().split('/')[1]}';
   }
 
   String? from;
@@ -67,9 +68,8 @@ class _FilterStatisticsState extends State<FilterStatistics> {
                   style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 20),
                 ),
                 const Spacer(),
-                if(from!=null)
                 Text(
-                  from!,
+                  from??'',
                   style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 14),
                 ),
               ],
@@ -95,13 +95,13 @@ class _FilterStatisticsState extends State<FilterStatistics> {
                     .add_yMd().format(value!)
                     .toString();
                 setState(() {});
-                // String startDate = changeFormat(from!);
-                // String lastDate = changeFormat(to!);
-                // print(startDate);
-                // print(lastDate);
-                // ProviderCubit.get(context).getStatistics(
-                //     from: startDate,to: lastDate
-                // );
+                String startDate = changeFormat(from!);
+                String lastDate = changeFormat(to!);
+                print(startDate);
+                print(lastDate);
+                ProviderCubit.get(context).getStatistics(
+                    from: startDate,to: lastDate
+                );
               });
             }else{
               showToast(msg: tr('choose_date_first'),toastState: true);
@@ -124,9 +124,8 @@ class _FilterStatisticsState extends State<FilterStatistics> {
                 style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 20),
               ),
               const Spacer(),
-              if(to!=null)
               Text(
-                to!,
+                to??'',
                 style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 14),
               ),
             ],

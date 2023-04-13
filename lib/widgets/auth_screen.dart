@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:wee_made/modules/auth/auth_cubit/auth_cubit.dart';
 
 import '../shared/images/images.dart';
 import '../shared/styles/colors.dart';
@@ -21,6 +23,7 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = AuthCubit.get(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
@@ -60,12 +63,31 @@ class AuthScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(Images.gmail,width: 54,),
+                            InkWell(
+                              onTap: ()async{
+                                cubit.userCredential = await cubit.signInWithGoogle();
+                                print(cubit.userCredential);
+                              },
+                                child: Image.asset(Images.gmail,width: 54,)
+                            ),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Image.asset(Images.facebook,width: 54,),
+                              child: InkWell(
+                                  onTap: ()async{
+                                    cubit.userCredential = await cubit.signInWithFacebook();
+                                    print(cubit.userCredential);
+
+                                  },
+                                  child: Image.asset(Images.facebook,width: 54,)
+                              ),
                             ),
-                            Image.asset(Images.apple,width: 54,),
+                            if(defaultTargetPlatform == TargetPlatform.iOS)
+                            InkWell(
+                              onTap: ()async{
+                                cubit.userCredential = await cubit.signInWithApple();
+                                print(cubit.userCredential);
+                              },
+                                child: Image.asset(Images.apple,width: 54,)),
                           ],
                         ),
                       ),

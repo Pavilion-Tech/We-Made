@@ -9,6 +9,11 @@ class GetProviderSuccessState extends ProviderStates{}
 class GetProviderWrongState extends ProviderStates{}
 class GetProviderErrorState extends ProviderStates{}
 
+class StatisticsLoadingState extends ProviderStates{}
+class StatisticsSuccessState extends ProviderStates{}
+class StatisticsWrongState extends ProviderStates{}
+class StatisticsErrorState extends ProviderStates{}
+
 class AddHighlightLoadingState extends ProviderStates{}
 class AddHighlightSuccessState extends ProviderStates{}
 class AddHighlightWrongState extends ProviderStates{}

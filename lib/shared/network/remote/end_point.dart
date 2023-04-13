@@ -43,4 +43,5 @@ const String providerProductUrl = 'product/all-provider-products-with-pagination
 const String deleteProductUrl = 'product/delete-product/';
 const String updateProductUrl = 'product/update-product/';
 const String sendOfferUrl = 'orders/send-offer-to-special-request';
+const String getStatisticsUrl = 'orders/orders-statistics?';
 

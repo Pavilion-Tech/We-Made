@@ -36,7 +36,6 @@ class ProductGrid extends StatelessWidget {
         shrinkWrap: true,
         padding: EdgeInsetsDirectional.only(bottom: 100),
         itemBuilder: (c,i)=>ProductItem(
-            listImages[i],
             isProvider: isProvider,
             products: products![i],
           isFav: isFav,
@@ -53,8 +52,7 @@ class ProductGrid extends StatelessWidget {
 }
 
 class ProductItem extends StatelessWidget {
-  ProductItem(this.image,{this.height = 177,required this.isProvider,this.products,this.isFav = false});
-  String image;
+  ProductItem({this.height = 177,required this.isProvider,this.products,this.isFav = false});
   double height;
   bool isProvider;
   bool isFav;

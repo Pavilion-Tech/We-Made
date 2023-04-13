@@ -15,6 +15,7 @@ import 'package:wee_made/shared/components/components.dart';
 import 'package:wee_made/shared/components/constants.dart';
 import 'package:wee_made/shared/network/remote/dio.dart';
 import '../../../models/provider/provider_model.dart';
+import '../../../models/provider/statistics_model.dart';
 import '../../../models/user/notification_model.dart';
 import '../../../models/user/order_his_model.dart';
 import '../../../models/user/order_model.dart';
@@ -53,6 +54,7 @@ class ProviderCubit extends Cubit<ProviderStates>{
   OrderHisModel? orderHisModel;
   ScrollController orderScrollController = ScrollController();
   SingleOrderModel? singleOrderModel;
+  StatisticsModel? statisticsModel;
 
 
   void checkInterNet() async {
@@ -109,6 +111,25 @@ class ProviderCubit extends Cubit<ProviderStates>{
     }).catchError((e){
       showToast(msg: tr('wrong'),toastState: false);
       emit(GetProviderErrorState());
+    });
+  }
+
+  void getStatistics({String from = '',String to = ''}){
+    emit(StatisticsLoadingState());
+    DioHelper.getData(
+        url: '$getStatisticsUrl${'start_date=$from&end_date=$to'}',
+        token: 'Bearer $token'
+    ).then((value) {
+      if(value.data['data']!=null){
+        statisticsModel = StatisticsModel.fromJson(value.data);
+        emit(StatisticsSuccessState());
+      }else{
+        showToast(msg: tr('wrong'));
+        emit(StatisticsWrongState());
+      }
+    }).catchError((e){
+      showToast(msg: tr('wrong'),toastState: false);
+      emit(StatisticsErrorState());
     });
   }
 
