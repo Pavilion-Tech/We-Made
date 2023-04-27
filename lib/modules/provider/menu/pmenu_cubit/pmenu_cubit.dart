@@ -160,6 +160,7 @@ class PMenuCubit extends Cubit<PMenuStates>{
   }
 
   void getNeighborhood(String id){
+    emit(GetNeighborhoodLoadingState());
     DioHelper.getData(
         url: '$neighborhoodUrl$id'
     ).then((value) {
@@ -271,6 +272,7 @@ class PMenuCubit extends Cubit<PMenuStates>{
         url: '$chatUrl$id',
         token: 'Bearer $token'
     ).then((value) {
+      print(value.data);
       if(value.data['data']!=null){
         chatModel = ChatModel.fromJson(value.data);
         emit(ChatSuccessState());

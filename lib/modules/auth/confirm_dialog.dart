@@ -4,6 +4,7 @@ import 'package:wee_made/layouts/provider_layout/provider_layout.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
 import 'package:wee_made/shared/components/constants.dart';
+import 'package:wee_made/shared/styles/colors.dart';
 import '../../layouts/user_layout/user_layout.dart';
 import '../../shared/components/components.dart';
 import '../../shared/images/images.dart';
@@ -36,7 +37,7 @@ class ConfirmDialog extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(Images.confirmDialog,width: 100,),
+                    Icon(Icons.check_circle,size: 100,color: defaultColor,),
                     Text(
                       tr('phone_confirmed'),
                       textAlign: TextAlign.center,

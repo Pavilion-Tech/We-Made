@@ -26,7 +26,7 @@ class PNotificationScreen extends StatelessWidget {
     var cubit = ProviderCubit.get(context);
     return Stack(
       children: [
-        Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
+        Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover),
         Column(
           children: [
             pDefaultAppBar(

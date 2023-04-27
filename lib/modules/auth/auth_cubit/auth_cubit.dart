@@ -11,6 +11,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:wee_made/layouts/provider_layout/provider_cubit/provider_cubit.dart';
 import 'package:wee_made/modules/auth/auth_cubit/auth_states.dart';
 import 'package:wee_made/shared/components/components.dart';
 import 'package:wee_made/shared/network/local/cache_helper.dart';
@@ -196,6 +197,11 @@ class AuthCubit extends Cubit<AuthStates>{
             UserCubit.get(context).getCart();
             MenuCubit.get(context).init();
           }
+        }else{
+          if(ProviderCubit.get(context).providerModel!=null){
+            ProviderCubit.get(context).getProvider();
+            ProviderCubit.get(context).getStatistics();
+          }
         }
         CacheHelper.saveData(key: 'userType', value: userType);
         CacheHelper.saveData(key: 'token', value: token);
@@ -249,6 +255,7 @@ class AuthCubit extends Cubit<AuthStates>{
   }
 
   void getNeighborhood(String id){
+    emit(GetNeighborhoodLoadingState());
     DioHelper.getData(
         url: '$neighborhoodUrl$id'
     ).then((value) {
@@ -341,5 +348,40 @@ class AuthCubit extends Cubit<AuthStates>{
     // not match the nonce in `appleCredential.identityToken`, sign in will fail.
     return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
   }
+
+  void socialLog(BuildContext context){
+    emit(SocialLoadingState());
+    DioHelper.postData(
+        url:socialLogUrl,
+        lang: myLocale,
+        data: {
+          'email':userCredential!.user!.email??'',
+          'name':userCredential!.user!.displayName??'',
+          'social_id':userCredential!.user!.uid,
+        }
+    ).then((value) {
+      print(value.data);
+      if(value.data['data']!=null){
+        token = value.data['data']['token'];
+        if(UserCubit.get(context).homeModel!=null){
+          UserCubit.get(context).getHome();
+          UserCubit.get(context).getCart();
+          MenuCubit.get(context).init();
+        }
+        userType = 'user';
+        CacheHelper.saveData(key: 'userType', value: userType);
+        CacheHelper.saveData(key: 'token', value: token);
+        emit(SocialSuccessState());
+      }else{
+        showToast(msg: value.data['message']);
+        emit(SocialWrongState());
+      }
+    }).catchError((e){
+      print(e.toString());
+      showToast(msg: tr('wrong'));
+      emit(SocialErrorState());
+    });
+  }
+
 
 }

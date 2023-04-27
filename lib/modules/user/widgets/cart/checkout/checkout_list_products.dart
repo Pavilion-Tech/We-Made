@@ -49,7 +49,7 @@ class CheckoutItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cart.providerName??'',
+                  cart.productTitle??'',
                   maxLines: 1,
                   style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700),
                 ),

@@ -20,7 +20,7 @@
   "dont_have_account":"Already have an account?",
   "verify":"Verify",
   "try_again":"Try Again",
-  "phone_confirmed":"Your Phone Number Has Been Confirmed",
+  "phone_confirmed":"Your Email Address Has Been Confirmed",
   "done":"Done",
   "search_by_product":"Search with product or family",
   "by_price":"By Price",
@@ -175,6 +175,10 @@
   "send_offer": "Send Offer",
   "remove_date": "REMOVE DATE",
   "image_size": "Image Size Should Lower than 5 MB",
-  "no_statistics": "No Statistics For This Result"
+  "no_statistics": "No Statistics For This Result",
+  "discount_empty": "Coupon Discount Must Not Be Empty",
+  "offer_sent": "Offer Sent",
+  "pay": "Pay",
+  "no_chat": "No Chats Yet"
 }
 

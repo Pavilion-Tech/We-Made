@@ -67,7 +67,10 @@ class ChangeLangBottomSheet extends StatelessWidget {
                         context.setLocale(Locale(myLocale));
                         CacheHelper.saveData(key: 'locale', value: myLocale);
                         if(isProvider)navigateAndFinish(context, ProviderLayout());
-                        else navigateAndFinish(context, UserLayout());
+                        else {
+                          UserCubit.get(context).getHome();
+                          navigateAndFinish(context, UserLayout());
+                        }
                       }
                   )
               ),

@@ -65,7 +65,6 @@ class Images{
   static const String splashLogo = 'assets/images/splash_logo.m4v';
   static const String notificationYes = 'assets/images/notification_yes.png';
   static const String notificationNo = 'assets/images/notification_no.png';
-  static const String addYes = 'assets/images/add_yes.png';
   static const String addNo = 'assets/images/add_no.png';
   static const String orderYes = 'assets/images/order_yes.png';
   static const String orderNo = 'assets/images/order_no.png';

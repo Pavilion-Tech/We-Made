@@ -56,8 +56,8 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
       productDescC.text = widget.products!.description??'';
       quantityC.text = widget.products!.quantity.toString()??'';
       weightC.text = widget.products!.weight??'';
-      priceC.text = widget.products!.priceAfterDicount.toString()??'';
-      priceAfterDiscountC.text = widget.products!.priceBeforeDiscount.toString()??'';
+      priceC.text = widget.products!.priceBeforeDiscount.toString()??'';
+      priceAfterDiscountC.text = widget.products!.priceAfterDicount.toString()??'';
       ProviderCubit.get(context).categoryValue = widget.products!.categoryId;
 
     }
@@ -81,7 +81,7 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
                 title: widget.isEdit ? tr('edit_product') : tr('add_product'),
                 haveArrow: widget.isEdit,
                 action: Image.asset(
-                  Images.manageProducts,
+                  Images.add,
                   width: 20,
                 )),
             Expanded(

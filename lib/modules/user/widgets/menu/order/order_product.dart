@@ -55,7 +55,7 @@ class OrderItem extends StatelessWidget {
                   style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  '${product.totalRate} AED',
+                  '${product.priceAfterDicount} AED',
                   style: TextStyle(color: defaultColor,fontSize: 25,fontWeight: FontWeight.w700),
                 ),
                 Text(

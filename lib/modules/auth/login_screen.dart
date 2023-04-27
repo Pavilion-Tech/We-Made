@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wee_made/layouts/user_layout/user_layout.dart';
 import 'package:wee_made/modules/auth/auth_cubit/auth_cubit.dart';
 import 'package:wee_made/modules/auth/auth_cubit/auth_states.dart';
 import 'package:wee_made/modules/intro/join_us_screen.dart';
@@ -38,10 +39,14 @@ class LoginScreen extends StatelessWidget {
               builder: (context) => VerificationSheet()
           );
         }
+        if(state is SocialSuccessState){
+          navigateAndFinish(context, UserLayout());
+        }
       },
       builder: (context, state) {
         var cubit = AuthCubit.get(context);
         return AuthScreen(
+          haveSocial: true,
           title: tr('sign_in'),
           haveArrow: haveArrow,
           lastText: tr('register_now'),

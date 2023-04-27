@@ -37,7 +37,7 @@ class PChatHistoryScreen extends StatelessWidget {
                 fallback: (context)=>const ShimmerShared(),
                 builder: (context)=> ConditionalBuilder(
                   condition: cubit.chatHisModel!.data!.isNotEmpty,
-                  fallback: (context)=>Expanded(child: NoProduct(isProduct: isMenu)),
+                  fallback: (context)=>Expanded(child: NoProduct(isChat: false)),
                   builder: (context)=> Expanded(
                     child: ListView.separated(
                         itemBuilder: (c,i)=>PChatHistoryItem(cubit.chatHisModel!.data![i]),

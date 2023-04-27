@@ -56,9 +56,9 @@ class DefaultForm extends StatelessWidget {
       decoration: InputDecoration(
         border:OutlineInputBorder(borderRadius: BorderRadius.circular(radius)),
         focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(radius),borderSide: BorderSide(color: defaultColor)),
-        hintText: hint,
+        labelText: hint,
         suffixIcon: suffix,
-        hintStyle: TextStyle(color: Colors.grey.shade500,fontSize: 15),
+        labelStyle: TextStyle(color: Colors.grey.shade500,fontSize: 15),
         prefixIcon: Padding(
           padding: const EdgeInsets.all(14.0),
           child: prefix,

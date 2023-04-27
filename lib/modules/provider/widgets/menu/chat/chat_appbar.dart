@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wee_made/modules/provider/menu/pmenu_cubit/pmenu_cubit.dart';
@@ -22,25 +23,32 @@ class PChatAppBar extends StatelessWidget {
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: InkWell(
-            onTap: (){
-              showDialog(
-                  context: context,
-                  builder: (context)=>SendOfferDialog(PMenuCubit.get(context).chatModel!.data!.id??'')
-              );
-            },
-            child: Container(
-              height: 41,
-              decoration: BoxDecoration(
-                color: defaultColor,
-                borderRadius: BorderRadiusDirectional.circular(12),
-              ),
-              alignment: AlignmentDirectional.center,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                tr('send_offer'),
-                style:const TextStyle(
-                    color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500
+          child: ConditionalBuilder(
+            condition: PMenuCubit.get(context).chatModel!.data!.specialRequestOffer==null,
+            fallback: (context)=>Text(
+              tr('offer_sent'),
+              style: TextStyle(color:Colors.black,height: 3,fontSize: 16),
+            ),
+            builder: (context)=> InkWell(
+              onTap: (){
+                showDialog(
+                    context: context,
+                    builder: (context)=>SendOfferDialog(PMenuCubit.get(context).chatModel!.data!.id??'')
+                );
+              },
+              child: Container(
+                height: 41,
+                decoration: BoxDecoration(
+                  color: defaultColor,
+                  borderRadius: BorderRadiusDirectional.circular(12),
+                ),
+                alignment: AlignmentDirectional.center,
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  tr('send_offer'),
+                  style:const TextStyle(
+                      color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500
+                  ),
                 ),
               ),
             ),

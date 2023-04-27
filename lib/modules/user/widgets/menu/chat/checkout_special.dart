@@ -56,7 +56,7 @@ class CheckoutSpecial extends StatelessWidget {
                           HaveDiscount(),
                           Invoice(
                             subTotal: '',
-                            totalPrice:offer,
+                            totalPrice:offer.toString(),
                             tax: '',
                           ),
                           Padding(

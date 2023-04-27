@@ -140,7 +140,7 @@ class UserCubit extends Cubit<UserStates>{
         lang: myLocale,
       token: token!=null?'Bearer $token':null
     ).then((value){
-      print(value.data);
+      print(value.data['data']['products']);
       if(value.data['data']!=null){
         homeModel = HomeModel.fromJson(value.data);
         takeFav(homeModel!.data!.products!);

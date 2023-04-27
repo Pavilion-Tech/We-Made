@@ -6,6 +6,7 @@ import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
 import 'package:wee_made/modules/auth/login_screen.dart';
 import 'package:wee_made/modules/user/widgets/shimmer/product_shimmer.dart';
+import 'package:wee_made/widgets/image_screen.dart';
 import 'package:wee_made/widgets/no_items/no_product.dart';
 import '../../../models/user/home_model.dart';
 import '../../../shared/components/components.dart';
@@ -64,9 +65,21 @@ class _StoreScreenState extends State<StoreScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                          child: ImageNet(
-                            image:widget.providerId.personalPhoto??'',height: 230,width: 250,)),
+                      InkWell(
+                        onTap:(){
+                          navigateTo(context, ImageScreen(widget.providerId.personalPhoto??''));
+                        },
+                        child: Center(
+                            child: Container(
+                              height: 230,width: 250,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle
+                              ),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: ImageNet(image:widget.providerId.personalPhoto??'',),
+                            )
+                        ),
+                      ),
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
@@ -181,7 +194,11 @@ class _StoreScreenState extends State<StoreScreen> {
                               ),
                              ConditionalBuilder(
                                condition: UserCubit.get(context).providerProductsModel!=null,
-                                 fallback: (context)=>ProductShimmer(),
+                                 fallback: (context)=>ConditionalBuilder(
+                                     condition: state is! ProviderProductsLoadingState,
+                                     builder: (context)=>const SizedBox(),
+                                     fallback: (context)=>ProductShimmer()
+                                 ),
                                  builder: (context)=> ConditionalBuilder(
                                    condition: UserCubit.get(context).providerProductsModel!.data!.data!.isNotEmpty,
                                      fallback: (context)=>NoProduct(),

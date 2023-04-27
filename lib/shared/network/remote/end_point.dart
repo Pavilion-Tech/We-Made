@@ -44,4 +44,5 @@ const String deleteProductUrl = 'product/delete-product/';
 const String updateProductUrl = 'product/update-product/';
 const String sendOfferUrl = 'orders/send-offer-to-special-request';
 const String getStatisticsUrl = 'orders/orders-statistics?';
+const String socialLogUrl = 'user/social-login';
 

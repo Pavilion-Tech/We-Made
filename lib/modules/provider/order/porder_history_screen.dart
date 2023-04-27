@@ -31,7 +31,7 @@ class POrderHistoryScreen extends StatelessWidget {
           children: [
             pDefaultAppBar(
                 context: context,title:tr('order_history'),haveArrow: false,
-                action: Image.asset(Images.manageProducts,width: 20,)
+                action: Image.asset(Images.manageProducts,width: 20, color: defaultColor)
             ),
             ConditionalBuilder(
               condition: cubit.orderHisModel!=null,

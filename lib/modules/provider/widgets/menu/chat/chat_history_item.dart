@@ -26,7 +26,7 @@ class PChatHistoryItem extends StatelessWidget {
               color: Colors.grey.shade400
             ),
             child: Text(
-              '${data.providerName!.characters.first}',
+              '${data.userName!.characters.first}',
               style: TextStyle(color: Colors.black,fontSize: 50,height: 1.5),
             ),
           ),

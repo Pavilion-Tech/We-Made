@@ -123,24 +123,6 @@ class MenuCubit extends Cubit<MenuStates>{
     }
   }
 
-  void getUser(){
-    if(token!=null)
-    DioHelper.getData(
-        url: '$getUserUrl$userId',
-        token: 'Bearer $token'
-    ).then((value) {
-      if(value.data['data']!=null){
-        // addressesModel = AddressesModel.fromJson(value.data);
-        emit(GetUserSuccessState());
-      }else if(value.data['message']!=null){
-        showToast(msg: value.data['message']);
-        emit(GetUserWrongState());
-      }
-    }).catchError((e){
-      showToast(msg: tr('wrong'),toastState: false);
-      emit(GetUserErrorState());
-    });
-  }
 
   void updateUser({
   required String phone,
@@ -172,11 +154,16 @@ class MenuCubit extends Cubit<MenuStates>{
     ).then((value) {
       if(value.data['status']==true){
         profileImage = null;
+        userData();
         showToast(msg: value.data['message']);
-        getUser();
         emit(UpdateProfileSuccessState());
       }else{
-        showToast(msg: tr('wrong'));
+        if(value.data['message']!=null){
+          showToast(msg: value.data['message']);
+        }else{
+          showToast(msg: tr('wrong'));
+          emit(UpdateProfileWrongState());
+        }
         emit(UpdateProfileWrongState());
       }
     }).catchError((e){
@@ -558,6 +545,7 @@ class MenuCubit extends Cubit<MenuStates>{
         url: '$chatUrl$id',
         token: 'Bearer $token'
     ).then((value) {
+      print(value.data);
       if(value.data['data']!=null){
         chatModel = ChatModel.fromJson(value.data);
         emit(ChatSuccessState());

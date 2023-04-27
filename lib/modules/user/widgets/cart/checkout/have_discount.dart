@@ -39,7 +39,7 @@ class HaveDiscount extends StatelessWidget {
                       hint: tr('enter_discount'),
                     controller: couponController,
                     validator: (val) {
-                      if (val.isEmpty) return 'Discount Must Not Be Empty';
+                      if (val.isEmpty) return tr('discount_empty');
                     },
                   ),
                 ),

@@ -24,8 +24,8 @@ class _CategorStoreyWidgetState extends State<CategorStoreyWidget> {
   void initState() {
     UserCubit.get(context).currentCategory = widget.categoryData[0].title??'';
     UserCubit.get(context).getProductProvider(
-        widget.categoryData[0].id??'',
-      widget.providerId
+      widget.providerId,
+        widget.categoryData[0].id??''
     );
     super.initState();
   }

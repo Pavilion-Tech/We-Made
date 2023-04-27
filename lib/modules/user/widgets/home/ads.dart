@@ -53,16 +53,18 @@ class ADSItem extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     ad.title??'',
-                    maxLines: 1,
-                    style: TextStyle(color: Colors.black,fontSize: 32,fontWeight: FontWeight.w500),
+                    maxLines: 2,
+                    style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w500,height: 1.2),
                   ),
+                  const SizedBox(height: 10,),
                   Text(
                     ad.description??'',
                     maxLines: 2,
-                    style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600,height: 1),
+                    style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600,height: 1.2),
                   ),
                   const SizedBox(height: 10,),
                   if(ad.type==2)

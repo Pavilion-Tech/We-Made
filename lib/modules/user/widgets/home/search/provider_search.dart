@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wee_made/modules/user/store/store_screen.dart';
 import 'package:wee_made/shared/components/components.dart';
 
+import '../../../../../layouts/user_layout/user_cubit/user_cubit.dart';
 import '../../../../../models/user/home_model.dart';
 import '../../../../../models/user/provider_item_model.dart';
 import '../../../../../shared/components/constants.dart';
@@ -39,6 +40,9 @@ class ProviderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
+        UserCubit.get(context).providerProductsModel = null;
+        UserCubit.get(context).currentCategory='';
+        UserCubit.get(context).emitState();
         navigateTo(context, StoreScreen(provider));
       },
       child: Container(

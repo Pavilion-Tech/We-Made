@@ -42,7 +42,7 @@ class AccountSettings extends StatelessWidget {
             title: tr('order_history'),
             onTap:  (){
               MenuCubit.get(context).getAllOrder();
-              navigateTo(context, OrderHistoryScreen());
+              navigateTo(context, OrderHistoryScreen(isMenu: true,));
             }
         ),
         Padding(

@@ -14,7 +14,9 @@ import '../menu_cubit/menu_states.dart';
 import 'order_details_screen.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
-  const OrderHistoryScreen({Key? key}) : super(key: key);
+  OrderHistoryScreen({this.isMenu = false});
+  bool isMenu;
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class OrderHistoryScreen extends StatelessWidget {
           Image.asset(Images.backGround,width: double.infinity,fit: BoxFit.cover,),
           Column(
             children: [
-              defaultAppBar(context: context,title:tr('order_history'),isMenu: true),
+              defaultAppBar(context: context,title:tr('order_history'),isMenu: isMenu),
               ConditionalBuilder(
                 condition: cubit.orderHisModel!=null,
                 fallback: (context)=>const ShimmerShared(),

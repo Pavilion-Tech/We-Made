@@ -93,7 +93,7 @@ class ProductItem extends StatelessWidget {
               ),
             ),
             Text(
-              products!.title??'',
+              products!.titleEn??'',
               maxLines: 1,
               style:const TextStyle(fontSize: 15),
             ),

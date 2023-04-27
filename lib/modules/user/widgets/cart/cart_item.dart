@@ -36,7 +36,7 @@ class CartItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cart.providerName??'',
+                  cart.productTitle??'',
                   maxLines: 1,
                   style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w700),
                 ),
@@ -48,8 +48,7 @@ class CartItem extends StatelessWidget {
                       style: TextStyle(color: defaultColor,fontSize: 25,fontWeight: FontWeight.w700),
                     ),
                     const Spacer(),
-                    state is! DeleteCartLoadingState
-                        &&UserCubit.get(context).cartId != cart.id?
+                    UserCubit.get(context).cartId != cart.id?
                     InkWell(
                       onTap: (){
                         showDialog(
@@ -80,8 +79,7 @@ class CartItem extends StatelessWidget {
                     Icon(Icons.star,color: defaultColor,)
                   ],
                 ),
-                state is! UpdateCartLoadingState
-                    &&UserCubit.get(context).cartId != cart.id?
+                UserCubit.get(context).cartId != cart.id?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

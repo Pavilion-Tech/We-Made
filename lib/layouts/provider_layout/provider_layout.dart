@@ -55,19 +55,19 @@ class ProviderLayout extends StatelessWidget {
                       Images.homeNo, width: 20,
                       height: 20,
                       color: Colors.grey,),
-                    'activeIcon': Image.asset(Images.homeYes, width: 30),
+                    'activeIcon': Image.asset(Images.homeYes, width: 30,color: defaultColor,),
                   },
                   {
                     'icon':
                     Image.asset(
                         Images.notificationNo, width: 20, height: 20),
                     'activeIcon':
-                    Image.asset(Images.notificationYes, width: 30,),
+                    Image.asset(Images.notificationYes, width: 30,color: defaultColor,),
                   },
                   {
                     'icon': Image.asset(Images.addNo, width: 20, height: 20),
                     'activeIcon':
-                    Image.asset(Images.addYes, width: 30,),
+                    Image.asset(Images.add, width: 30,),
                   },
                   {
                     'icon': Image.asset(Images.orderNo, width: 20, height: 20),

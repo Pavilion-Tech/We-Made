@@ -49,7 +49,6 @@ class PHomeAppBar extends StatelessWidget {
               ],
 
             ),
-            //const SizedBox(height: ,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -79,6 +78,7 @@ class PHomeAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
+                if(ProviderCubit.get(context).providerModel!.data!.stories!.stories!=null)
                 Expanded(
                     child: ListStories(
                       color: Colors.transparent,

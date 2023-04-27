@@ -96,17 +96,10 @@ class _StoryWidgetState extends State<StoryWidget>
                       horizontal: 1.5,
                       vertical: 10.0,
                     ),
-                    child: InkWell(
-                      onTap: (){
-                       // WafrCubit.get(context).getStore(story.id??'');
-                       // WafrCubit.get(context).getStoryProducts(story.id??'');
-                       // navigateTo(context, StoreScreen());
-                      },
-                      child: UserInfo(user: User(
-                          name: story.storeName??'',
-                          profileImageUrl: story.providerStoryThumbnail??''
-                      )),
-                    ),
+                    child: UserInfo(user: User(
+                        name: story.storeName??'',
+                        profileImageUrl: story.providerStoryThumbnail??''
+                    )),
                   ),
                   Row(
                     children: widget.stories.stories!
@@ -130,7 +123,7 @@ class _StoryWidgetState extends State<StoryWidget>
             if(!widget.isProvider)
               Align(
               alignment: AlignmentDirectional.bottomCenter,
-                child:  SeeMore(widget.stories.id??''))
+                child:  SeeMore(widget.stories.id??'',_animController!))
           ],
         ),
       ),
@@ -206,9 +199,10 @@ class _StoryWidgetState extends State<StoryWidget>
 }
 
 class SeeMore extends StatefulWidget {
-  SeeMore(this.id);
+  SeeMore(this.id,this.animController);
 
   String id;
+  AnimationController animController;
 
   @override
   State<SeeMore> createState() => _SeeMoreState();
@@ -234,7 +228,12 @@ class _SeeMoreState extends State<SeeMore> {
             onTap: (){
               setState(() {
                 isOpen = !isOpen;
-                if(isOpen)cubit.getProductProvider(widget.id,'');
+                if(isOpen){
+                  widget.animController.stop();
+                  cubit.getProductProvider(widget.id,'');
+                }else{
+                  widget.animController.reset();
+                }
               });
             },
             child: Row(
@@ -248,7 +247,7 @@ class _SeeMoreState extends State<SeeMore> {
                 const Spacer(),
                 state is! ProviderProductsLoadingState ?Icon(
                   isOpen?Icons.arrow_drop_down:Icons.arrow_drop_up,
-                  color: Colors.white,):const CircularProgressIndicator()
+                  color: Colors.white,):const CircularProgressIndicator(color: Colors.white,)
               ],
             ),
           ),

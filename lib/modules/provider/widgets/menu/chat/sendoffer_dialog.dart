@@ -37,6 +37,7 @@ class SendOfferDialog extends StatelessWidget {
                   DefaultForm(
                       controller: controller,
                       hint: tr('price'),
+                    type: TextInputType.number,
                     validator: (str){
                         if(str.isEmpty)return tr('price_empty');
                     },

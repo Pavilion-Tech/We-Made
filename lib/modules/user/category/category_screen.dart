@@ -51,7 +51,7 @@ class CategoryScreen extends StatelessWidget {
                             ConditionalBuilder(
                               condition: cubit.categoryModel!.data!.isNotEmpty,
                                 fallback: (context)=>NoProduct(),
-                                builder: (context)=> Expanded(child: ProductGrid(padding: 0,products: cubit.categoryModel!.data!,)))
+                                builder: (context)=> Expanded(child: ProductGrid(padding: 0,products: cubit.categoryModel!.data!,isScroll: false,)))
                           ],
                         ),
                       ),

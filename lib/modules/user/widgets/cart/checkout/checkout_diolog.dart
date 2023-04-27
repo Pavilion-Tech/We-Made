@@ -24,7 +24,7 @@ class CheckoutDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(Images.confirmDialog,width: 82,height: 82,),
+            Image.asset(Images.cartYes,width: 82,height: 82,color: defaultColor,),
             const SizedBox(height: 25,),
             Text(
             tr('order_added'),

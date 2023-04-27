@@ -49,6 +49,7 @@ class GetCitiesSuccessState extends PMenuStates{}
 class GetCitiesWrongState extends PMenuStates{}
 class GetCitiesErrorState extends PMenuStates{}
 
+class GetNeighborhoodLoadingState extends PMenuStates{}
 class GetNeighborhoodSuccessState extends PMenuStates{}
 class GetNeighborhoodWrongState extends PMenuStates{}
 class GetNeighborhoodErrorState extends PMenuStates{}
