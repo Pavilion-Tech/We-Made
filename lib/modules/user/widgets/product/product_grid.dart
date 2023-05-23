@@ -59,6 +59,7 @@ class ProductItem extends StatelessWidget {
   Products? products;
   @override
   Widget build(BuildContext context) {
+    print(products!.images!);
     return InkWell(
       onTap: (){
         if(!isProvider)navigateTo(context, ProductScreen(products!));
@@ -81,7 +82,7 @@ class ProductItem extends StatelessWidget {
               child: Stack(
                 alignment: AlignmentDirectional.topEnd,
                 children: [
-                  Center(child: ImageNet(image:products!.images!.isNotEmpty?products!.images![0]:'',width: 124,height: 124,)),
+                  Center(child: ImageNet(image:products!.images!.isNotEmpty?products!.images![0]!=null?products!.images![0]!:'':'',width: 124,height: 124,)),
                   if(isFav)
                   IconButton(
                       onPressed: (){

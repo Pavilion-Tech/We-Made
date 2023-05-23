@@ -54,6 +54,9 @@ class CheckoutScreen extends StatelessWidget {
                           chooseAddress,
                           HaveDiscount(),
                           Invoice(
+                            isCheckout: true,
+                            discount: cubit.couponModel?.data?.discountValue,
+                            type: cubit.couponModel?.data?.discountType,
                             subTotal: cubit.cartModel!.data!.invoiceSummary!.subTotalPrice.toString(),
                             totalPrice: cubit.cartModel!.data!.invoiceSummary!.totalPrice.toString(),
                             tax: cubit.cartModel!.data!.invoiceSummary!.shippingCharges.toString(),

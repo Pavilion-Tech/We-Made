@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
 
+import '../../../../../shared/components/components.dart';
 import '../../../../../shared/styles/colors.dart';
 import '../../../../../widgets/default_form.dart';
 
 class HaveDiscount extends StatelessWidget {
   HaveDiscount({Key? key}) : super(key: key);
-  TextEditingController couponController = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -37,7 +37,7 @@ class HaveDiscount extends StatelessWidget {
                 Expanded(
                   child: DefaultForm(
                       hint: tr('enter_discount'),
-                    controller: couponController,
+                    controller: UserCubit.get(context).couponController,
                     validator: (val) {
                       if (val.isEmpty) return tr('discount_empty');
                     },
@@ -47,7 +47,13 @@ class HaveDiscount extends StatelessWidget {
                 state is! CouponLoadingState? TextButton(
                     onPressed: (){
                       if (formKey.currentState!.validate()) {
-                        UserCubit.get(context).coupon(couponController.text.trim());
+                        if(UserCubit.get(context).couponModel==null){
+                          UserCubit.get(context).coupon(
+                              UserCubit.get(context).couponController.text.trim()
+                          );
+                        }else{
+                          showToast(msg: tr('you_have_discount'));
+                        }
                       }
                     },
                     child: Text(

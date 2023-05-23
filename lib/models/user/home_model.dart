@@ -113,7 +113,7 @@ class Products {
   int? totalRate;
   bool? isFavorited;
   //List<Null>? reviews;
-  List<String>? images;
+  List<String?>? images;
 
 
   Products.fromJson(Map<String, dynamic> json) {
@@ -141,7 +141,7 @@ class Products {
     //     reviews!.add(new Null.fromJson(v));
     //   });
     // }
-    images = json['images'].cast<String>();
+    images = json['images'].cast<String?>();
   }
 
 }

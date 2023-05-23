@@ -48,7 +48,7 @@ class ChatHistoryItem extends StatelessWidget {
                       ?data.lastMessage!.message??''
                       :data.lastMessage!.messageType == 2
                       ? 'Sent Image'
-                      : 'Sent Voice',
+                      : '',
                   maxLines: 3,
                   style: TextStyle(fontSize: 9),
                 ),

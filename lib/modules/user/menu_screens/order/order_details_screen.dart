@@ -81,6 +81,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     if(cubit.singleOrderModel!.data!.products!.isNotEmpty)
                     OrderListProducts(cubit.singleOrderModel!.data!.products!),
                     Invoice(
+                      type: cubit.singleOrderModel?.data?.discountType,
+                      discount: cubit.singleOrderModel?.data?.discountValue,
                       subTotal: cubit.singleOrderModel!.data!.subTotalPrice.toString(),
                       tax: cubit.singleOrderModel!.data!.shippingCharges.toString(),
                       totalPrice: cubit.singleOrderModel!.data!.totalPrice.toString(),

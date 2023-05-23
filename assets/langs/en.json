@@ -179,6 +179,9 @@
   "discount_empty": "Coupon Discount Must Not Be Empty",
   "offer_sent": "Offer Sent",
   "pay": "Pay",
-  "no_chat": "No Chats Yet"
+  "no_chat": "No Chats Yet",
+  "discount": "Discount",
+  "you_have_discount": "You Already Have Discount"
+
 }
 

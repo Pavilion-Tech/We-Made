@@ -27,7 +27,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     cu.emit(LoadImageState());
     if(widget.products.images!.isNotEmpty){
       for (var image in widget.products.images!) {
-        cu.addImageToList(image,widget.products.images!.length);
+        cu.addImageToList(image??'',widget.products.images!.length);
       }
     }else{
       cu.justEmit();

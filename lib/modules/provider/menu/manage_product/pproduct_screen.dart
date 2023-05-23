@@ -52,12 +52,12 @@ class _PProductScreenState extends State<PProductScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: ImageNet(image:widget.products.images!.isNotEmpty?widget.products.images![currentIndex]:'',height: 230,width: 250,)),
+                      Center(child: ImageNet(image:widget.products.images!.isNotEmpty?widget.products.images![currentIndex]!=null?widget.products.images![currentIndex]!:'':'',height: 230,width: 250,)),
                       const SizedBox(height: 30,),
                       SizedBox(
                         height: 20,
                         child: ListView.separated(
-                          itemBuilder: (c,i)=>chooseColor(i,widget.products.images![i]),
+                          itemBuilder: (c,i)=>chooseColor(i,widget.products.images![i]!=null?widget.products.images![i]!:''),
                           separatorBuilder: (c,i)=>const SizedBox(width: 15,),
                           itemCount: widget.products.images!.length,
                           scrollDirection: Axis.horizontal,

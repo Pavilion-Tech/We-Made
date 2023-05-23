@@ -55,6 +55,9 @@ class CheckoutSpecial extends StatelessWidget {
                           chooseAddress,
                           HaveDiscount(),
                           Invoice(
+                            isCheckout: true,
+                            discount: cubit.couponModel?.data?.discountValue,
+                            type: cubit.couponModel?.data?.discountType,
                             subTotal: '',
                             totalPrice:offer.toString(),
                             tax: '',

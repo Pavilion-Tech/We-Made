@@ -86,14 +86,14 @@ class _ProductScreenState extends State<ProductScreen> {
                     children: [
                       InkWell(
                         onTap:(){
-                          navigateTo(context, ImageScreen(widget.products.images!.isNotEmpty?widget.products.images![currentIndex]:''));
+                          navigateTo(context, ImageScreen(widget.products.images!.isNotEmpty?widget.products.images![currentIndex]!=null?widget.products.images![currentIndex]!:'':''));
                         },
-                          child: Center(child: ImageNet(image:widget.products.images!.isNotEmpty?widget.products.images![currentIndex]:'',height: 230,width: 250,))),
+                          child: Center(child: ImageNet(image:widget.products.images!.isNotEmpty?widget.products.images![currentIndex]!=null?widget.products.images![currentIndex]!:'':'',height: 230,width: 250,))),
                       const SizedBox(height: 30,),
                       SizedBox(
                         height: 60,
                         child: ListView.separated(
-                            itemBuilder: (c,i)=>chooseColor(i,widget.products.images![i]),
+                            itemBuilder: (c,i)=>chooseColor(i,widget.products.images![i]!=null?widget.products.images![i]!:''),
                             separatorBuilder: (c,i)=>const SizedBox(width: 15,),
                             itemCount: widget.products.images!.length,
                           scrollDirection: Axis.horizontal,

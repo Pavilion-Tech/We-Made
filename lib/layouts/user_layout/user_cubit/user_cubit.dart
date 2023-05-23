@@ -13,6 +13,7 @@ import 'package:wee_made/shared/network/remote/dio.dart';
 
 import '../../../models/user/cart_model.dart';
 import '../../../models/user/category_model.dart';
+import '../../../models/user/coupon_model.dart';
 import '../../../models/user/fav_model.dart';
 import '../../../models/user/provider_products_model.dart';
 import '../../../models/user/search_model.dart';
@@ -52,6 +53,11 @@ class UserCubit extends Cubit<UserStates>{
   String? currentCategory;
 
   ProviderProductsModel? providerProductsModel;
+
+  TextEditingController couponController = TextEditingController();
+
+  CouponModel? couponModel;
+
 
 
   void emitState()=>emit(EmitState());
@@ -306,6 +312,11 @@ class UserCubit extends Cubit<UserStates>{
       'user_longitude':lng,
       'user_latitude':lat,
     };
+    if(couponModel!=null){
+      map.addAll({
+        'coupoun_code':couponController.text
+      });
+    }
     for (int i = 0;  i < carts.length;i++){
       map.addAll({
         "products[$i][product_id]":carts[i].productId??'',
@@ -326,6 +337,8 @@ class UserCubit extends Cubit<UserStates>{
     ).then((value) {
       print(value.data);
       if(value.data['status'] == true){
+        couponController.text = '';
+        couponModel = null;
         showToast(msg: value.data['message']);
         emit(CheckoutSuccessState());
         getCart();
@@ -493,6 +506,7 @@ class UserCubit extends Cubit<UserStates>{
       if(value.data['data']!=null){
         showToast(msg: value.data['message']);
         if(value.data['data']['is_applied']==true){
+          couponModel = CouponModel.fromJson(value.data);
           emit(CouponSuccessState());
         }else{
           emit(CouponWrongState());

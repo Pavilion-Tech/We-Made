@@ -30,6 +30,8 @@ class SingleOrderData {
   int? shippingCharges;
   int? totalPrice;
   String? createdAt;
+  dynamic discountValue;
+  int? discountType;
 
 
   SingleOrderData.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,8 @@ class SingleOrderData {
     shippingCharges = json['shipping_charges'];
     totalPrice = json['total_price'];
     createdAt = json['created_at'];
+    discountValue = json['discount_value'];
+    discountType = json['discount_type'];
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:wee_made/layouts/user_layout/user_layout.dart';
 import '../../shared/components/components.dart';
 import '../../shared/components/constants.dart';
 import '../../shared/images/images.dart';
@@ -98,7 +99,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     if(isLast){
                       intro = true;
                       CacheHelper.saveData(key: 'intro', value: intro);
-                      navigateAndFinish(context, JoinUsScreen());
+                      navigateAndFinish(context, UserLayout());
                     }else{
                       controller.animateTo(controller.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.easeInBack);
                     }
