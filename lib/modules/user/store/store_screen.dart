@@ -2,9 +2,11 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_cubit.dart';
 import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
 import 'package:wee_made/modules/auth/login_screen.dart';
+import 'package:wee_made/modules/user/widgets/menu/chat/voice_dialog.dart';
 import 'package:wee_made/modules/user/widgets/shimmer/product_shimmer.dart';
 import 'package:wee_made/widgets/image_screen.dart';
 import 'package:wee_made/widgets/no_items/no_product.dart';
@@ -117,10 +119,16 @@ class _StoreScreenState extends State<StoreScreen> {
                                   InkWell(
                                       onTap: () async {
                                         if(token!=null){
-                                          showDialog(
-                                              context: context,
-                                              builder: (context)=>SpecialDialog(widget.providerId.id??'')
-                                          );
+                                          var status = await Permission.microphone.request();
+                                          if (status != PermissionStatus.granted) {
+                                            showToast(msg: 'Microphone permission not granted');
+                                            await openAppSettings();
+                                          } else {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) => VoiceDialog(widget.providerId.id??'')
+                                            );
+                                          }
                                         }else{
                                           navigateTo(context, LoginScreen(haveArrow: true,));
                                         }

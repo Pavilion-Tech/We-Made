@@ -71,7 +71,6 @@ class _VoiceDialogState extends State<SpecialDialog> {
                             MenuCubit.get(context).askForRequest(
                                 id: widget.id,
                                 file: File(''),
-                              context:context,
                             );
                           }
                       ):CupertinoActivityIndicator(),

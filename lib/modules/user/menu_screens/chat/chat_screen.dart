@@ -5,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_states.dart';
-
-import '../../../../shared/components/components.dart';
+import 'package:wee_made/widgets/record_item.dart';
 import '../../../../shared/images/images.dart';
 import '../../widgets/menu/chat/chat_appbar.dart';
 import '../../widgets/menu/chat/chat_body.dart';
@@ -63,6 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
+                            RecordItem(url: cubit.chatModel!.data!.specialRequestAudioFile??'',),
                             ConditionalBuilder(
                                 condition: cubit.chatModel!.data!.messages!.isNotEmpty,
                                 fallback: (context)=>const Expanded(child:  SizedBox()),

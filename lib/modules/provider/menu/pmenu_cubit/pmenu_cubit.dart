@@ -291,12 +291,11 @@ class PMenuCubit extends Cubit<PMenuStates>{
     required int type,
     required File file,
   })async{
-    File _file= await FlutterNativeImage.compressImage(file.path,quality:1);
     FormData formData = FormData.fromMap({
       'special_request_id':id,
       'message_type':type,
-      'uploaded_message_file':MultipartFile.fromFileSync(_file.path,
-          filename: _file.path.split('/').last),
+      'uploaded_message_file':MultipartFile.fromFileSync(file.path,
+          filename: file.path.split('/').last),
     });
     emit(SendMessageWithFileLoadingState());
     DioHelper.postData2(

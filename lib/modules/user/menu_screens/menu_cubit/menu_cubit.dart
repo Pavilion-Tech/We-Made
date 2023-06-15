@@ -342,19 +342,17 @@ class MenuCubit extends Cubit<MenuStates>{
   void askForRequest({
     required String id,
     required File file,
-    required BuildContext context,
   })async{
     emit(AskRequestLoadingState());
     FormData formData = FormData.fromMap({
       'provider_id':id,
     });
-      File _file =await FlutterNativeImage.compressImage(file.path,quality:1);
       formData.files.add(
           MapEntry(
               'special_request_audio_file',
               MultipartFile.fromFileSync(
-                  _file.path,
-                  filename: _file.path.split('/').last)
+                  file.path,
+                  filename: file.path.split('/').last)
           ));
     DioHelper.postData2(
         url: askForRequestUrl,
@@ -363,9 +361,6 @@ class MenuCubit extends Cubit<MenuStates>{
     ).then((value) {
       if(value.data['data']!=null){
         showToast(msg: value.data['message']);
-        MenuCubit.get(context).singleChat(value.data['data']['_id']);
-        Navigator.pop(context);
-        navigateTo(context, ChatScreen(value.data['data']['_id']));
         emit(AskRequestSuccessState());
       }else{
         showToast(msg: tr('wrong'));
@@ -563,13 +558,13 @@ class MenuCubit extends Cubit<MenuStates>{
     required String id,
     required int type,
     required File file,
+    bool isRecord = false,
   })async{
-    File _file= await FlutterNativeImage.compressImage(file.path,quality:1);
     FormData formData = FormData.fromMap({
       'special_request_id':id,
       'message_type':type,
-      'uploaded_message_file':MultipartFile.fromFileSync(_file.path,
-          filename: _file.path.split('/').last),
+      'uploaded_message_file':MultipartFile.fromFileSync(file.path,
+          filename: file.path.split('/').last),
     });
     emit(SendMessageWithFileLoadingState());
     DioHelper.postData2(
@@ -577,6 +572,7 @@ class MenuCubit extends Cubit<MenuStates>{
         token: 'Bearer $token',
         formData:formData
     ).then((value) {
+      print(value.data);
       if(value.data['status']==true){
         singleChat(id);
         chatImage = null;

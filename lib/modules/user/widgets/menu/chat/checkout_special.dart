@@ -8,6 +8,7 @@ import 'package:wee_made/layouts/user_layout/user_cubit/user_states.dart';
 import '../../../../../shared/components/components.dart';
 import '../../../../../shared/images/images.dart';
 import '../../../../../widgets/default_button.dart';
+import '../../../../../widgets/record_item.dart';
 import '../../cart/checkout/checkout_diolog.dart';
 import '../../cart/checkout/choose_address.dart';
 import '../../cart/checkout/have_discount.dart';
@@ -15,9 +16,10 @@ import '../../cart/checkout/invoice.dart';
 import '../../cart/checkout/payment_method.dart';
 
 class CheckoutSpecial extends StatelessWidget {
-  CheckoutSpecial(this.id,this.offer);
+  CheckoutSpecial(this.id,this.offer,this.record);
 
   String id;
+  String record;
   dynamic offer;
 
 
@@ -51,6 +53,7 @@ class CheckoutSpecial extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          RecordItem(url: record,),
                           paymentMethod,
                           chooseAddress,
                           HaveDiscount(),

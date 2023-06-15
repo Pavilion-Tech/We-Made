@@ -25,6 +25,7 @@ class PChatBody extends StatelessWidget {
 
         return ListView.separated(
             physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.zero,
             itemBuilder: (c,i)=>ChatItem(
               type: messages[i].messageType == 1 ?Type.text:messages[i].messageType == 2?Type.image:Type.record,
               content: messages[i].message??'',
@@ -119,7 +120,7 @@ class ChatItem extends StatelessWidget {
                       ),
                     ),
                     padding:const EdgeInsets.symmetric(horizontal: 10),
-                    child:RecordItem()
+                    child:RecordItem(url: content,timeColor: isUser?Colors.white:Colors.grey,)
                 );
               default:
                 return const SizedBox();

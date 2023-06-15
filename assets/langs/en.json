@@ -181,7 +181,9 @@
   "pay": "Pay",
   "no_chat": "No Chats Yet",
   "discount": "Discount",
-  "you_have_discount": "You Already Have Discount"
-
+  "you_have_discount": "You Already Have Discount",
+  "try_else": "'Try Else",
+  "you_wait": "You have to wait",
+  "have_reply": "Have A Reply "
 }
 

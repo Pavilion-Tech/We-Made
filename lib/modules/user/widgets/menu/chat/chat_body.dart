@@ -22,9 +22,9 @@ class ChatBody extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var messages = MenuCubit.get(context).chatModel!.data!.messages!;
-
         return ListView.separated(
             physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.zero,
             itemBuilder: (c,i)=>ChatItem(
               type: messages[i].messageType == 1 ?Type.text:messages[i].messageType == 2?Type.image:Type.record,
               content: messages[i].message??'',
@@ -55,7 +55,7 @@ class ChatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return type  != Type.record?Padding(
+    return Padding(
       padding: EdgeInsetsDirectional.only(
           end: isUser?0:30,start: isUser?30:0
       ),
@@ -120,7 +120,7 @@ class ChatItem extends StatelessWidget {
                       ),
                     ),
                     padding:const EdgeInsets.symmetric(horizontal: 10),
-                    child:RecordItem()
+                    child:RecordItem(url: content,timeColor: isUser?Colors.white:Colors.grey,)
                 );
               default:
                 return const SizedBox();
@@ -130,7 +130,7 @@ class ChatItem extends StatelessWidget {
           ),
         ],
       ),
-    ):SizedBox();
+    );
   }
 }
 

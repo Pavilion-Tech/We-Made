@@ -25,7 +25,7 @@ PreferredSizeWidget chatAppBar(context){
       if(data.specialRequestOffer!=null)
         InkWell(
           onTap: (){
-            navigateTo(context, CheckoutSpecial(data.id??'',data.specialRequestOffer));
+            navigateTo(context, CheckoutSpecial(data.id??'',data.specialRequestOffer,data.specialRequestAudioFile??''));
           },
           child: Container(
             height: 41,
