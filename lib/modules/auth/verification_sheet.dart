@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wee_made/modules/auth/auth_cubit/auth_states.dart';
 import '../../shared/components/components.dart';
 import '../../shared/components/constants.dart';
@@ -87,7 +88,7 @@ class _VerificationSheetState extends State<VerificationSheet> {
   }
   @override
   void initState() {
-    showToast(msg: 'Code is $code');
+    showToast(msg: 'Code is $code',gravity: ToastGravity.CENTER);
     startTimer();
     super.initState();
   }

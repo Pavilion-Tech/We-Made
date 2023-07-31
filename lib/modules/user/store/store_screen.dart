@@ -32,6 +32,21 @@ class _StoreScreenState extends State<StoreScreen> {
 
   CategorStoreyWidget? categorStoreyWidget;
 
+  bool closeTop = false;
+  bool closeCategory = false;
+  ScrollController gridController = ScrollController();
+
+  @override
+  void initState() {
+    gridController.addListener(() {
+      setState(() {
+        closeTop = gridController.offset>100;
+        closeCategory = gridController.offset>150;
+      });
+    });
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +88,7 @@ class _StoreScreenState extends State<StoreScreen> {
                         },
                         child: Center(
                             child: Container(
-                              height: 230,width: 250,
+                              height: 200,width:250,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle
                               ),
@@ -83,124 +98,122 @@ class _StoreScreenState extends State<StoreScreen> {
                         ),
                       ),
                       Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5),
-                                child:  ConditionalBuilder(
-                                  condition: widget.providerId.stories!.stories!=null,
-                                    fallback: (context)=>const SizedBox(),
-                                    builder: (context)=> ListStories(padding:0,color:Colors.black,stories:[widget.providerId.stories!],isProvider: true)),
-                              ),
-                              Row(
-                                children: [
-                                  // CircleAvatar(
-                                  //   radius: 20,
-                                  //   backgroundColor: Colors.grey.shade300,
-                                  //   child: Image.asset(Images.whats2,color: defaultColor,width: 25,),
-                                  // ),
-                                  // const SizedBox(width: 20,),
-                                  InkWell(
-                                    onTap: (){
-                                      final Uri launchUri = Uri(
-                                        scheme: 'tel',
-                                        path: widget.providerId.phoneNumber??'',
-                                      );
-                                      openUrl(launchUri.toString());
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: defaultColor,
-                                      child: Icon(Icons.phone,color: Colors.white,size: 25,),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  InkWell(
-                                      onTap: () async {
-                                        if(token!=null){
-                                          var status = await Permission.microphone.request();
-                                          if (status != PermissionStatus.granted) {
-                                            showToast(msg: 'Microphone permission not granted');
-                                            await openAppSettings();
-                                          } else {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) => VoiceDialog(widget.providerId.id??'')
-                                            );
-                                          }
-                                        }else{
-                                          navigateTo(context, LoginScreen(haveArrow: true,));
-                                        }
-
-                                      },
-                                    child: Text(
-                                      tr('special_request'),
-                                      style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20,),
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(vertical: 20.0),
-                              //   child:Row(
-                              //     children: [
-                              //       Expanded(
-                              //         child: TextFormField(
-                              //           cursorColor: Colors.black,
-                              //           style: TextStyle(color: Colors.black),
-                              //           decoration: InputDecoration(
-                              //             border:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
-                              //             enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
-                              //             focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
-                              //             hintText: tr('search_by_product'),
-                              //             hintStyle: TextStyle(color: defaultColor,fontSize: 15),
-                              //             prefixIcon: Padding(
-                              //               padding: const EdgeInsets.all(12.0),
-                              //               child:  Image.asset(Images.search,width: 1,height: 1,),
-                              //             ),
-                              //             isDense: true,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //       const SizedBox(
-                              //         width: 20,
-                              //       ),
-                              //       InkWell(
-                              //         onTap: (){
-                              //           showDialog(
-                              //               context: context,
-                              //               builder: (context)=>FilterWidget()
-                              //           );
-                              //         },
-                              //         child: Image.asset(
-                              //           Images.filter,
-                              //           width: 30,
-                              //           color: defaultColor,
-                              //         ),
-                              //       )
-                              //     ],
-                              //   ),w
-                              // ),
-                              if(widget.providerId.categoryId!.isNotEmpty)
-                                Builder(builder: (context){
-                                  categorStoreyWidget =  CategorStoreyWidget(
-                                    widget.providerId.categoryId!,
-                                    widget.providerId.id??''
-                                  );
-                                  return categorStoreyWidget!;
-                                }),
-                                Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                                child: Center(
-                                  child: Text(
-                                    UserCubit.get(context).currentCategory??'',
-                                    style: TextStyle(fontWeight: FontWeight.w600,fontSize: 30),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child:  ConditionalBuilder(
+                                condition: widget.providerId.stories!.stories!=null,
+                                  fallback: (context)=>const SizedBox(),
+                                  builder: (context)=> ListStories(padding:0,color:Colors.black,stories:[widget.providerId.stories!],isProvider: true)),
+                            ),
+                            Row(
+                              children: [
+                                // CircleAvatar(
+                                //   radius: 20,
+                                //   backgroundColor: Colors.grey.shade300,
+                                //   child: Image.asset(Images.whats2,color: defaultColor,width: 25,),
+                                // ),
+                                // const SizedBox(width: 20,),
+                                InkWell(
+                                  onTap: (){
+                                    final Uri launchUri = Uri(
+                                      scheme: 'tel',
+                                      path: widget.providerId.phoneNumber??'',
+                                    );
+                                    openUrl(launchUri.toString());
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: defaultColor,
+                                    child: Icon(Icons.phone,color: Colors.white,size: 25,),
                                   ),
                                 ),
+                                const Spacer(),
+                                InkWell(
+                                    onTap: () async {
+                                      if(token!=null){
+                                        var status = await Permission.microphone.request();
+                                        if (status != PermissionStatus.granted) {
+                                          showToast(msg: 'Microphone permission not granted');
+                                          await openAppSettings();
+                                        } else {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => VoiceDialog(widget.providerId.id??'')
+                                          );
+                                        }
+                                      }else{
+                                        navigateTo(context, LoginScreen(haveArrow: true,));
+                                      }
+
+                                    },
+                                  child: Text(
+                                    tr('special_request'),
+                                    style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20,),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            //   child:Row(
+                            //     children: [
+                            //       Expanded(
+                            //         child: TextFormField(
+                            //           cursorColor: Colors.black,
+                            //           style: TextStyle(color: Colors.black),
+                            //           decoration: InputDecoration(
+                            //             border:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
+                            //             enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
+                            //             focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(43),borderSide: BorderSide(color:defaultColor)),
+                            //             hintText: tr('search_by_product'),
+                            //             hintStyle: TextStyle(color: defaultColor,fontSize: 15),
+                            //             prefixIcon: Padding(
+                            //               padding: const EdgeInsets.all(12.0),
+                            //               child:  Image.asset(Images.search,width: 1,height: 1,),
+                            //             ),
+                            //             isDense: true,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       const SizedBox(
+                            //         width: 20,
+                            //       ),
+                            //       InkWell(
+                            //         onTap: (){
+                            //           showDialog(
+                            //               context: context,
+                            //               builder: (context)=>FilterWidget()
+                            //           );
+                            //         },
+                            //         child: Image.asset(
+                            //           Images.filter,
+                            //           width: 30,
+                            //           color: defaultColor,
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),w
+                            // ),
+                            if(widget.providerId.categoryId!.isNotEmpty)
+                              Builder(builder: (context){
+                                categorStoreyWidget =  CategorStoreyWidget(
+                                  widget.providerId.categoryId!,
+                                  widget.providerId.id??'',
+                                  closeCategory
+                                );
+                                return categorStoreyWidget!;
+                              }),
+                              Center(
+                                child: Text(
+                                  UserCubit.get(context).currentCategory??'',
+                                  style: TextStyle(fontWeight: FontWeight.w600,fontSize: 30),
+                                ),
                               ),
-                             ConditionalBuilder(
+                           Expanded(
+                             child: ConditionalBuilder(
                                condition: UserCubit.get(context).providerProductsModel!=null,
                                  fallback: (context)=>ConditionalBuilder(
                                      condition: state is! ProviderProductsLoadingState,
@@ -211,10 +224,12 @@ class _StoreScreenState extends State<StoreScreen> {
                                    condition: UserCubit.get(context).providerProductsModel!.data!.data!.isNotEmpty,
                                      fallback: (context)=>NoProduct(),
                                      builder: (context)=> ProductGrid(
+                                       gridController: gridController,
                                        products:  UserCubit.get(context).providerProductsModel!.data!.data!,
+                                         isScroll: false,
                                          padding: 0))),
-                            ],
-                          ),
+                           ),
+                          ],
                         ),
                       ),
                     ],

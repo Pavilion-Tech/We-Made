@@ -18,7 +18,7 @@ class HomeAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset(Images.curveHome,height: size!.height*.32,width: double.infinity,fit: BoxFit.cover,),
+        Image.asset(Images.curveHome,height: size!.height*.28,width: double.infinity,fit: BoxFit.cover,),
         Column(
           children: [
             AppBar(

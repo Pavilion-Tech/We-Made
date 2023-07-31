@@ -14,6 +14,7 @@ import '../../../shared/images/images.dart';
 import '../../../widgets/default_button.dart';
 import '../../../widgets/default_form.dart';
 import '../../../widgets/image_net.dart';
+import '../../auth/auth_cubit/auth_cubit.dart';
 import '../widgets/auth/category_form.dart';
 import '../widgets/auth/dropdownfield.dart';
 import '../widgets/auth/spcial_request.dart';
@@ -28,9 +29,10 @@ class PEditProfileScreen extends StatefulWidget {
 }
 
 class _PEditProfileScreenState extends State<PEditProfileScreen> {
-  String? cityValue;
 
-  String? neighborhoodValue;
+  String? cityTitle;
+
+  String? neighborhoodTitle;
 
   late CustomDropDownField cityDropDown;
 
@@ -62,6 +64,7 @@ class _PEditProfileScreenState extends State<PEditProfileScreen> {
     if(c.providerModel!=null){
       // getImage();
       // print(c.userModel!.data!.hasSpecialRequests);
+      PMenuCubit.get(context).getNeighborhood(c.providerModel!.data!.cityId??'');
       storeC.text = c.providerModel!.data!.storeName??'';
       ownerC.text = c.providerModel!.data!.ownerName??'';
       emailC.text = c.providerModel!.data!.email??'';
@@ -178,12 +181,23 @@ class _PEditProfileScreenState extends State<PEditProfileScreen> {
                               condition: cubit.citiesModel!=null,
                               fallback: (context)=>const SizedBox(height: 20,),
                               builder: (context){
+                                if(PMenuCubit.get(context).citiesModel!=null){
+                                  PMenuCubit.get(context).citiesModel!.data!.forEach((element) {
+                                    if(element.id == ProviderCubit.get(context).providerModel!.data!.cityId){
+                                      cubit.cityValue = element.id??'';
+                                      cityTitle = element.name??'';
+                                    }
+                                  });
+                                }
                                 cityDropDown = CustomDropDownField(
                                   value: cubit.cityValue,
                                   list: cubit.citiesModel!.data!,
                                   hint: tr('city'),
                                   isCity: true,
                                   isEdit: true,
+                                  title: cityTitle,
+                                  id: ProviderCubit.get(context).providerModel?.data?.cityId,
+
                                 );
                                 return cityDropDown;
                               }
@@ -200,12 +214,20 @@ class _PEditProfileScreenState extends State<PEditProfileScreen> {
                               condition: cubit.neighborhoodModel!=null,
                               fallback: (context)=>const SizedBox(height: 20,),
                               builder: (context){
+                                PMenuCubit.get(context).neighborhoodModel!.data!.forEach((element) {
+                                  if(element.id == ProviderCubit.get(context).providerModel!.data!.neighborhoodId){
+                                    neighborhoodTitle = element.name??'';
+                                    cubit.neighborhoodValue = element.id??'';
+                                  }
+                                });
                                 cubit.neighborhoodDropDown = CustomDropDownField(
                                   value: cubit.neighborhoodValue,
                                   list: cubit.neighborhoodModel!.data!,
                                   isNe: true,
                                   hint: tr('neighborhood'),
                                   isEdit: true,
+                                  id: ProviderCubit.get(context).providerModel?.data?.neighborhoodId,
+                                  title: neighborhoodTitle,
                                 );
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 20.0),

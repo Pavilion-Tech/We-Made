@@ -12,8 +12,29 @@ import '../widgets/home/search/search_widget.dart';
 import '../widgets/product/product_grid.dart';
 import '../widgets/shimmer/home_shimmer.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  bool closeTop = false;
+  bool closeCategory = false;
+  ScrollController gridController = ScrollController();
+
+  @override
+  void initState() {
+    gridController.addListener(() {
+      setState(() {
+        closeTop = gridController.offset>100;
+        closeCategory = gridController.offset>150;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,34 +53,39 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   HomeAppBar(),
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SearchWidget(readOnly: true),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 30.0),
-                            child: ConditionalBuilder(
-                              condition: cubit.homeModel!.data!.categories!.isNotEmpty,
-                                fallback: (context)=>Text(tr('no_categories')),
-                                builder: (context)=> CategoryWidget(
-                                    cubit.homeModel!.data!.categories!
-                                )
+                    child: Column(
+                      children: [
+                        SearchWidget(readOnly: true),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: ConditionalBuilder(
+                            condition: cubit.homeModel!.data!.categories!.isNotEmpty,
+                              fallback: (context)=>Text(tr('no_categories')),
+                              builder: (context)=> CategoryWidget(
+                                  cubit.homeModel!.data!.categories!,
+                                closeCategory: closeCategory,
+                              )
+                          ),
+                        ),
+                        ConditionalBuilder(
+                          condition: cubit.homeModel!.data!.advertisements!.isNotEmpty,
+                            fallback: (context)=>Text(tr('no_ads')),
+                            builder: (context)=>ADSWidget(closeTop)
+                        ),
+                        const SizedBox(height: 20,),
+                        ConditionalBuilder(
+                          condition: cubit.homeModel!.data!.products!.isNotEmpty,
+                          fallback: (context)=>Text(tr('no_product')),
+                          builder: (context)=> Expanded(
+                            child: ProductGrid(
+                              products: cubit.homeModel!.data!.products!,
+                              gridController: gridController,
+                              isScroll: false,
                             ),
-                          ),
-                          ConditionalBuilder(
-                            condition: cubit.homeModel!.data!.advertisements!.isNotEmpty,
-                              fallback: (context)=>Text(tr('no_ads')),
-                              builder: (context)=>ADSWidget()
-                          ),
-                          const SizedBox(height: 30,),
-                          ConditionalBuilder(
-                            condition: cubit.homeModel!.data!.products!.isNotEmpty,
-                            fallback: (context)=>Text(tr('no_product')),
-                            builder: (context)=> ProductGrid(products: cubit.homeModel!.data!.products!,)
-                          ),
-                          const SizedBox(height: 50,),
-                        ],
-                      ),
+                          )
+                        ),
+                        const SizedBox(height: 50,),
+                      ],
                     ),
                   )
                 ],

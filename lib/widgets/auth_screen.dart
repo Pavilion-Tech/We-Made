@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wee_made/modules/auth/auth_cubit/auth_cubit.dart';
 import 'package:wee_made/modules/auth/auth_cubit/auth_states.dart';
+import 'package:wee_made/modules/user/menu_screens/menu_cubit/menu_cubit.dart';
 
 import '../shared/images/images.dart';
 import '../shared/styles/colors.dart';
@@ -59,17 +60,17 @@ class AuthScreen extends StatelessWidget {
                         style:const TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.w600),
                       ),
                       widget,
-                      if(haveSocial)
+                      if(haveSocial&&MenuCubit.get(context).settingsModel?.data?.isSocialMediaActive == 'active')
                         Text(
                         tr('or'),
                         style: TextStyle(color: defaultColor,fontSize: 20,fontWeight: FontWeight.w600),
                       ),
-                      if(haveSocial)
+                      if(haveSocial&&MenuCubit.get(context).settingsModel?.data?.isSocialMediaActive == 'active')
                         Text(
                         tr('continue_with'),
                         style: TextStyle(color: defaultColor,fontSize: 13,fontWeight: FontWeight.w600),
                       ),
-                      if(haveSocial)
+                      if(haveSocial&&MenuCubit.get(context).settingsModel?.data?.isSocialMediaActive == 'active')
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
                         child: ConditionalBuilder(

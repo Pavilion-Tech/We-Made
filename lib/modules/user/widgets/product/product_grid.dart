@@ -19,12 +19,14 @@ class ProductGrid extends StatelessWidget {
     this.isProvider = false,
     this.products,
     this.isFav = false,
+    this.gridController
   });
   double padding;
   bool isScroll;
   bool isFav;
   bool isProvider;
   List<Products>? products;
+  ScrollController? gridController;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class ProductGrid extends StatelessWidget {
         physics: isScroll?const NeverScrollableScrollPhysics():null,
         shrinkWrap: true,
         padding: EdgeInsetsDirectional.only(bottom: 100),
+        controller: gridController,
         itemBuilder: (c,i)=>ProductItem(
             isProvider: isProvider,
             products: products![i],
@@ -59,7 +62,6 @@ class ProductItem extends StatelessWidget {
   Products? products;
   @override
   Widget build(BuildContext context) {
-    print(products!.images!);
     return InkWell(
       onTap: (){
         if(!isProvider)navigateTo(context, ProductScreen(products!));

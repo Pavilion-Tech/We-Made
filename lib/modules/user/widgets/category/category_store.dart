@@ -10,9 +10,10 @@ import '../../../../widgets/image_net.dart';
 import '../../category/category_screen.dart';
 
 class CategorStoreyWidget extends StatefulWidget {
-  CategorStoreyWidget(this.categoryData,this.providerId);
+  CategorStoreyWidget(this.categoryData,this.providerId,this.closeCategory);
   List<Categories> categoryData;
   String providerId;
+  bool closeCategory;
 
   @override
   State<CategorStoreyWidget> createState() => _CategorStoreyWidgetState();
@@ -31,10 +32,11 @@ class _CategorStoreyWidgetState extends State<CategorStoreyWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 127,
+    return AnimatedContainer(
+      height: widget.closeCategory?50:127,
+      duration: Duration(milliseconds: 500),
       child: ListView.separated(
-          itemBuilder: (c,i)=>CategoryItem(widget.categoryData[i],widget.providerId),
+          itemBuilder: (c,i)=>CategoryItem(widget.categoryData[i],widget.providerId,widget.closeCategory),
           separatorBuilder: (c,i)=>const SizedBox(width: 20,),
           padding: EdgeInsetsDirectional.only(start: 0),
           scrollDirection: Axis.horizontal,
@@ -46,9 +48,11 @@ class _CategorStoreyWidgetState extends State<CategorStoreyWidget> {
 
 
 class CategoryItem extends StatefulWidget {
-  CategoryItem(this.categoryData,this.providerId);
+  CategoryItem(this.categoryData,this.providerId,this.closeCategory);
   Categories categoryData;
   String providerId;
+  bool closeCategory;
+
 
   @override
   State<CategoryItem> createState() => _CategoryItemState();
@@ -66,8 +70,9 @@ class _CategoryItemState extends State<CategoryItem> {
           UserCubit.get(context).getProductProvider(widget.categoryData.id??'',widget.providerId);
         });
       },
-      child: Container(
-        width: 110,height: 127,
+      child: AnimatedContainer(
+        width: 110,height:widget.closeCategory?50: 127,
+        duration: Duration(milliseconds: 500),
         decoration: BoxDecoration(
           color: defaultColor.withOpacity(.2),
           borderRadius: BorderRadiusDirectional.circular(15),
@@ -76,7 +81,14 @@ class _CategoryItemState extends State<CategoryItem> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ImageNet(image:widget.categoryData.image??'',width: 68,height: 79,),
+            AnimatedOpacity(
+              opacity:widget.closeCategory?0:1,
+              duration: Duration(milliseconds: 500),
+              child: AnimatedContainer(
+                  width: widget.closeCategory?0:68,height:widget.closeCategory?0: 79,
+                  duration: Duration(milliseconds: 500),
+                  child: ImageNet(image:widget.categoryData.image??'',width: 68,height: 79,)),
+            ),
             Text(
               widget.categoryData.title??'',
               overflow: TextOverflow.ellipsis,

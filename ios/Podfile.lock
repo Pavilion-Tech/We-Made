@@ -186,7 +186,7 @@ DEPENDENCIES:
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - AppAuth
     - FBAEMKit
     - FBSDKCoreKit
@@ -314,6 +314,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   video_player_avfoundation: 81e49bb3d9fb63dccf9fa0f6d877dc3ddbeac126
 
-PODFILE CHECKSUM: b3b7f30249a38415a85227acc5d9fecfdb2d4710
+PODFILE CHECKSUM: 0ab536d3ff8284ade2ab2c62faac7add5288eeef
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

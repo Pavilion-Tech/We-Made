@@ -15,6 +15,8 @@ class CustomDropDownField extends StatefulWidget {
     this.isCategory = false,
     this.isNe = false,
     this.isEdit = false,
+    this.title,
+    this.id
   });
 
   bool isCity;
@@ -24,6 +26,8 @@ class CustomDropDownField extends StatefulWidget {
   List list;
   dynamic value;
   String hint;
+  String? id;
+  String? title;
   FormFieldValidator? validator;
 
   @override
@@ -48,10 +52,11 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
           child: DropdownButtonFormField(
               items: widget.list.map((e)
               => DropdownMenuItem(
-                child: Text(e.name),
+                child: Text(e.name,style: TextStyle(height: 1),),
                 value: e.id,
+                enabled: widget.id!=null?widget.id!=e.id:true,
               )).toList(),
-              hint: Text(widget.hint,style:const TextStyle(color: Colors.grey,height: 1),),
+              hint: Text(widget.title??widget.hint,style:TextStyle(color:widget.title!=null?Colors.black: Colors.grey,height: 1),),
               icon:const Icon(Icons.keyboard_arrow_down,color: Colors.grey,),
               validator: widget.validator,
               decoration:const InputDecoration(

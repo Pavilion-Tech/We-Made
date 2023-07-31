@@ -24,10 +24,12 @@ class Data {
   String? projectInstagramLink;
   int? shippingChargers;
   int? vatValue;
+  String? isSocialMediaActive;
 
 
   Data.fromJson(Map<String, dynamic> json) {
     projectLogo = json['project_logo'];
+    isSocialMediaActive = json['is_social_media_active'];
     isProjectInFactoryMode = json['is_project_In_factory_mode'];
     projectMainBackgroundColor = json['project_main_background_color'];
     projectMainTextColor = json['project_main_text_color'];

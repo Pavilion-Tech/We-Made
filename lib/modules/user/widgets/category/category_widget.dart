@@ -10,15 +10,17 @@ import '../../../../widgets/image_net.dart';
 import '../../category/category_screen.dart';
 
 class CategoryWidget extends StatelessWidget {
-  CategoryWidget(this.categoryData,{this.padding=20});
+  CategoryWidget(this.categoryData,{this.padding=20,this.closeCategory = false});
   double padding;
   List<Categories> categoryData;
+  bool closeCategory;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 127,
+    return AnimatedContainer(
+      height: closeCategory?50:127,
+      duration: Duration(milliseconds: 500),
       child: ListView.separated(
-          itemBuilder: (c,i)=>CategoryItem(categoryData[i]),
+          itemBuilder: (c,i)=>CategoryItem(categoryData[i],closeCategory),
           separatorBuilder: (c,i)=>const SizedBox(width: 20,),
           padding: EdgeInsetsDirectional.only(start: padding),
           scrollDirection: Axis.horizontal,
@@ -29,8 +31,9 @@ class CategoryWidget extends StatelessWidget {
 }
 
 class CategoryItem extends StatelessWidget {
-  CategoryItem(this.categoryData);
+  CategoryItem(this.categoryData,this.closeCategory);
   Categories categoryData;
+  bool closeCategory;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -38,8 +41,9 @@ class CategoryItem extends StatelessWidget {
         UserCubit.get(context).getProductCategory(categoryData.id??'');
         navigateTo(context, CategoryScreen(categoryData.title??''));
         },
-      child: Container(
-        width: 110,height: 127,
+      child: AnimatedContainer(
+        width: 110,height:closeCategory?50: 127,
+        duration: Duration(milliseconds: 500),
         decoration: BoxDecoration(
           color: defaultColor.withOpacity(.2),
           borderRadius: BorderRadiusDirectional.circular(15),
@@ -48,7 +52,14 @@ class CategoryItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ImageNet(image:categoryData.image??'',width: 68,height: 79,),
+            AnimatedOpacity(
+              opacity:closeCategory?0:1,
+              duration: Duration(milliseconds: 500),
+              child: AnimatedContainer(
+                  width: closeCategory?0:68,height:closeCategory?0: 79,
+                  duration: Duration(milliseconds: 500),
+                  child: ImageNet(image:categoryData.image??'',width: 68,height: 79,)),
+            ),
             Text(
               categoryData.title??'',
               overflow: TextOverflow.ellipsis,

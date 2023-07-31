@@ -11,27 +11,35 @@ import '../../../../widgets/image_net.dart';
 import '../../store/store_screen.dart';
 
 class ADSWidget extends StatelessWidget {
+  ADSWidget(this.closeTop);
 
-
+  bool closeTop;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 156,
-      child: ListView.separated(
-          itemBuilder: (c,i)=>ADSItem(UserCubit.get(context).homeModel!.data!.advertisements![i]),
-          separatorBuilder: (c,i)=>const SizedBox(width: 20,),
-          padding:const EdgeInsetsDirectional.only(start: 20),
-          scrollDirection: Axis.horizontal,
-          itemCount: UserCubit.get(context).homeModel!.data!.advertisements!.length
+    return AnimatedOpacity(
+      opacity:closeTop?0:1,
+      duration: Duration(milliseconds: 500),
+      child: AnimatedContainer(
+        height: closeTop?0:156,
+        duration: Duration(milliseconds: 500),
+        child: ListView.separated(
+            itemBuilder: (c,i)=>ADSItem(UserCubit.get(context).homeModel!.data!.advertisements![i],closeTop),
+            separatorBuilder: (c,i)=>const SizedBox(width: 20,),
+            padding:const EdgeInsetsDirectional.only(start: 20),
+            scrollDirection: Axis.horizontal,
+            itemCount: UserCubit.get(context).homeModel!.data!.advertisements!.length
+        ),
       ),
     );
   }
 }
 
 class ADSItem extends StatelessWidget {
-  ADSItem(this.ad);
+  ADSItem(this.ad,this.closeTop);
   Advertisements ad;
+  bool closeTop;
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +47,9 @@ class ADSItem extends StatelessWidget {
       onTap:ad.type==2?(){
         openUrl(ad.link??'');
       }:null,
-      child: Container(
-        height: 154,width: size!.width*.85,
+      child: AnimatedContainer(
+        height: closeTop?0:154,width: size!.width*.85,
+        duration: Duration(milliseconds: 500),
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: defaultColor),
@@ -51,36 +60,38 @@ class ADSItem extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    ad.title??'',
-                    maxLines: 2,
-                    style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w500,height: 1.2),
-                  ),
-                  const SizedBox(height: 10,),
-                  Text(
-                    ad.description??'',
-                    maxLines: 2,
-                    style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600,height: 1.2),
-                  ),
-                  const SizedBox(height: 10,),
-                  if(ad.type==2)
-                  Container(
-                    height: 28,width: 90,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.circular(23),
-                      border: Border.all(color: defaultColor)
+              child: FittedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      ad.title??'',
+                      maxLines: 2,
+                      style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w500,height: 1.2),
                     ),
-                    alignment: AlignmentDirectional.center,
-                    child: Text(
-                      tr('get_now'),
-                      style: TextStyle(color: defaultColor,fontSize: 12,fontWeight: FontWeight.w500),
+                    const SizedBox(height: 10,),
+                    Text(
+                      ad.description??'',
+                      maxLines: 2,
+                      style: TextStyle(fontSize: 13,fontWeight: FontWeight.w600,height: 1.2),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10,),
+                    if(ad.type==2)
+                    Container(
+                      height: 28,width: 90,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.circular(23),
+                        border: Border.all(color: defaultColor)
+                      ),
+                      alignment: AlignmentDirectional.center,
+                      child: Text(
+                        tr('get_now'),
+                        style: TextStyle(color: defaultColor,fontSize: 12,fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             if(ad.backgroundImage!.isNotEmpty)
