@@ -10,7 +10,7 @@ class DioHelper {
   static void init1() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://we-made-api.pavilionapp.tech/',
+        baseUrl: 'https://we-made-api.wik.ydh.mybluehost.me/',
         receiveTimeout: 3000000,
         connectTimeout: 3000000,
         receiveDataWhenStatusError: true,
